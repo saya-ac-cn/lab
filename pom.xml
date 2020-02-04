@@ -5,6 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>lab-financial</module>
+        <module>lab-core</module>
+        <module>lab-medium</module>
         <module>lab-http</module>
     </modules>
 

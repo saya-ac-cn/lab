@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-//// 移除 @SpringBootApplication and @ComponentScan, 用 @EnableAutoConfiguration 来替代
 //// @SpringBootApplication
 @Configuration
 @EnableAutoConfiguration

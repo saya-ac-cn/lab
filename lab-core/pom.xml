@@ -3,15 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>ac.cn.saya</groupId>
         <artifactId>lab</artifactId>
+        <groupId>ac.cn.saya</groupId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lab-financial</artifactId>
-    <description>实验室-财政金融模块</description>
+    <artifactId>lab-core</artifactId>
+    <description>实验室-核心系统模块</description>
+
 
     <!-- 这里面引入的依赖包，最后及得排除掉-->
     <dependencies>
@@ -51,6 +53,7 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
+
 
 
 </project>
