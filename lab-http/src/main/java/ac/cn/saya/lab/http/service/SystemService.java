@@ -1,0 +1,48 @@
+package ac.cn.saya.lab.http.service;
+
+/**
+ * @Title: SystemService
+ * @ProjectName lab
+ * @Description: TODO
+ * @Author Saya
+ * @Date: 2020-02-29 18:42:39
+ * @Description:
+ * 处理系统级别的业务
+ * 包括：
+ * 1、数据库备份
+ * 2、发送邮件
+ */
+
+public interface SystemService {
+
+    /**
+     * @描述 备份数据库
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2019-03-01
+     * @修改人和其它信息
+     */
+    public Boolean backupDatabase();
+
+    /**
+     * @描述 删除数据库备份
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2019-03-02
+     * @修改人和其它信息
+     */
+    public Boolean deleteBackup();
+
+    /**
+     * @描述 计划安排邮件发送提醒（每天4点执行）
+     * @参数  []
+     * @返回值  java.lang.Boolean
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2019-06-03
+     * @修改人和其它信息
+     */
+    public Boolean remindPlan();
+
+}

@@ -1,11 +1,13 @@
 package ac.cn.saya.lab.http.controller;
 
-import ac.cn.saya.lab.api.entity.TransactionListEntity;
-import ac.cn.saya.lab.api.service.financial.TransactionReadService;
-import ac.cn.saya.lab.api.service.financial.TransactionWriteService;
+import ac.cn.saya.lab.api.entity.UserEntity;
+import ac.cn.saya.lab.api.tools.Result;
+import ac.cn.saya.lab.http.feignclient.UserFeignClient;
+import ac.cn.saya.lab.http.service.ICoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Title: ExposeController
@@ -19,32 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExposeController {
 
     @Autowired
-    private TransactionReadService transactionReadService;
+    private ICoreService coreService;
 
-    @Autowired
-    private TransactionWriteService transactionWriteService;
 
-    @GetMapping(value = "/home")
-    public String home(){
-        return "home~";
+
+    @PostMapping("/backend/login")
+    public Result<Object> login(@RequestBody UserEntity user, HttpServletRequest request) throws Exception {
+        return coreService.login(user, request);
     }
 
-    @GetMapping(value = "/type")
-    public Object type(){
-        return transactionReadService.selectTransactionType();
-    }
 
-    @GetMapping(value = "/test")
-    public Object test(){
-        TransactionListEntity entity = new TransactionListEntity();
-        entity.setDeposited(0.0);
-        entity.setSource("Pandora");
-        entity.setExpenditure(10.0);
-        entity.setTradeDate("2020-02-02");
-        entity.setTradeType(1);
-        entity.setCurrencyNumber(10.0);
-        entity.setTransactionAmount("生活开支");
-        return transactionWriteService.insertTransactionList(entity);
-    }
+
 
 }

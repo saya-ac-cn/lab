@@ -1,0 +1,17 @@
+server:
+  port: 8003
+
+spring:
+  application:
+    # 服务名尽量用-，不用_，尽量不用特殊字符
+    name: lab-medium-server
+  cloud:
+    nacos:
+      discovery:
+        # 指定nacos的服务地址
+        server-addr: 172.20.1.227:8848
+
+jwt:
+  secret: vZ0N6kgV8UoMfM4YFZeXvzpmzWhADq1PUXcXdCa1Pi9AugCQdO0wKEubIpbp5xt7
+  # 有效期，单位秒，默认2周
+  expire-time-in-second: 1209600

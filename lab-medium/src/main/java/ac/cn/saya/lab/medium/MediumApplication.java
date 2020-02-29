@@ -1,4 +1,4 @@
-package ac.cn.saya.lab.http;
+package ac.cn.saya.lab.medium;
 
 import ac.cn.saya.lab.api.tools.CurrentLineInfo;
 import ac.cn.saya.lab.api.tools.Log4jUtils;
@@ -7,12 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @描述 项目主启动入口
+ * @描述 服务启动入口
  * @参数
  * @返回值
  * @创建人  saya.ac.cn-刘能凯
@@ -24,25 +23,23 @@ import org.springframework.context.annotation.Configuration;
 //// @SpringBootApplication
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"ac.cn.saya.lab.http","ac.cn.saya.lab.api.bean"})
+@ComponentScan(basePackages = {"ac.cn.saya.lab.medium","ac.cn.saya.lab.api.bean"})
 @EnableDiscoveryClient
-@EnableFeignClients
-public class LabHttpApplication {
+public class MediumApplication {
 
-    private static Logger logger = LoggerFactory.getLogger(LabHttpApplication.class);
-
+    private static Logger logger = LoggerFactory.getLogger(MediumApplication.class);
 
     public static void main(String[] args) {
         try {
             /// SpringApplication.run(MediumApplication.class, args);
-            SpringApplication springApplication = new SpringApplication(LabHttpApplication.class);
+            SpringApplication springApplication = new SpringApplication(MediumApplication.class);
             // 禁止命令行设置参数
             springApplication.setAddCommandLineProperties(false);
             springApplication.run(args);
             //项目启动完成打印项目名
-            logger.info("实验室中心-对外服务已经启动 ... ");
+            logger.info("实验室中心-媒体服务已经启动 ... ");
         } catch (Exception e) {
-            logger.error("实验室中心-对外服务启动失败:", Log4jUtils.getTrace(e));
+            logger.error("实验室中心-媒体服务启动失败:", Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
         }
     }
