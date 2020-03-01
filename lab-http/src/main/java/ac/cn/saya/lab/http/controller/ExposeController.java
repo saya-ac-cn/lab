@@ -2,6 +2,7 @@ package ac.cn.saya.lab.http.controller;
 
 import ac.cn.saya.lab.api.entity.UserEntity;
 import ac.cn.saya.lab.api.tools.Result;
+import ac.cn.saya.lab.api.tools.ResultUtil;
 import ac.cn.saya.lab.http.feignclient.UserFeignClient;
 import ac.cn.saya.lab.http.service.ICoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,19 @@ public class ExposeController {
 
 
 
-    @PostMapping("/backend/login")
+    @PostMapping(value = "/backend/login")
     public Result<Object> login(@RequestBody UserEntity user, HttpServletRequest request) throws Exception {
         return coreService.login(user, request);
+    }
+
+    @GetMapping(value = "/backend/download/doc")
+    public Result<Object> download() throws Exception {
+        return ResultUtil.success("/backend/download/doc");
+    }
+
+    @GetMapping(value = "/backend/read")
+    public Result<Object> read() throws Exception {
+        return ResultUtil.success("/backend/read");
     }
 
 

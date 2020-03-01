@@ -1,5 +1,9 @@
 package ac.cn.saya.lab.http.handle;
 
+import ac.cn.saya.lab.api.entity.UserMemory;
+import ac.cn.saya.lab.http.auth.RepeatLogin;
+import ac.cn.saya.lab.http.entity.SecurityEntity;
+import ac.cn.saya.lab.http.tools.HttpRequestUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.util.StringUtils;
@@ -29,7 +33,14 @@ public class ToKenRelayRequestInterceptor implements RequestInterceptor {
         // 1.获取到token
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String token = request.getHeader("X-Token");
+        UserMemory userMemory = HttpRequestUtil.getUserMemory(request);
+        String token;
+        if (null != userMemory) {
+            token = RepeatLogin.securityMap.get(userMemory.getUser()).getToken();
+        } else {
+            token = RepeatLogin.securityMap.get("private_lab").getToken();
+        }
+        System.out.println("Feign:"+token);
         // 2.将token传递
         if (!StringUtils.isEmpty(token)){
             template.header("X-Token",token);
