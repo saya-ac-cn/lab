@@ -1,0 +1,73 @@
+server:
+  port: 8001
+
+spring:
+  datasource:
+    # Druid连接池配置，官方配置参考：1、https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
+    # 优化配置2、https://blog.csdn.net/qq_42235671/article/details/84592028
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1/core?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: ********
+    password: ********
+    # 升级数据连接，url连接参数需加入serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Druid其他配置
+    druid:
+      filter:
+        stat:
+          slow-sql-millis: 2000
+          log-slow-sql: true
+      # 初始配置 最小、最大连接
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      web-stat-filter:
+        # 添加过滤规则
+        url-pattern: /*
+        # 忽略过滤格式
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      # Druid StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      stat-view-servlet:
+        # 添加IP白名单
+        #allow:
+        # 添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
+        #deny:
+        url-pattern: /druid/*
+        login-username: saya
+        login-password: saya
+        reset-enable: false
+  application:
+    # 服务名尽量用-，不用_，尽量不用特殊字符
+    name: lab-core-server
+  cloud:
+    nacos:
+      discovery:
+        # 指定nacos的服务地址
+        server-addr: 172.20.1.227:8848
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: ac.cn.saya.lab.api.entity
+
+jwt:
+  secret: vZ0N6kgV8UoMfM4YFZeXvzpmzWhADq1PUXcXdCa1Pi9AugCQdO0wKEubIpbp5xt7
+  # 有效期，单位秒，默认2周
+  expire-time-in-second: 1209600

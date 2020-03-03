@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--全局配置-->
+    <settings>
+        <!--使用jdbc的getGeneratedKeys获取数据库自增主键值-->
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <setting name="useGeneratedKeys" value="true"/>
+        <!-- 二级缓存开启 -->
+        <setting name="cacheEnabled" value = "true" />
+    </settings>
+    <typeAliases>
+        <typeAlias alias="user" type="ac.cn.saya.lab.api.entity.UserEntity" />
+        <typeAlias alias="log" type="ac.cn.saya.lab.api.entity.LogEntity" />
+        <typeAlias alias="logType" type="ac.cn.saya.lab.api.entity.LogTypeEntity" />
+        <typeAlias alias="plan" type="ac.cn.saya.lab.api.entity.PlanEntity" />
+        <typeAlias alias="transactionType" type="ac.cn.saya.lab.api.entity.TransactionTypeEntity" />
+        <typeAlias alias="transactionInfo" type="ac.cn.saya.lab.api.entity.TransactionInfoEntity" />
+        <typeAlias alias="transactionList" type="ac.cn.saya.lab.api.entity.TransactionListEntity" />
+        <typeAlias alias="news" type="ac.cn.saya.lab.api.entity.NewsEntity" />
+        <typeAlias alias="guestbook" type="ac.cn.saya.lab.api.entity.GuestBookEntity" />
+        <typeAlias alias="notebook" type="ac.cn.saya.lab.api.entity.NoteBookEntity" />
+        <typeAlias alias="notes" type="ac.cn.saya.lab.api.entity.NotesEntity" />
+        <typeAlias alias="picture" type="ac.cn.saya.lab.api.entity.PictureEntity" />
+        <typeAlias alias="files" type="ac.cn.saya.lab.api.entity.FilesEntity" />
+        <typeAlias alias="api" type="ac.cn.saya.lab.api.entity.ApiEntity"/>
+        <typeAlias alias="backup" type="ac.cn.saya.lab.api.entity.BackupLogEntity"/>
+        <typeAlias alias="memo" type="ac.cn.saya.lab.api.entity.MemoEntity"/>
+    </typeAliases>
+</configuration>
