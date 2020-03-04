@@ -1,8 +1,7 @@
 package ac.cn.saya.lab.api.service.core;
 
 import ac.cn.saya.lab.api.entity.BackupLogEntity;
-
-import java.util.List;
+import ac.cn.saya.lab.api.tools.Result;
 
 /**
  * @Title: BackupLogService
@@ -23,7 +22,7 @@ public interface BackupLogService {
      * @创建时间 2019/1/11
      * @修改人和其它信息
      */
-    public Integer insertBackup(String backupUrl);
+    public Result<Object> insertBackup(String backupUrl);
 
     /**
      * @描述 删除备份数据
@@ -33,7 +32,7 @@ public interface BackupLogService {
      * @创建时间 2019/1/11
      * @修改人和其它信息
      */
-    public Integer deleteBackup(BackupLogEntity entity);
+    public Result<Object> deleteBackup(BackupLogEntity entity);
 
     /**
      * @描述 查询单条备份记录
@@ -43,7 +42,7 @@ public interface BackupLogService {
      * @创建时间 2019/1/12
      * @修改人和其它信息
      */
-    public BackupLogEntity getOneBackup(BackupLogEntity entity);
+    public Result<Object> getOneBackup(BackupLogEntity entity);
 
     /**
      * @描述 分页查看备份记录
@@ -53,7 +52,7 @@ public interface BackupLogService {
      * @创建时间 2019/1/11
      * @修改人和其它信息
      */
-    public List<BackupLogEntity> getBackupPagin(BackupLogEntity entity);
+    public Result<Object> getBackupPagin(BackupLogEntity entity);
 
     /**
      * @描述 查看备份记录总数
@@ -63,6 +62,6 @@ public interface BackupLogService {
      * @创建时间 2019/1/11
      * @修改人和其它信息
      */
-    public Long getBackupCount(BackupLogEntity entity);
+    public Result<Object> getBackupCount(BackupLogEntity entity);
 
 }

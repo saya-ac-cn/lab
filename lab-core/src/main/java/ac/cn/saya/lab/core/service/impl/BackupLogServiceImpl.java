@@ -5,6 +5,7 @@ import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.core.BackupLogService;
 import ac.cn.saya.lab.api.tools.CurrentLineInfo;
 import ac.cn.saya.lab.api.tools.Log4jUtils;
+import ac.cn.saya.lab.api.tools.Result;
 import ac.cn.saya.lab.api.tools.ResultEnum;
 import ac.cn.saya.lab.core.repository.BackupLogDAO;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public Integer insertBackup(String backupUrl) {
+    public Result<Object> insertBackup(String backupUrl) {
         try {
             return backupLogDAO.insertBackup(backupUrl);
         } catch (Exception e) {
@@ -62,7 +63,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public Integer deleteBackup(BackupLogEntity entity) {
+    public Result<Object> deleteBackup(BackupLogEntity entity) {
         try {
             return backupLogDAO.deleteBackup(entity);
         } catch (Exception e) {
@@ -81,7 +82,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public BackupLogEntity getOneBackup(BackupLogEntity entity) {
+    public Result<Object> getOneBackup(BackupLogEntity entity) {
         try {
             return backupLogDAO.getBackupOne(entity);
         } catch (Exception e) {

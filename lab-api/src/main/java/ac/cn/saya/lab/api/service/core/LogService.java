@@ -2,6 +2,7 @@ package ac.cn.saya.lab.api.service.core;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
+import ac.cn.saya.lab.api.tools.Result;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface LogService {
      * @创建时间 2018/11/11
      * @修改人和其它信息
      */
-    public Integer insert(LogEntity entity);
+    public Result<Object> insert(LogEntity entity);
 
     /**
      * @描述 获取所有的日志类别
@@ -38,26 +39,17 @@ public interface LogService {
      * @创建时间 2018/11/11
      * @修改人和其它信息
      */
-    public List<LogTypeEntity> selectLogType();
+    public Result<Object> selectLogType();
 
     /**
-     * @描述 查询日志 按用户、类别、日期
+     * @描述 分页查询日志 按用户、类别、日期
      * @参数 [entity]
      * @返回值 java.util.List<ac.cn.saya.datacenter.entity.LogEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2018/11/11
      * @修改人和其它信息
      */
-    public List<LogEntity> selectPage(LogEntity entity);
+    public Result<Object> show(LogEntity entity);
 
-    /**
-     * @描述 查询日志-计数 按用户、类别、日期
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
-     * @修改人和其它信息
-     */
-    public Long selectCount(LogEntity entity);
 
 }

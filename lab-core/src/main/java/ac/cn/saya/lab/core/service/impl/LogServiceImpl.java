@@ -4,9 +4,7 @@ import ac.cn.saya.lab.api.service.core.LogService;
 import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
 import ac.cn.saya.lab.api.exception.MyException;
-import ac.cn.saya.lab.api.tools.CurrentLineInfo;
-import ac.cn.saya.lab.api.tools.Log4jUtils;
-import ac.cn.saya.lab.api.tools.ResultEnum;
+import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.core.repository.LogDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +46,7 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public Integer insert(LogEntity entity) {
+    public Result<Object> insert(LogEntity entity) {
         Integer flog = null;
         try {
             flog = logDAO.insert(entity);
@@ -59,7 +57,7 @@ public class LogServiceImpl implements LogService {
                 //插入失败
                 flog = ResultEnum.ERROP.getCode();
             }
-            return flog;
+            return ResultUtil.success(flog);
         } catch (Exception e) {
             logger.error("插入日志时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -76,14 +74,14 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public List<LogTypeEntity> selectLogType() {
+    public Result<Object> selectLogType() {
         List<LogTypeEntity> list = new ArrayList<>();
         try {
             list = logDAO.selectType();
             if (list.size() <= 0) {
                 list = null;
             }
-            return list;
+            return ResultUtil.success(list);
         } catch (Exception e) {
             logger.error("查询日志类别时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -92,7 +90,7 @@ public class LogServiceImpl implements LogService {
     }
 
     /**
-     * @描述 查询日志 按用户、类别、日期
+     * @描述 分页查询日志 按用户、类别、日期
      * @参数 [entity]
      * @返回值 java.util.List<ac.cn.saya.datacenter.entity.LogEntity>
      * @创建人 saya.ac.cn-刘能凯
@@ -100,37 +98,34 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public List<LogEntity> selectPage(LogEntity entity) {
-        List<LogEntity> list = new ArrayList<>();
-        try {
-            list = logDAO.selectPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
-        } catch (Exception e) {
-            logger.error("查询日志时发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
+    public Result<Object> show(LogEntity entity) {
+        Paging paging = new Paging();
+        if (entity.getNowPage() == null) {
+            entity.setNowPage(1);
         }
-    }
-
-    /**
-     * @描述 查询日志-计数 按用户、类别、日期
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
-     * @修改人和其它信息
-     */
-    @Override
-    public Long selectCount(LogEntity entity) {
-        try {
-            return logDAO.selectCount(entity);
-        } catch (Exception e) {
-            logger.error("统计日志总数时发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
+        if (entity.getPageSize() == null) {
+            entity.setPageSize(20);
+        }
+        //每页显示记录的数量
+        paging.setPageSize(entity.getPageSize());
+        //获取满足条件的总记录（不分页）
+        Long pageSize = logDAO.selectCount(entity);
+        if (pageSize > 0) {
+            //总记录数
+            paging.setDateSum(pageSize);
+            //计算总页数
+            paging.setTotalPage();
+            //设置当前的页码-并校验是否超出页码范围
+            paging.setPageNow(entity.getNowPage());
+            //设置行索引
+            entity.setPage((paging.getPageNow() - 1) * paging.getPageSize(), paging.getPageSize());
+            //获取满足条件的记录集合
+            List<LogEntity> list = logDAO.selectPage(entity);
+            paging.setGrid(list);
+            return ResultUtil.success(paging);
+        } else {
+            //未找到有效记录
+            throw new MyException(ResultEnum.NOT_EXIST);
         }
     }
 
