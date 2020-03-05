@@ -23,14 +23,14 @@ import javax.servlet.http.HttpServletRequest;
  * @Date: 2020-02-29 19:14
  * @Description:身份鉴定AOP
  */
-@Aspect
+//@Aspect
 @Component
 public class IdentifyAspect {
 
     @Resource
     private JwtOperator jwtOperator;
 
-    @Around("execution(* ac.cn.saya.lab.core.controller..*.*(..))")
+    //@Around("execution(* ac.cn.saya.lab.core.controller..*.*(..))")
     public Object identity(ProceedingJoinPoint point) throws Throwable{
         // 1.从header中获取token
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

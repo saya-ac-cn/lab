@@ -75,7 +75,7 @@ public class LogServiceImpl implements LogService {
      */
     @Override
     public Result<Object> selectLogType() {
-        List<LogTypeEntity> list = new ArrayList<>();
+        List<LogTypeEntity> list;
         try {
             list = logDAO.selectType();
             if (list.size() <= 0) {
@@ -99,33 +99,14 @@ public class LogServiceImpl implements LogService {
      */
     @Override
     public Result<Object> show(LogEntity entity) {
-        Paging paging = new Paging();
-        if (entity.getNowPage() == null) {
-            entity.setNowPage(1);
-        }
-        if (entity.getPageSize() == null) {
-            entity.setPageSize(20);
-        }
-        //每页显示记录的数量
-        paging.setPageSize(entity.getPageSize());
-        //获取满足条件的总记录（不分页）
-        Long pageSize = logDAO.selectCount(entity);
-        if (pageSize > 0) {
-            //总记录数
-            paging.setDateSum(pageSize);
-            //计算总页数
-            paging.setTotalPage();
-            //设置当前的页码-并校验是否超出页码范围
-            paging.setPageNow(entity.getNowPage());
-            //设置行索引
-            entity.setPage((paging.getPageNow() - 1) * paging.getPageSize(), paging.getPageSize());
-            //获取满足条件的记录集合
-            List<LogEntity> list = logDAO.selectPage(entity);
-            paging.setGrid(list);
-            return ResultUtil.success(paging);
-        } else {
-            //未找到有效记录
-            throw new MyException(ResultEnum.NOT_EXIST);
+        try {
+            Long count = logDAO.selectCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> logDAO.selectPage((LogEntity) condition));
+            return result;
+        } catch (Exception e) {
+            logger.error("分页查询日志时发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
         }
     }
 

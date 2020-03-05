@@ -16,7 +16,6 @@ import java.util.List;
  * @Description:
  * 日志Dao
  */
-
 @Repository("logDAO")
 public interface LogDAO {
 

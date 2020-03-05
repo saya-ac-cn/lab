@@ -3,10 +3,7 @@ package ac.cn.saya.lab.core.service.impl;
 import ac.cn.saya.lab.api.entity.BackupLogEntity;
 import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.core.BackupLogService;
-import ac.cn.saya.lab.api.tools.CurrentLineInfo;
-import ac.cn.saya.lab.api.tools.Log4jUtils;
-import ac.cn.saya.lab.api.tools.Result;
-import ac.cn.saya.lab.api.tools.ResultEnum;
+import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.core.repository.BackupLogDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +42,7 @@ public class BackupLogServiceImpl implements BackupLogService {
     @Override
     public Result<Object> insertBackup(String backupUrl) {
         try {
-            return backupLogDAO.insertBackup(backupUrl);
+            return ResultUtil.success(backupLogDAO.insertBackup(backupUrl));
         } catch (Exception e) {
             logger.error("新增备份记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -65,7 +62,7 @@ public class BackupLogServiceImpl implements BackupLogService {
     @Override
     public Result<Object> deleteBackup(BackupLogEntity entity) {
         try {
-            return backupLogDAO.deleteBackup(entity);
+            return ResultUtil.success(backupLogDAO.deleteBackup(entity));
         } catch (Exception e) {
             logger.error("删除备份数据异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -84,7 +81,7 @@ public class BackupLogServiceImpl implements BackupLogService {
     @Override
     public Result<Object> getOneBackup(BackupLogEntity entity) {
         try {
-            return backupLogDAO.getBackupOne(entity);
+            return ResultUtil.success(backupLogDAO.getBackupOne(entity));
         } catch (Exception e) {
             logger.error("查询单条备份记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -101,35 +98,13 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public List<BackupLogEntity> getBackupPagin(BackupLogEntity entity) {
-        List<BackupLogEntity> list = new ArrayList<>();
+    public Result<Object> getBackupPagin(BackupLogEntity entity) {
         try {
-            list = backupLogDAO.getBackupPagin(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = backupLogDAO.getBackupCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> backupLogDAO.getBackupPagin((BackupLogEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("分页查看备份记录发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
-
-    /**
-     * @描述 查看备份记录总数
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
-     * @修改人和其它信息
-     */
-    @Override
-    public Long getBackupCount(BackupLogEntity entity) {
-        try {
-            return backupLogDAO.getBackupCount(entity);
-        } catch (Exception e) {
-            logger.error("查看备份记录总数时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }

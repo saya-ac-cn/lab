@@ -1,17 +1,13 @@
 package ac.cn.saya.lab.core.controller;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
-import ac.cn.saya.lab.api.entity.LogTypeEntity;
 import ac.cn.saya.lab.api.service.core.LogService;
 import ac.cn.saya.lab.api.tools.Result;
-import ac.cn.saya.lab.api.tools.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @Title: LogController

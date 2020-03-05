@@ -4,10 +4,7 @@ import ac.cn.saya.lab.api.entity.UserEntity;
 import ac.cn.saya.lab.api.service.core.UserService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Title: UserController
@@ -34,7 +31,7 @@ public class UserController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/info")
-    public Result<Object> getUser(String user) {
+    public Result<Object> getUser(@RequestParam(value = "user") String user) {
         return userService.getUser(user);
     }
 
@@ -60,7 +57,7 @@ public class UserController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/activity")
-    public Result<Object> countPre6Logs(String user) {
+    public Result<Object> countPre6Logs(@RequestParam(value = "user") String user) {
         return userService.countPre6Logs(user);
     }
 

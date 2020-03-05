@@ -30,7 +30,7 @@
         </layout>
     </appender>
 
-    <logger name="ac.cn.saya.lab.medium" additivity="false">
+    <logger name="ac.cn.saya.lab.core" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="logFile"/>
     </logger>
