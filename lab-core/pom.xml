@@ -12,8 +12,8 @@
     </parent>
 
     <artifactId>lab-core</artifactId>
+    <name>lab-core</name>
     <description>实验室-核心系统模块</description>
-    <name>服务提供者</name>
 
 
     <!-- 这里面引入的依赖包，最后及得排除掉-->

@@ -6,9 +6,9 @@ spring:
     # Druid连接池配置，官方配置参考：1、https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
     # 优化配置2、https://blog.csdn.net/qq_42235671/article/details/84592028
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1/core?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: ********
-    password: ********
+    url: jdbc:mysql://118.24.198.239/laboratory_web?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: saya
+    password: Saya.ac.cn.666
     # 升级数据连接，url连接参数需加入serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     # Druid其他配置
@@ -61,11 +61,11 @@ spring:
     nacos:
       discovery:
         # 指定nacos的服务地址
-        server-addr: 172.20.1.227:8848
+        server-addr: 172.20.1.91:8848
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapping/*.xml
-  type-aliases-package: ac.cn.saya.lab.api.entity
+  type-aliases-package: ac.cn.saya.lab.core.repository
 
 jwt:
   secret: vZ0N6kgV8UoMfM4YFZeXvzpmzWhADq1PUXcXdCa1Pi9AugCQdO0wKEubIpbp5xt7

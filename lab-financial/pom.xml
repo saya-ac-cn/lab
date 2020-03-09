@@ -11,8 +11,8 @@
     </parent>
 
     <artifactId>lab-financial</artifactId>
+    <name>lab-financial</name>
     <description>实验室-财政金融模块</description>
-    <name>服务提供者</name>
 
     <!-- 这里面引入的依赖包，最后及得排除掉-->
     <dependencies>

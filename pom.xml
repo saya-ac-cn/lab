@@ -28,8 +28,8 @@
         <skipTests>true</skipTests>
         <!-- 版本属性 -->
         <spring-cloud-alibaba.version>2.1.0.RELEASE</spring-cloud-alibaba.version>
-        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
-        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <poi.version>4.0.0</poi.version>
         <feign.httpclient.version>10.1.0</feign.httpclient.version>
         <jjwt.version>0.10.7</jjwt.version>
