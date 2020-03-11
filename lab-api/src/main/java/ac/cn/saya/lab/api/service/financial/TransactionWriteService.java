@@ -3,6 +3,7 @@ package ac.cn.saya.lab.api.service.financial;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
+import ac.cn.saya.lab.api.tools.Result;
 
 /**
  * @Title: TransactionWriteService
@@ -19,61 +20,61 @@ public interface TransactionWriteService {
     /**
      * @描述 写入到财政明细表
      * @参数 [entity]
-     * @返回值 java.lang.Integer 返回写入状态标志位
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/12/27
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    public Integer insertTransactionInfo(TransactionInfoEntity entity);
+    public Result<Object> insertTransactionInfo(TransactionInfoEntity entity);
 
     /**
      * @描述 写入到财政父表
      * @参数 [entity]
-     * @返回值 java.lang.Integer 返回主键回填的值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/12/27
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    public Integer insertTransactionList(TransactionListEntity entity);
+    public Result<Object> insertTransactionList(TransactionListEntity entity);
 
     /**
      * @描述 修改财政明细表
      * @参数 [entity]
-     * @返回值 java.lang.Integer
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/12/27
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    public Integer updateTransactionInfo(TransactionInfoEntity entity);
+    public Result<Object> updateTransactionInfo(TransactionInfoEntity entity);
 
     /**
      * @描述 修改财政父表
      * @参数 [entity]
-     * @返回值 java.lang.Integer
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/12/27
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    public Integer updateTransactionList(TransactionListEntity entity);
+    public Result<Object> updateTransactionList(TransactionListEntity entity);
 
     /**
      * @描述 删除财政明细表
      * @参数 [entity]
-     * @返回值 java.lang.Integer
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/12/27
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    public Integer deleteTransactionInfo(Integer id, String source);
+    public Result<Object> deleteTransactionInfo(Integer id, String source);
 
     /**
      * @描述 删除财政父表
-     * @参数 [entity]
-     * @返回值 java.lang.Integer
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/12/27
+     * @参数  [tradeId, source]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    public Integer deleteTransactionList(Integer tradeId, String source);
+    public Result<Object> deleteTransactionList(Integer tradeId, String source);
 
 }

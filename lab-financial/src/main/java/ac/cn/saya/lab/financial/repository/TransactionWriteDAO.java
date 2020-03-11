@@ -2,8 +2,8 @@ package ac.cn.saya.lab.financial.repository;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * @Title: TransactionWriteDAO
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * 财政数据库修改DAO
  */
 
-@Repository("transactionWriteDAO")
+@Mapper
 public interface TransactionWriteDAO {
 
     /**

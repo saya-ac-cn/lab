@@ -5,9 +5,7 @@ import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.financial.TransactionReadService;
-import ac.cn.saya.lab.api.tools.CurrentLineInfo;
-import ac.cn.saya.lab.api.tools.Log4jUtils;
-import ac.cn.saya.lab.api.tools.ResultEnum;
+import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.financial.repository.TransactionReadDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,14 +39,13 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionTypeEntity> selectTransactionType() {
-        List<TransactionTypeEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionType() {
         try {
-            list = transactionReadDAO.selectTransactionType();
+            List<TransactionTypeEntity> list = transactionReadDAO.selectTransactionType();
             if (list.size() <= 0) {
                 list = null;
             }
-            return list;
+            return ResultUtil.success(list);
         } catch (Exception e) {
             logger.error("查询交易类别时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -64,14 +61,11 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionListEntity> selectTransactionPage(TransactionListEntity entity) {
-        List<TransactionListEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionPage(TransactionListEntity entity) {
         try {
-            list = transactionReadDAO.selectTransactionPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = transactionReadDAO.selectTransactionCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> transactionReadDAO.selectTransactionPage((TransactionListEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("查看流水时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -79,23 +73,6 @@ public class TransactionReadServiceImpl implements TransactionReadService {
         }
     }
 
-    /**
-     * 查看流水总数
-     * 根据用户、类型、日期
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public Long selectTransactionCount(TransactionListEntity entity) {
-        try {
-            return transactionReadDAO.selectTransactionCount(entity);
-        } catch (Exception e) {
-            logger.error("查看流水总数总数时发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
 
     /**
      * 查看流水明细
@@ -104,14 +81,11 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionInfoEntity> selectTransactionInfoPage(TransactionInfoEntity entity) {
-        List<TransactionInfoEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionInfoPage(TransactionInfoEntity entity) {
         try {
-            list = transactionReadDAO.selectTransactionInfoPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = transactionReadDAO.selectTransactionInfoCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> transactionReadDAO.selectTransactionInfoPage((TransactionInfoEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("查看流水明细发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -119,22 +93,6 @@ public class TransactionReadServiceImpl implements TransactionReadService {
         }
     }
 
-    /**
-     * 查看流水明细总数
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public Long selectTransactionInfoCount(TransactionInfoEntity entity) {
-        try {
-            return transactionReadDAO.selectTransactionInfoCount(entity);
-        } catch (Exception e) {
-            logger.error("查看查看流水明细总数时发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
 
     /**
      * 查询详细的流水明细
@@ -143,33 +101,13 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionInfoEntity> selectTransactionFinalPage(TransactionListEntity entity) {
-        List<TransactionInfoEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionFinalPage(TransactionListEntity entity) {
         try {
-            list = transactionReadDAO.selectTransactionFinalPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = transactionReadDAO.selectTransactionFinalCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> transactionReadDAO.selectTransactionFinalPage((TransactionListEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("查询详细的流水明细发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
-
-    /**
-     * 查询详细的流水明细总数
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public Long selectTransactionFinalCount(TransactionListEntity entity) {
-        try {
-            return transactionReadDAO.selectTransactionFinalCount(entity);
-        } catch (Exception e) {
-            logger.error("查询详细的流水明细总数时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }
@@ -182,33 +120,13 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionListEntity> selectTransactionForDayPage(TransactionListEntity entity) {
-        List<TransactionListEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionForDayPage(TransactionListEntity entity) {
         try {
-            list = transactionReadDAO.selectTransactionForDayPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = transactionReadDAO.selectTransactionForDayCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> transactionReadDAO.selectTransactionForDayPage((TransactionListEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("按天分页统计财务报表异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
-
-    /**
-     * 按天统计财务报表流水总数
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public Long selectTransactionForDayCount(TransactionListEntity entity) {
-        try {
-            return transactionReadDAO.selectTransactionForDayCount(entity);
-        } catch (Exception e) {
-            logger.error("按天统计财务报表流水总数时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }
@@ -221,33 +139,13 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionListEntity> selectTransactionForMonthPage(TransactionListEntity entity) {
-        List<TransactionListEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionForMonthPage(TransactionListEntity entity) {
         try {
-            list = transactionReadDAO.selectTransactionForMonthPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = transactionReadDAO.selectTransactionForMonthCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> transactionReadDAO.selectTransactionForMonthPage((TransactionListEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("按月分页统计（只统计到上月的最后一天）异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
-
-    /**
-     * 按月统计（只统计到上月的最后一天）总数
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public Long selectTransactionForMonthCount(TransactionListEntity entity) {
-        try {
-            return transactionReadDAO.selectTransactionForMonthCount(entity);
-        } catch (Exception e) {
-            logger.error("按月统计（只统计到上月的最后一天）总数时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }
@@ -260,33 +158,13 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public List<TransactionListEntity> selectTransactionForYearPage(TransactionListEntity entity) {
-        List<TransactionListEntity> list = new ArrayList<>();
+    public Result<Object> selectTransactionForYearPage(TransactionListEntity entity) {
         try {
-            list = transactionReadDAO.selectTransactionForYearPage(entity);
-            if (list.size() <= 0) {
-                list = null;
-            }
-            return list;
+            Long count = transactionReadDAO.selectTransactionForYearCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> transactionReadDAO.selectTransactionForYearPage((TransactionListEntity) condition));
+            return result;
         } catch (Exception e) {
             logger.error("按年分页统计（只统计到上一年的最后一天）异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
-
-    /**
-     * 按年统计（只统计到上一年的最后一天）总数
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public Long selectTransactionForYearCount(TransactionListEntity entity) {
-        try {
-            return transactionReadDAO.selectTransactionForYearCount(entity);
-        } catch (Exception e) {
-            logger.error("按年统计（只统计到上一年的最后一天）总数时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }

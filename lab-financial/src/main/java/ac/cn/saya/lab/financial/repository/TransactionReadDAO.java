@@ -3,6 +3,7 @@ package ac.cn.saya.lab.financial.repository;
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * 财政数据库只读DAO
  */
 
-@Repository("transactionReadDAO")
+@Mapper
 public interface TransactionReadDAO {
 
     /**
