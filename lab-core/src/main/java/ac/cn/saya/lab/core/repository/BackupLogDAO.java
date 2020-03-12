@@ -1,8 +1,8 @@
 package ac.cn.saya.lab.core.repository;
 
 import ac.cn.saya.lab.api.entity.BackupLogEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * 平台数据库备份记录
  */
 
-@Repository("backupLogDAO")
+@Mapper
 public interface BackupLogDAO {
 
     /**

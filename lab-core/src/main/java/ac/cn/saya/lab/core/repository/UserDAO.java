@@ -1,7 +1,8 @@
 package ac.cn.saya.lab.core.repository;
+
 import ac.cn.saya.lab.api.entity.UserEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * @Title: UserDAO
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @Description:
  * 用户Dao层
  */
-@Repository("userDAO")
+@Mapper
 public interface UserDAO {
 
     /**

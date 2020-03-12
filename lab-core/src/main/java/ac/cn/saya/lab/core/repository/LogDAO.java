@@ -2,8 +2,8 @@ package ac.cn.saya.lab.core.repository;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @Description:
  * 日志Dao
  */
-@Repository("logDAO")
+@Mapper
 public interface LogDAO {
 
     /**
