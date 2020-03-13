@@ -19,7 +19,7 @@ public interface BackupLogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> insertBackup(String backupUrl);
@@ -29,7 +29,7 @@ public interface BackupLogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> deleteBackup(BackupLogEntity entity);
@@ -49,7 +49,7 @@ public interface BackupLogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> getBackupPagin(BackupLogEntity entity);

@@ -11,7 +11,7 @@ import java.util.List;
  * @参数
  * @返回值
  * @创建人 saya.ac.cn-刘能凯
- * @创建时间 2018/11/11
+ * @创建时间 2020/3/13
  * @修改人和其它信息 增加备注：
  * 注意MySQL表中的数据库引擎必须是InnoDB，否则不会生效
  * propagation=Propagation.REQUIRED  传播行为：支持当前事务，如果当前没有事务，就新建一个事务
@@ -26,7 +26,7 @@ public interface LogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> insert(LogEntity entity);
@@ -36,7 +36,7 @@ public interface LogService {
      * @参数 []
      * @返回值 java.util.List<ac.cn.saya.datacenter.entity.LogTypeEntity>
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> selectLogType();
@@ -46,7 +46,7 @@ public interface LogService {
      * @参数 [entity]
      * @返回值 java.util.List<ac.cn.saya.datacenter.entity.LogEntity>
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> show(LogEntity entity);

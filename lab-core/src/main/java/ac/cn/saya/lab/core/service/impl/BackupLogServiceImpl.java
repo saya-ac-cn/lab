@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @ProjectName DataCenter
  * @Description: TODO
  * @Author Saya
- * @Date: 2019/1/19 18:52
+ * @Date: 2020/3/13 18:52
  * @Description: 平台数据库备份日志记录
  */
 @Service
@@ -34,7 +34,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override
@@ -54,7 +54,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override
@@ -92,7 +92,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override

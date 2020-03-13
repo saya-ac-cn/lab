@@ -4,10 +4,7 @@ import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.service.core.LogService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Title: LogController
@@ -34,7 +31,7 @@ public class LogController {
      * @修改人和其它信息
      */
     @PostMapping(value = "/record")
-    public Result<Object> insert(LogEntity entity){
+    public Result<Object> insert(@RequestBody LogEntity entity){
         return logService.insert(entity);
     }
 

@@ -8,7 +8,7 @@ import ac.cn.saya.lab.api.tools.Result;
  * @参数
  * @返回值
  * @创建人 saya.ac.cn-刘能凯
- * @创建时间 2018/11/11
+ * @创建时间 2020/3/13
  * @修改人和其它信息
  */
 public interface UserService {
@@ -18,7 +18,7 @@ public interface UserService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> getUser(String user);
@@ -28,7 +28,7 @@ public interface UserService {
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     public Result<Object> setUser(UserEntity user);

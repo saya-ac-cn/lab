@@ -44,7 +44,7 @@ public class UserController {
      * @修改人和其它信息
      */
     @PutMapping(value = "/info")
-    public Result<Object> setUser(UserEntity user) {
+    public Result<Object> setUser(@RequestBody UserEntity user) {
         return userService.setUser(user);
     }
 

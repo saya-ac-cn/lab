@@ -12,7 +12,7 @@ import java.util.List;
  * @ProjectName DataCenter
  * @Description: TODO
  * @Author Saya
- * @Date: 2018/11/1 22:49
+ * @Date: 2020/3/13 22:49
  * @Description:财政业务相关-对外只读业务层接口
  */
 public interface TransactionReadService {
