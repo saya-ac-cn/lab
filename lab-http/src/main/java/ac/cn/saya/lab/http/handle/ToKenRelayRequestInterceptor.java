@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Description: TODO
  * @Author liunengkai
  * @Date: 2020-02-29 20:27
- * @Description:
+ * @Description:当feign调用其他服务时，把token附带到请求头中
  */
 
 public class ToKenRelayRequestInterceptor implements RequestInterceptor {

@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
  * @创建人  saya.ac.cn-刘能凯
  * @创建时间  2020-02-29
  * @修改人和其它信息
+ * nacos 启动 startup.sh -m standalone
  */
 
 //// 移除 @SpringBootApplication 用 @ComponentScan、@Configuration及 @EnableAutoConfiguration 来替代

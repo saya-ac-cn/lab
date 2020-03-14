@@ -5,6 +5,7 @@ import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.http.auth.RepeatLogin;
 import ac.cn.saya.lab.http.entity.SecurityEntity;
+import ac.cn.saya.lab.http.feignclient.LogFeignClient;
 import ac.cn.saya.lab.http.feignclient.UserFeignClient;
 import ac.cn.saya.lab.http.service.ICoreService;
 import ac.cn.saya.lab.api.bean.JwtOperator;
@@ -38,6 +39,9 @@ public class CoreServiceImpl implements ICoreService {
 
     @Resource
     private UserFeignClient userFeignClient;
+
+    @Resource
+    private LogFeignClient logFeignClient;
 
     @Resource
     private JwtOperator jwtOperator;

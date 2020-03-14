@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "write")
+@RequestMapping(value = "/financial/write")
 public class TransactionWriteController {
 
     @Autowired
