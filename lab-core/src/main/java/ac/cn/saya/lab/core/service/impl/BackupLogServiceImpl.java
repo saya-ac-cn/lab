@@ -40,7 +40,11 @@ public class BackupLogServiceImpl implements BackupLogService {
     @Override
     public Result<Object> insertBackup(String backupUrl) {
         try {
-            return ResultUtil.success(backupLogDAO.insertBackup(backupUrl));
+            Integer backup = backupLogDAO.insertBackup(backupUrl);
+            if (backup >= 0){
+                return ResultUtil.success();
+            }
+            return ResultUtil.error(ResultEnum.DB_ERROR);
         } catch (Exception e) {
             logger.error("新增备份记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -60,7 +64,11 @@ public class BackupLogServiceImpl implements BackupLogService {
     @Override
     public Result<Object> deleteBackup(BackupLogEntity entity) {
         try {
-            return ResultUtil.success(backupLogDAO.deleteBackup(entity));
+            Integer backup = backupLogDAO.deleteBackup(entity);
+            if (backup >= 0){
+                return ResultUtil.success();
+            }
+            return ResultUtil.error(ResultEnum.DB_ERROR);
         } catch (Exception e) {
             logger.error("删除备份数据异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -79,7 +87,11 @@ public class BackupLogServiceImpl implements BackupLogService {
     @Override
     public Result<Object> getOneBackup(BackupLogEntity entity) {
         try {
-            return ResultUtil.success(backupLogDAO.getBackupOne(entity));
+            BackupLogEntity backupOne = backupLogDAO.getBackupOne(entity);
+            if (null != backupOne){
+                return ResultUtil.success(backupOne);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询单条备份记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -99,8 +111,11 @@ public class BackupLogServiceImpl implements BackupLogService {
     public Result<Object> getBackupPagin(BackupLogEntity entity) {
         try {
             Long count = backupLogDAO.getBackupCount(entity);
-            Result<Object> result = PageTools.page(count, entity, (condition) -> backupLogDAO.getBackupPagin((BackupLogEntity) condition));
-            return result;
+            if (count > 0){
+                Result<Object> result = PageTools.page(count, entity, (condition) -> backupLogDAO.getBackupPagin((BackupLogEntity) condition));
+                return result;
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("分页查看备份记录发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

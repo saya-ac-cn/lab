@@ -54,7 +54,7 @@ public class LogServiceImpl implements LogService {
                 flog = entity.getId();
             } else {
                 //插入失败
-                flog = ResultEnum.ERROP.getCode();
+                return ResultUtil.error(ResultEnum.DB_ERROR);
             }
             return ResultUtil.success(flog);
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class LogServiceImpl implements LogService {
         try {
             list = logDAO.selectType();
             if (list.size() <= 0) {
-                list = null;
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
             }
             return ResultUtil.success(list);
         } catch (Exception e) {
@@ -100,8 +100,11 @@ public class LogServiceImpl implements LogService {
     public Result<Object> show(LogEntity entity) {
         try {
             Long count = logDAO.selectCount(entity);
-            Result<Object> result = PageTools.page(count, entity, (condition) -> logDAO.selectPage((LogEntity) condition));
-            return result;
+            if (count > 0){
+                Result<Object> result = PageTools.page(count, entity, (condition) -> logDAO.selectPage((LogEntity) condition));
+                return result;
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("分页查询日志时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -109,4 +112,27 @@ public class LogServiceImpl implements LogService {
         }
     }
 
+    /**
+     * @描述 查询用户最近的操作
+     * @参数
+     * @返回值
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-15
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Object> queryRecentlyLog(String user) {
+        try {
+            // 查询用户当日安排
+            LogEntity log = logDAO.queryRecentlyLog(user);
+            if (null == log){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
+            return ResultUtil.success(log);
+        } catch (Exception e) {
+            logger.error("查询用户最近的操作失败" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
 }

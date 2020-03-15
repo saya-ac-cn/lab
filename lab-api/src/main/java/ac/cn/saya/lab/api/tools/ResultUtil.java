@@ -63,4 +63,19 @@ public class ResultUtil {
         return result;
     }
 
+    /**
+     * @描述 用于返回枚举错误
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-15
+     * @修改人和其它信息
+     */
+    public static Result error(ResultEnum resultEnum) {
+        Result result = new Result();
+        result.setCode(resultEnum.getCode());
+        result.setMsg(resultEnum.getMsg());
+        return result;
+    }
+
 }

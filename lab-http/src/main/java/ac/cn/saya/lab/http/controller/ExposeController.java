@@ -31,16 +31,6 @@ public class ExposeController {
         return coreService.login(user, request);
     }
 
-    @GetMapping(value = "/backend/download/doc")
-    public Result<Object> download() throws Exception {
-        return ResultUtil.success("/backend/download/doc");
-    }
-
-    @GetMapping(value = "/backend/read")
-    public Result<Object> read() throws Exception {
-        return ResultUtil.success("/backend/read");
-    }
-
 
 
 

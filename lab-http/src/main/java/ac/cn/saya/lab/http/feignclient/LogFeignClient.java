@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Title: LogFeignClient
@@ -51,5 +52,16 @@ public interface LogFeignClient {
      */
     @GetMapping(value = "/core/log/display")
     public Result<Object> display(LogEntity entity);
+
+    /**
+     * @描述 查询用户最近的操作
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-15
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "/core/log/recently")
+    public Result<Object> queryRecentlyLog(@RequestParam(value = "user") String user);
 
 }

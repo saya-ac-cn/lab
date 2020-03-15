@@ -186,4 +186,23 @@ public class PlanServiceImpl implements PlanService {
         }
     }
 
+    /**
+     * @描述 获取指定用户当天的计划内容
+     * @参数
+     * @返回值
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-15
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Object> getTodayPlanListByUser(String source) {
+        try {
+            // 查询用户当日安排
+            return ResultUtil.success(planDAO.getTodayPlanListByUser(source));
+        } catch (Exception e) {
+            logger.error("查询用户当日安排失败" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
 }

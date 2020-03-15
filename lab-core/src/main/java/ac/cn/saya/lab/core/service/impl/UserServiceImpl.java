@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @描述 用户业务层实现类
@@ -47,7 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result<Object> getUser(String user) {
         try {
-            return ResultUtil.success(userDAO.queryUser(user));
+            UserEntity entity = userDAO.queryUser(user);
+            if (null != entity){
+                return ResultUtil.success(entity);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("获取用户信息失败" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -74,7 +79,7 @@ public class UserServiceImpl implements UserService {
             result = userDAO.updateUser(user);
             if (result <= 0) {
                 // 修改失败
-                result = ResultEnum.ERROP.getCode();
+                return ResultUtil.error(ResultEnum.DB_ERROR);
             }
             return ResultUtil.success(result);
         } catch (Exception e) {
@@ -96,7 +101,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result<Object> countPre6Logs(String user) {
         try {
-            return ResultUtil.success(proceDureDAO.countPre6Logs(user));
+            Map<String, Object> map = proceDureDAO.countPre6Logs(user);
+            if (map.isEmpty()){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
+            return ResultUtil.success(map);
         } catch (Exception e) {
             logger.error("查询近半年活跃情况失败" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

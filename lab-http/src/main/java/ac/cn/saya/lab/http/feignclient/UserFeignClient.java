@@ -33,7 +33,7 @@ public interface UserFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "/core/user/info")
-    public Result<Object> getUser(@RequestParam(value = "user") String user);
+    public Result<UserEntity> getUser(@RequestParam(value = "user") String user);
 
     /**
      * @描述 修改用户信息

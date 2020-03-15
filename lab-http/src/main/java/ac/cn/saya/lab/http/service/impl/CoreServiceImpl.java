@@ -6,9 +6,11 @@ import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.http.auth.RepeatLogin;
 import ac.cn.saya.lab.http.entity.SecurityEntity;
 import ac.cn.saya.lab.http.feignclient.LogFeignClient;
+import ac.cn.saya.lab.http.feignclient.PlanFeignClient;
 import ac.cn.saya.lab.http.feignclient.UserFeignClient;
 import ac.cn.saya.lab.http.service.ICoreService;
 import ac.cn.saya.lab.api.bean.JwtOperator;
+import ac.cn.saya.lab.http.tools.AmapLocateUtils;
 import ac.cn.saya.lab.http.tools.HttpRequestUtil;
 import ac.cn.saya.lab.http.tools.UploadUtils;
 import org.slf4j.Logger;
@@ -32,7 +34,7 @@ import java.util.Map;
  * @Description: 综合/核心数据库的相关服务
  */
 
-@Service("coreServiceImpl")
+@Service
 public class CoreServiceImpl implements ICoreService {
 
     private static Logger logger = LoggerFactory.getLogger(CoreServiceImpl.class);
@@ -42,6 +44,15 @@ public class CoreServiceImpl implements ICoreService {
 
     @Resource
     private LogFeignClient logFeignClient;
+
+    @Resource
+    private PlanFeignClient planFeignClient;
+
+    @Resource
+    private AmapLocateUtils amapLocateUtils;
+
+    @Resource
+    private RecordService recordService;
 
     @Resource
     private JwtOperator jwtOperator;
@@ -57,99 +68,111 @@ public class CoreServiceImpl implements ICoreService {
     @Override
     public Result<Object> login(UserEntity user, HttpServletRequest request) throws Exception {
         // 校验用户输入的参数
-//        if (StringUtils.isEmpty(user.getUser()) || StringUtils.isEmpty(user.getPassword())) {
-//            // 缺少参数
-//            throw new MyException(ResultEnum.NOT_PARAMETER);
-//        }
-//        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
-//        UserMemory userSession = HttpRequestUtil.getUserMemory(request);
-//        UserEntity entity = userService.getUser(user.getUser());
-//        if (entity == null) {
-//            // 没有该用户的信息 直接中断返回
-//            //未找到该用户
-//            throw new MyException(ResultEnum.ERROP);
-//        }
-//        if (userSession != null) {
-//            // 读取该用户最近的登录及安排信息
-//            Map<String, Object> result = userService.queryUserRecentlyInfo(userSession.getUser());
-//            // session 检查到已登录（同一机器设备中）
-//            entity.setPassword(null);
-//            // 转换成浏览器可以直接识别的url
-//            // 用户logo，及背景图片的返回
-//            entity.setLogo(UploadUtils.descUrl(entity.getLogo()));
-//            entity.setBackground(UploadUtils.descUrl(entity.getBackground()));
-//            // 注入用户个人信息
-//            result.put("user",entity);
-//            return ResultUtil.success(result);
-//        } else {
-//            // 未登录（当前设备）
-//            // 在系统中查询该用户是否存在
-//            // 在服务器全局中检查
-//            // 由于登录时 可以用用户名 和 邮箱登录 所以 这里用用户查找
-//            ///if(redisUtils.hmExists("DataCenter:SessionMap",entity.getUser())) {
-//            if (RepeatLogin.securityMap.get(user.getUser()) != null) {
-//                /**
-//                 * 已经登录
-//                 * 将已经登陆的信息拿掉,踢下线
-//                 */
-//                RepeatLogin.forceUserLogout(user.getUser());
-//            }
-//            // 比对密码
-//            //加密后用户的密码
-//            user.setPassword(DesUtil.encrypt(user.getPassword()));
-//            if (entity.getPassword().equals(user.getPassword())) {
-//                HttpSession session = request.getSession();
-//                //设置session
-//                // 设置封装到session中的实体信息
-//                UserMemory memory = new UserMemory();
-//                String ip = HttpRequestUtil.getIpAddress(request);
-//                memory.setUser(entity.getUser());
-//                memory.setIp(ip);
-//                memory.setCity(amapLocateUtils.getCityByIp(ip));
-//                //为之注入用户信息
-//                session.setAttribute("user", memory);
-//                //放入用户的session 到数据库中（或本服务器的内存中），防止重复登录
-//                ///redisUtils.hmSet("DataCenter:SessionMap",user.getUser(),session.getId());
-//                RepeatLogin.sessionMap.put(entity.getUser(), session);
-//                // 对密码脱敏处理
-//                entity.setPassword(null);
-//                // 转换成浏览器可以直接识别的url
-//                // 用户logo，及背景图片的返回
-//                entity.setLogo(UploadUtils.descUrl(entity.getLogo()));
-//                entity.setBackground(UploadUtils.descUrl(entity.getBackground()));
-//                // 返回用户的个人信息
-//                Map<String, Object> result = userService.queryUserRecentlyInfo(user.getUser());
-//                result.put("user",entity);
-//                // 记录本次登录
-//                recordService.record("OX001", request);
-//                //返回登录成功
-//                return ResultUtil.success(result);
-//            } else {
-//                //密码错误
-//                throw new MyException(ResultEnum.ERROP);
-//            }
-//
-//        }
+        if (StringUtils.isEmpty(user.getUser()) || StringUtils.isEmpty(user.getPassword())) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = HttpRequestUtil.getUserMemory(request);
+        Result<UserEntity> userResult = userFeignClient.getUser(user.getUser());
+        if (userResult == null || userResult.getCode() != ResultEnum.SUCCESS.getCode()) {
+            // 没有该用户的信息 直接中断返回
+            //未找到该用户
+            throw new MyException(ResultEnum.ERROP);
+        }
+        UserEntity entity = userResult.getData();
+        if (userSession != null) {
+            // 读取该用户最近的登录及安排信息
+            Result<Object> todayPlanResult = planFeignClient.getTodayPlanListByUser(userSession.getUser());
+            Result<Object> recentlyLogResult = logFeignClient.queryRecentlyLog(userSession.getUser());
+            Map<String, Object> result = new HashMap<>(2);
+            if (null != todayPlanResult
+                    && todayPlanResult.getCode() != ResultEnum.SUCCESS.getCode()
+                    && null != recentlyLogResult
+                    && recentlyLogResult.getCode() != ResultEnum.SUCCESS.getCode()){
+                result.put("plan",todayPlanResult.getData());
+                result.put("log",recentlyLogResult.getData());
+            }else {
+                result.put("plan",null);
+                result.put("log",null);
+            }
+            // session 检查到已登录（同一机器设备中）
+            entity.setPassword(null);
+            // 转换成浏览器可以直接识别的url
+            // 用户logo，及背景图片的返回
+            entity.setLogo(UploadUtils.descUrl(entity.getLogo()));
+            entity.setBackground(UploadUtils.descUrl(entity.getBackground()));
+            // 注入用户个人信息
+            result.put("user",entity);
+            return ResultUtil.success(result);
+        } else {
+            // 未登录（当前设备）
+            // 在系统中查询该用户是否存在
+            // 在服务器全局中检查
+            // 由于登录时 可以用用户名 和 邮箱登录 所以 这里用用户查找
+            ///if(redisUtils.hmExists("DataCenter:SessionMap",entity.getUser())) {
+            if (RepeatLogin.securityMap.get(user.getUser()) != null) {
+                /**
+                 * 已经登录
+                 * 将已经登陆的信息拿掉,踢下线
+                 */
+                RepeatLogin.forceUserLogout(user.getUser());
+            }
+            // 比对密码
+            //加密后用户的密码
+            user.setPassword(DesUtil.encrypt(user.getPassword()));
+            if (entity.getPassword().equals(user.getPassword())) {
+                HttpSession session = request.getSession();
+                //设置session
+                // 设置封装到session中的实体信息
+                UserMemory memory = new UserMemory();
+                String ip = HttpRequestUtil.getIpAddress(request);
+                memory.setUser(entity.getUser());
+                memory.setIp(ip);
+                memory.setCity(amapLocateUtils.getCityByIp(ip));
+                // 为用户生成token封装内容
+                HashMap<String, Object> userMap = new HashMap<>(3);
+                userMap.put("user",user.getUser());
+                userMap.put("ip",ip);
+                userMap.put("city",memory.getCity());
+                // 生成token
+                String token = jwtOperator.generateToken(userMap);
+                //为之注入用户信息
+                session.setAttribute("user", memory);
+                //放入用户的session 到数据库中（或本服务器的内存中），防止重复登录
+                ///redisUtils.hmSet("DataCenter:SessionMap",user.getUser(),session.getId());
+                RepeatLogin.securityMap.put(user.getUser(), new SecurityEntity(session,token));
+                // 对密码脱敏处理
+                entity.setPassword(null);
+                // 转换成浏览器可以直接识别的url
+                // 用户logo，及背景图片的返回
+                entity.setLogo(UploadUtils.descUrl(entity.getLogo()));
+                entity.setBackground(UploadUtils.descUrl(entity.getBackground()));
+                // 读取该用户最近的登录及安排信息
+                Result<Object> todayPlanResult = planFeignClient.getTodayPlanListByUser(user.getUser());
+                Result<Object> recentlyLogResult = logFeignClient.queryRecentlyLog(user.getUser());
+                Map<String, Object> result = new HashMap<>(2);
+                if (null != todayPlanResult
+                        && todayPlanResult.getCode() != ResultEnum.SUCCESS.getCode()
+                        && null != recentlyLogResult
+                        && recentlyLogResult.getCode() != ResultEnum.SUCCESS.getCode()){
+                    result.put("log",recentlyLogResult.getData());
+                    result.put("plan",todayPlanResult.getData());
+                }else {
+                    result.put("log",null);
+                    result.put("plan",null);
+                }
+                result.put("user",entity);
+                // 记录本次登录
+                recordService.record("OX001", request);
+                //返回登录成功
+                return ResultUtil.success(result);
+            } else {
+                //密码错误
+                throw new MyException(ResultEnum.ERROP);
+            }
 
-
-        HashMap<String, Object> userMap = new HashMap<>(3);
-        userMap.put("user",user.getUser());
-        userMap.put("ip","127.0.0.1");
-        userMap.put("city","四川省成都市");
-
-        String token = jwtOperator.generateToken(userMap);
-        UserMemory memory = new UserMemory();
-        String ip = HttpRequestUtil.getIpAddress(request);
-        memory.setUser(user.getUser());
-        memory.setIp(ip);
-        memory.setCity("6666");
-        HttpSession session = request.getSession();
-        // 为之注入用户信息
-        session.setAttribute("user", memory);
-        //放入用户的session 到数据库中（或本服务器的内存中），防止重复登录
-        RepeatLogin.securityMap.put(user.getUser(), new SecurityEntity(session,token));
-        logger.info("用户：{}登录成功，生成的token={}，有效期：{}",userMap.get("name"),token,jwtOperator.getExpirationDateFromToken(token));
-        return ResultUtil.success(token);
+        }
     }
 
     /**

@@ -99,4 +99,16 @@ public class PlanController {
         return planService.getTodayPlanList();
     }
 
+    /**
+     * @描述 获取指定用户当天的计划内容
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-15
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "/user/today")
+    public Result<Object> getTodayPlanListByUser(@RequestParam(value = "source") String source){
+        return planService.getTodayPlanListByUser(source);
+    }
 }

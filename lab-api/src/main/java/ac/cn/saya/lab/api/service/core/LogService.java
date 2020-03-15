@@ -51,5 +51,16 @@ public interface LogService {
      */
     public Result<Object> show(LogEntity entity);
 
+    /**
+     * @描述 查询用户最近的操作
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-15
+     * @修改人和其它信息
+     */
+    public Result<Object> queryRecentlyLog(String user);
+
+
 
 }
