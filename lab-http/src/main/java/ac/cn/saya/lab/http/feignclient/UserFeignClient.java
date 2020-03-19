@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 /**
  * @Title: UserFeignClient
  * @ProjectName lab
@@ -24,12 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "lab-core-server",contextId = "user")
 public interface UserFeignClient {
 
+
+
     /**
      * @描述 获取用户的信息
-     * @参数 [user]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020-03-04
+     * @参数  [user]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.UserEntity>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @GetMapping(value = "/core/user/info")
@@ -37,24 +41,24 @@ public interface UserFeignClient {
 
     /**
      * @描述 修改用户信息
-     * @参数 [user]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020-03-04
+     * @参数  [user]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @PutMapping(value = "/core/user/info")
-    public Result<Object> setUser(@RequestBody UserEntity user);
+    public Result<Integer> setUser(@RequestBody UserEntity user);
 
     /**
      * @描述 查询近半年活跃情况
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020-03-04
+     * @参数  [user]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.Map<java.lang.String,java.lang.Object>>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @GetMapping(value = "/core/user/activity")
-    public Result<Object> countPre6Logs(@RequestParam(value = "user") String user);
+    public Result<Map<String, Object>> countPre6Logs(@RequestParam(value = "user") String user);
 
 }

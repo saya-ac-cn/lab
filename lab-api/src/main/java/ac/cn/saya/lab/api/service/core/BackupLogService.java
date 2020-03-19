@@ -22,7 +22,7 @@ public interface BackupLogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> insertBackup(String backupUrl);
+    public Result<Integer> insertBackup(String backupUrl);
 
     /**
      * @描述 删除备份数据
@@ -32,7 +32,7 @@ public interface BackupLogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> deleteBackup(BackupLogEntity entity);
+    public Result<Integer> deleteBackup(BackupLogEntity entity);
 
     /**
      * @描述 查询单条备份记录
@@ -42,7 +42,7 @@ public interface BackupLogService {
      * @创建时间 2019/1/12
      * @修改人和其它信息
      */
-    public Result<Object> getOneBackup(BackupLogEntity entity);
+    public Result<BackupLogEntity> getOneBackup(BackupLogEntity entity);
 
     /**
      * @描述 分页查看备份记录

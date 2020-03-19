@@ -29,7 +29,7 @@ public interface LogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> insert(LogEntity entity);
+    public Result<Integer> insert(LogEntity entity);
 
     /**
      * @描述 获取所有的日志类别
@@ -39,7 +39,7 @@ public interface LogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> selectLogType();
+    public Result<LogTypeEntity> selectLogType();
 
     /**
      * @描述 分页查询日志 按用户、类别、日期
@@ -59,7 +59,7 @@ public interface LogService {
      * @创建时间  2020-03-15
      * @修改人和其它信息
      */
-    public Result<Object> queryRecentlyLog(String user);
+    public Result<LogEntity> queryRecentlyLog(String user);
 
 
 

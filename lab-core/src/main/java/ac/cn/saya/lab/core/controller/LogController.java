@@ -1,6 +1,7 @@
 package ac.cn.saya.lab.core.controller;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
+import ac.cn.saya.lab.api.entity.LogTypeEntity;
 import ac.cn.saya.lab.api.service.core.LogService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,35 +26,35 @@ public class LogController {
     /**
      * @描述 记录日志
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-04
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @PostMapping(value = "/record")
-    public Result<Object> insert(@RequestBody LogEntity entity){
+    public Result<Integer> insert(@RequestBody LogEntity entity){
         return logService.insert(entity);
     }
 
     /**
      * @描述 获取所有的日志类别
-     * @参数
-     * @返回值
+     * @参数  []
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.LogTypeEntity>
      * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-04
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @GetMapping(value = "/type")
-    public Result<Object> selectLogType(){
+    public Result<LogTypeEntity> selectLogType(){
         return logService.selectLogType();
     }
 
     /**
      * @描述 分页查询日志 按用户、类别、日期
-     * @参数
-     * @返回值
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
      * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-04
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @GetMapping(value = "/display")
@@ -63,14 +64,14 @@ public class LogController {
 
     /**
      * @描述 查询用户最近的操作
-     * @参数
-     * @返回值
+     * @参数  [user]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.LogEntity>
      * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-15
+     * @创建时间  2020-03-19
      * @修改人和其它信息
      */
     @GetMapping(value = "/recently")
-    public Result<Object> queryRecentlyLog(@RequestParam(value = "user") String user){
+    public Result<LogEntity> queryRecentlyLog(@RequestParam(value = "user") String user){
         return logService.queryRecentlyLog(user);
     }
 }

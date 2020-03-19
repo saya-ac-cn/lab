@@ -45,7 +45,7 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insert(LogEntity entity) {
+    public Result<Integer> insert(LogEntity entity) {
         Integer flog = null;
         try {
             flog = logDAO.insert(entity);
@@ -73,7 +73,7 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> selectLogType() {
+    public Result<LogTypeEntity> selectLogType() {
         List<LogTypeEntity> list;
         try {
             list = logDAO.selectType();
@@ -121,7 +121,7 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> queryRecentlyLog(String user) {
+    public Result<LogEntity> queryRecentlyLog(String user) {
         try {
             // 查询用户当日安排
             LogEntity log = logDAO.queryRecentlyLog(user);

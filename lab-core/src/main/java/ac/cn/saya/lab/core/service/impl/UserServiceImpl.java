@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getUser(String user) {
+    public Result<UserEntity> getUser(String user) {
         try {
             UserEntity entity = userDAO.queryUser(user);
             if (null != entity){
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> setUser(UserEntity user) {
+    public Result<Integer> setUser(UserEntity user) {
         Integer result = 0;
         if (user == null || StringUtils.isEmpty(user.getUser())) {
             // 缺少参数
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> countPre6Logs(String user) {
+    public Result<Map<String, Object>> countPre6Logs(String user) {
         try {
             Map<String, Object> map = proceDureDAO.countPre6Logs(user);
             if (map.isEmpty()){

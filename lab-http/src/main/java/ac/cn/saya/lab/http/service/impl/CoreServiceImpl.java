@@ -84,7 +84,7 @@ public class CoreServiceImpl implements ICoreService {
         if (userSession != null) {
             // 读取该用户最近的登录及安排信息
             Result<Object> todayPlanResult = planFeignClient.getTodayPlanListByUser(userSession.getUser());
-            Result<Object> recentlyLogResult = logFeignClient.queryRecentlyLog(userSession.getUser());
+            Result<LogEntity> recentlyLogResult = logFeignClient.queryRecentlyLog(userSession.getUser());
             Map<String, Object> result = new HashMap<>(2);
             if (null != todayPlanResult
                     && todayPlanResult.getCode() != ResultEnum.SUCCESS.getCode()
@@ -150,7 +150,7 @@ public class CoreServiceImpl implements ICoreService {
                 entity.setBackground(UploadUtils.descUrl(entity.getBackground()));
                 // 读取该用户最近的登录及安排信息
                 Result<Object> todayPlanResult = planFeignClient.getTodayPlanListByUser(user.getUser());
-                Result<Object> recentlyLogResult = logFeignClient.queryRecentlyLog(user.getUser());
+                Result<LogEntity> recentlyLogResult = logFeignClient.queryRecentlyLog(user.getUser());
                 Map<String, Object> result = new HashMap<>(2);
                 if (null != todayPlanResult
                         && todayPlanResult.getCode() != ResultEnum.SUCCESS.getCode()

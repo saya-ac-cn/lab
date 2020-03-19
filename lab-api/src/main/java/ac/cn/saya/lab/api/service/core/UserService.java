@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.core;
 import ac.cn.saya.lab.api.entity.UserEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.Map;
+
 /**
  * @描述 用户业务层实现类
  * @参数
@@ -21,7 +23,7 @@ public interface UserService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getUser(String user);
+    public Result<UserEntity> getUser(String user);
 
     /**
      * @描述 修改用户信息
@@ -31,7 +33,7 @@ public interface UserService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> setUser(UserEntity user);
+    public Result<Integer> setUser(UserEntity user);
 
 
     /**
@@ -42,7 +44,7 @@ public interface UserService {
      * @创建时间 2019-03-03
      * @修改人和其它信息
      */
-    public Result<Object> countPre6Logs(String user);
+    public Result<Map<String, Object>> countPre6Logs(String user);
 
 
 }

@@ -38,7 +38,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insertBackup(String backupUrl) {
+    public Result<Integer> insertBackup(String backupUrl) {
         try {
             Integer backup = backupLogDAO.insertBackup(backupUrl);
             if (backup >= 0){
@@ -62,7 +62,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deleteBackup(BackupLogEntity entity) {
+    public Result<Integer> deleteBackup(BackupLogEntity entity) {
         try {
             Integer backup = backupLogDAO.deleteBackup(entity);
             if (backup >= 0){
@@ -85,7 +85,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOneBackup(BackupLogEntity entity) {
+    public Result<BackupLogEntity> getOneBackup(BackupLogEntity entity) {
         try {
             BackupLogEntity backupOne = backupLogDAO.getBackupOne(entity);
             if (null != backupOne){

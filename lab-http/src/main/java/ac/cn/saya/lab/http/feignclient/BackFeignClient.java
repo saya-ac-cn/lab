@@ -1,25 +1,22 @@
-package ac.cn.saya.lab.core.controller;
+package ac.cn.saya.lab.http.feignclient;
 
 import ac.cn.saya.lab.api.entity.BackupLogEntity;
 import ac.cn.saya.lab.api.service.core.BackupLogService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @Title: BackController
+ * @Title: BackFeignClient
  * @ProjectName lab
  * @Description: TODO
  * @Author liunengkai
  * @Date: 2020-03-11 22:08
  * @Description:数据库备份记录
  */
-@RestController
-@RequestMapping("/core/back")
-public class BackController {
-
-    @Autowired
-    private BackupLogService backupLogService;
+@FeignClient(value = "lab-core-server", contextId = "back")
+public interface BackFeignClient {
 
     /**
      * @描述 新增备份记录
@@ -29,10 +26,8 @@ public class BackController {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @PostMapping(value = "/")
-    public Result<Integer> insert(@RequestParam(value = "backupUrl") String backupUrl){
-        return backupLogService.insertBackup(backupUrl);
-    }
+    @PostMapping(value = "/core/back")
+    public Result<Integer> insert(@RequestParam(value = "backupUrl") String backupUrl);
 
     /**
      * @描述 删除备份记录
@@ -42,10 +37,8 @@ public class BackController {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/")
-    public Result<Integer> deleteBackup(BackupLogEntity entity){
-        return backupLogService.deleteBackup(entity);
-    }
+    @DeleteMapping(value = "/core/back")
+    public Result<Integer> deleteBackup(BackupLogEntity entity);
 
     /**
      * @描述 查看备份详情
@@ -55,10 +48,8 @@ public class BackController {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @GetMapping(value = "/info")
-    public Result<BackupLogEntity> getOneBackup(BackupLogEntity entity){
-        return backupLogService.getOneBackup(entity);
-    }
+    @GetMapping(value = "/core/back/info")
+    public Result<BackupLogEntity> getOneBackup(BackupLogEntity entity);
 
     /**
      * @描述 分页查看备份
@@ -68,9 +59,7 @@ public class BackController {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @GetMapping(value = "/")
-    public Result<Object> getBackupPagin(BackupLogEntity entity){
-        return backupLogService.getBackupPagin(entity);
-    }
+    @GetMapping(value = "/core/back")
+    public Result<Object> getBackupPagin(BackupLogEntity entity);
 
 }
