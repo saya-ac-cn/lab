@@ -24,52 +24,52 @@ public class NoteBookController {
     /**
      * @描述 添加笔记簿
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @PostMapping(value = "/")
-    public Result<Object> insertNoteBook(@RequestBody NoteBookEntity entity){
+    public Result<Integer> insertNoteBook(@RequestBody NoteBookEntity entity){
         return noteBookService.insertNoteBook(entity);
     }
 
     /**
      * @描述 编辑修改笔记簿
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @PutMapping(value = "/")
-    public Result<Object> editNoteBook(@RequestBody NoteBookEntity entity){
+    public Result<Integer> editNoteBook(@RequestBody NoteBookEntity entity){
         return noteBookService.editNoteBook(entity);
     }
 
     /**
      * @描述 删除笔记簿
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Object> deleteNoteBook(NoteBookEntity entity){
+    public Result<Integer> deleteNoteBook(NoteBookEntity entity){
         return noteBookService.deleteNoteBook(entity);
     }
 
     /**
      * @描述 查询一条笔记簿
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.NoteBookEntity>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/one")
-    public Result<Object> getOneNoteBook(NoteBookEntity entity){
+    public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity){
         return noteBookService.getOneNoteBook(entity);
     }
 
@@ -95,7 +95,7 @@ public class NoteBookController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/list")
-    public Result<Object> getNoteBook(NoteBookEntity entity){
+    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity){
         return noteBookService.getNoteBook(entity);
     }
 

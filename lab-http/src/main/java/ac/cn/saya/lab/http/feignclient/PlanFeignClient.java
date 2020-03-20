@@ -20,46 +20,46 @@ public interface PlanFeignClient {
     /**
      * @描述 发布计划安排
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @PostMapping(value = "/medium/plan")
-    public Result<Object> insertPlan(@RequestBody PlanEntity entity);
+    public Result<Integer> insertPlan(@RequestBody PlanEntity entity);
 
     /**
      * @描述 编辑修改计划安排
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @PutMapping(value = "/medium/plan")
-    public Result<Object> editPlan(@RequestBody PlanEntity entity);
+    public Result<Integer> editPlan(@RequestBody PlanEntity entity);
 
     /**
      * @描述 删除计划安排
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/medium/plan")
-    public Result<Object> deletePlan(PlanEntity entity);
+    public Result<Integer> deletePlan(PlanEntity entity);
 
     /***
      * @描述 查询一条计划安排
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.PlanEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/plan/one")
-    public Result<Object> getOnePlan(PlanEntity entity);
+    public Result<PlanEntity> getOnePlan(PlanEntity entity);
 
     /**
      * @描述 获取计划安排列表
@@ -75,23 +75,23 @@ public interface PlanFeignClient {
     /**
      * @描述 获取当天的计划内容
      * @参数 []
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.PlanEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/plan/today")
-    public Result<Object> getTodayPlanList();
+    public Result<PlanEntity> getTodayPlanList();
 
     /**
      * @描述 获取指定用户当天的计划内容
      * @参数
      * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-15
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-15
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/plan/user/today")
-    public Result<Object> getTodayPlanListByUser(@RequestParam(value = "source") String source);
+    public Result<PlanEntity> getTodayPlanListByUser(@RequestParam(value = "source") String source);
 
 }

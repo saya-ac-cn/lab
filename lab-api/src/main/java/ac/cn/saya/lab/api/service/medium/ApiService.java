@@ -22,7 +22,7 @@ public interface ApiService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> insertApi(ApiEntity entity);
+    public Result<Integer> insertApi(ApiEntity entity);
 
     /**
      * @描述 编辑接口
@@ -32,7 +32,7 @@ public interface ApiService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> editApi(ApiEntity entity);
+    public Result<Integer> editApi(ApiEntity entity);
 
     /**
      * @描述 删除接口
@@ -42,7 +42,7 @@ public interface ApiService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> deleteApi(ApiEntity entity);
+    public Result<Integer> deleteApi(ApiEntity entity);
 
     /**
      * @描述 查询一条接口信息
@@ -52,7 +52,7 @@ public interface ApiService {
      * @创建时间 2019/1/12
      * @修改人和其它信息
      */
-    public Result<Object> getOneApi(ApiEntity entity);
+    public Result<ApiEntity> getOneApi(ApiEntity entity);
 
     /**
      * @描述 获取分页后的接口

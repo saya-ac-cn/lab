@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Title: NewsServiceImpl
@@ -46,7 +47,7 @@ public class NewsServiceImpl implements NewsService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> publishNews(NewsEntity entity) {
+    public Result<Integer> publishNews(NewsEntity entity) {
         try {
             return ResultUtil.success(newsDAO.insertNews(entity));
         } catch (Exception e) {
@@ -65,7 +66,7 @@ public class NewsServiceImpl implements NewsService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> editNews(NewsEntity entity) {
+    public Result<Integer> editNews(NewsEntity entity) {
         try {
             return ResultUtil.success(newsDAO.updateNews(entity));
         } catch (Exception e) {
@@ -84,7 +85,7 @@ public class NewsServiceImpl implements NewsService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deleteNews(NewsEntity entity) {
+    public Result<Integer> deleteNews(NewsEntity entity) {
         try {
             return ResultUtil.success(newsDAO.deleteNews(entity));
         } catch (Exception e) {
@@ -97,13 +98,13 @@ public class NewsServiceImpl implements NewsService {
     /**
      * @描述 查询一条动态
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NewsEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NewsEntity
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/12
+     * @创建时间 2020/3/12
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOneNews(NewsEntity entity) {
+    public Result<NewsEntity> getOneNews(NewsEntity entity) {
         try {
             return ResultUtil.success(newsDAO.getOneNews(entity));
         } catch (Exception e) {
@@ -114,7 +115,6 @@ public class NewsServiceImpl implements NewsService {
     }
 
     /**
-     * @param entity
      * @描述 获取分页后的动态
      * @参数
      * @返回值
@@ -145,7 +145,7 @@ public class NewsServiceImpl implements NewsService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getNewsPreAndNext(Integer newsId) {
+    public Result<Map<String,String>> getNewsPreAndNext(Integer newsId) {
         try {
             return ResultUtil.success(proceDureDAO.getNewsNotesPreAndNext(1, newsId));
         } catch (Exception e) {

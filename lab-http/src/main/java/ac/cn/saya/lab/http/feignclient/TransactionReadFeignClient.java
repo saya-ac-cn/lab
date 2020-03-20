@@ -2,6 +2,7 @@ package ac.cn.saya.lab.http.feignclient;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
+import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public interface TransactionReadFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "/financial/read/transactionType")
-    public Result<Object> getTransactionType();
+    public Result<TransactionTypeEntity> getTransactionType();
 
     /**
      * @描述 查看流水(根据用户、类型、日期)

@@ -19,46 +19,46 @@ public interface MemoFeignClient {
     /**
      * @描述 创建便笺
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @PostMapping(value = "/medium/memo")
-    public Result<Object> insert(@RequestBody MemoEntity entity);
+    public Result<Integer> insert(@RequestBody MemoEntity entity);
 
     /**
      * @描述 查询便笺
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.MemoEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/memo/one")
-    public Result<Object> getOne(MemoEntity entity);
+    public Result<MemoEntity> getOne(MemoEntity entity);
 
     /**
      * @描述 修改便笺
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @PutMapping(value = "/medium/memo")
-    public Result<Object> update(@RequestBody MemoEntity entity);
+    public Result<Integer> update(@RequestBody MemoEntity entity);
 
     /**
      * @描述 删除便笺
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/medium/memo")
-    public Result<Object> delete(MemoEntity entity);
+    public Result<Integer> delete(MemoEntity entity);
 
     /**
      * @描述 获取分页后的便笺

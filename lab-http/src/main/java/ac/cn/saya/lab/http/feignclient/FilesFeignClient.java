@@ -25,7 +25,7 @@ public interface FilesFeignClient {
      * @修改人和其它信息
      */
     @PostMapping(value = "/medium/files")
-    public Result<Object> insertFile(@RequestBody FilesEntity entity);
+    public Result<Integer> insertFile(@RequestBody FilesEntity entity);
 
     /**
      * @描述 保存修改文件记录
@@ -36,7 +36,7 @@ public interface FilesFeignClient {
      * @修改人和其它信息
      */
     @PutMapping(value = "/medium/files")
-    public Result<Object> updateFile(@RequestBody FilesEntity entity);
+    public Result<Integer> updateFile(@RequestBody FilesEntity entity);
 
     /**
      * @描述 删除文件记录
@@ -47,7 +47,7 @@ public interface FilesFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/medium/files")
-    public Result<Object> deleteFile(FilesEntity entity);
+    public Result<Integer> deleteFile(FilesEntity entity);
 
     /**
      * @描述 查询分页后的文件列表
@@ -69,5 +69,5 @@ public interface FilesFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/files/one")
-    public Result<Object> getOneFile(FilesEntity entity);
+    public Result<FilesEntity> getOneFile(FilesEntity entity);
 }

@@ -1,11 +1,12 @@
 package ac.cn.saya.lab.http.feignclient;
 
 import ac.cn.saya.lab.api.entity.BackupLogEntity;
-import ac.cn.saya.lab.api.service.core.BackupLogService;
 import ac.cn.saya.lab.api.tools.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Title: BackFeignClient

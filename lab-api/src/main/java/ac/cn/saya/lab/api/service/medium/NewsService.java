@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.medium;
 import ac.cn.saya.lab.api.entity.NewsEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.Map;
+
 /**
  * @Title: NewsService
  * @ProjectName lab
@@ -22,7 +24,7 @@ public interface NewsService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> publishNews(NewsEntity entity);
+    public Result<Integer> publishNews(NewsEntity entity);
 
     /**
      * @描述 编辑修改动态
@@ -32,7 +34,7 @@ public interface NewsService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> editNews(NewsEntity entity);
+    public Result<Integer> editNews(NewsEntity entity);
 
     /**
      * @描述 删除动态
@@ -42,20 +44,19 @@ public interface NewsService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> deleteNews(NewsEntity entity);
+    public Result<Integer> deleteNews(NewsEntity entity);
 
     /**
      * @描述 查询一条动态
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NewsEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NewsEntity
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/12
+     * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> getOneNews(NewsEntity entity);
+    public Result<NewsEntity> getOneNews(NewsEntity entity);
 
     /**
-     * @param entity
      * @描述 获取分页后的动态
      * @参数
      * @返回值
@@ -73,6 +74,6 @@ public interface NewsService {
      * @创建时间 2019-03-12
      * @修改人和其它信息
      */
-    public Result<Object> getNewsPreAndNext(Integer newsId);
+    public Result<Map<String,String>> getNewsPreAndNext(Integer newsId);
 
 }

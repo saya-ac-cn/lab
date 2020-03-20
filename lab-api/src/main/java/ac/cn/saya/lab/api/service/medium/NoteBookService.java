@@ -22,7 +22,7 @@ public interface NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> insertNoteBook(NoteBookEntity entity);
+    public Result<Integer> insertNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 编辑修改笔记簿
@@ -32,7 +32,7 @@ public interface NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> editNoteBook(NoteBookEntity entity);
+    public Result<Integer> editNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 删除笔记簿
@@ -42,17 +42,17 @@ public interface NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> deleteNoteBook(NoteBookEntity entity);
+    public Result<Integer> deleteNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 查询一条笔记簿
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NoteBookEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NoteBookEntity
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/12
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getOneNoteBook(NoteBookEntity entity);
+    public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 获取分页后的笔记簿
@@ -72,6 +72,6 @@ public interface NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getNoteBook(NoteBookEntity entity);
+    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity);
 
 }

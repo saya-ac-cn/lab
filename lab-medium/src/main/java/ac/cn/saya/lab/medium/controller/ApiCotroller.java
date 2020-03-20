@@ -30,7 +30,7 @@ public class ApiCotroller {
      * @修改人和其它信息
      */
     @PostMapping(value = "/")
-    public Result<Object> insertApi(@RequestBody ApiEntity entity){
+    public Result<Integer> insertApi(@RequestBody ApiEntity entity){
         return apiService.insertApi(entity);
     }
 
@@ -43,7 +43,7 @@ public class ApiCotroller {
      * @修改人和其它信息
      */
     @PutMapping(value = "/")
-    public Result<Object> editApi(@RequestBody ApiEntity entity){
+    public Result<Integer> editApi(@RequestBody ApiEntity entity){
         return apiService.editApi(entity);
     }
 
@@ -56,7 +56,7 @@ public class ApiCotroller {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Object> deleteApi(ApiEntity entity){
+    public Result<Integer> deleteApi(ApiEntity entity){
         return apiService.deleteApi(entity);
     }
 
@@ -69,7 +69,7 @@ public class ApiCotroller {
      * @修改人和其它信息
      */
     @GetMapping(value = "/query")
-    public Result<Object> getOneApi(ApiEntity entity){
+    public Result<ApiEntity> getOneApi(ApiEntity entity){
         return apiService.getOneApi(entity);
     }
 
@@ -83,6 +83,6 @@ public class ApiCotroller {
      */
     @GetMapping(value = "/pagin")
     public Result<Object> getApiPage(ApiEntity entity){
-        return apiService.getOneApi(entity);
+        return apiService.getApiPage(entity);
     }
 }

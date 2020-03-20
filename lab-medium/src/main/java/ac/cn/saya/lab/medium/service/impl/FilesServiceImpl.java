@@ -38,10 +38,9 @@ public class FilesServiceImpl implements FilesService {
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/12
      * @修改人和其它信息
-     * @param entity
      */
     @Override
-    public Result<Object> insertFile(FilesEntity entity) {
+    public Result<Integer> insertFile(FilesEntity entity) {
         try {
             return ResultUtil.success(filesDAO.insertFile(entity));
         } catch (Exception e) {
@@ -52,7 +51,6 @@ public class FilesServiceImpl implements FilesService {
     }
 
     /**
-     * @param entity
      * @描述 保存修改文件记录
      * @参数
      * @返回值
@@ -61,7 +59,7 @@ public class FilesServiceImpl implements FilesService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> updateFile(FilesEntity entity) {
+    public Result<Integer> updateFile(FilesEntity entity) {
         try {
             return ResultUtil.success(filesDAO.updateFile(entity));
         } catch (Exception e) {
@@ -81,7 +79,7 @@ public class FilesServiceImpl implements FilesService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deleteFile(FilesEntity entity) {
+    public Result<Integer> deleteFile(FilesEntity entity) {
         try {
             return ResultUtil.success(filesDAO.deleteFile(entity));
         } catch (Exception e) {
@@ -124,7 +122,7 @@ public class FilesServiceImpl implements FilesService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOneFile(FilesEntity entity) {
+    public Result<FilesEntity> getOneFile(FilesEntity entity) {
         try {
             return ResultUtil.success(filesDAO.getOneFile(entity));
         } catch (Exception e) {

@@ -22,7 +22,7 @@ public interface PictureStorageService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> uploadPictureBase64(PictureEntity entity);
+    public Result<Integer> uploadPictureBase64(PictureEntity entity);
 
     /**
      * @描述 删除base64类型的图片
@@ -32,7 +32,7 @@ public interface PictureStorageService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> deletePictuBase64(PictureEntity entity);
+    public Result<Integer> deletePictuBase64(PictureEntity entity);
 
     /**
      * @描述 查询分页后的图片
@@ -52,5 +52,5 @@ public interface PictureStorageService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getOnePictuBase64(PictureEntity entity);
+    public Result<PictureEntity> getOnePictuBase64(PictureEntity entity);
 }

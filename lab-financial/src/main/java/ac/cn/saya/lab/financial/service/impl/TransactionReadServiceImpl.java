@@ -39,7 +39,7 @@ public class TransactionReadServiceImpl implements TransactionReadService {
      * @return
      */
     @Override
-    public Result<Object> selectTransactionType() {
+    public Result<TransactionTypeEntity> selectTransactionType() {
         try {
             List<TransactionTypeEntity> list = transactionReadDAO.selectTransactionType();
             if (list.size() <= 0) {

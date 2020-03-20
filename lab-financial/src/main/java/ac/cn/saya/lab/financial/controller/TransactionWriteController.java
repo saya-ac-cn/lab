@@ -31,7 +31,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PostMapping(value = "transactionInfo")
-    public Result<Object> insertTransactionInfo(@RequestBody TransactionInfoEntity entity){
+    public Result<Integer> insertTransactionInfo(@RequestBody TransactionInfoEntity entity){
         return transactionWriteService.insertTransactionInfo(entity);
     }
 
@@ -44,7 +44,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PostMapping(value = "transactionList")
-    public Result<Object> insertTransactionList(@RequestBody TransactionListEntity entity){
+    public Result<Integer> insertTransactionList(@RequestBody TransactionListEntity entity){
         return transactionWriteService.insertTransactionList(entity);
     }
 
@@ -57,7 +57,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PutMapping(value = "transactionInfo")
-    public Result<Object> updateTransactionInfo(@RequestBody TransactionInfoEntity entity){
+    public Result<Integer> updateTransactionInfo(@RequestBody TransactionInfoEntity entity){
         return transactionWriteService.updateTransactionInfo(entity);
     }
 
@@ -70,7 +70,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PutMapping(value = "transactionList")
-    public Result<Object> updateTransactionList(@RequestBody TransactionListEntity entity){
+    public Result<Integer> updateTransactionList(@RequestBody TransactionListEntity entity){
         return transactionWriteService.updateTransactionList(entity);
     }
 
@@ -83,7 +83,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionInfo")
-    public Result<Object> deleteTransactionInfo(@RequestParam(value = "id") Integer id, @RequestParam(value = "source") String source){
+    public Result<Integer> deleteTransactionInfo(@RequestParam(value = "id") Integer id, @RequestParam(value = "source") String source){
         return transactionWriteService.deleteTransactionInfo(id,source);
     }
 
@@ -96,7 +96,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionList")
-    public Result<Object> deleteTransactionList(@RequestParam(value = "tradeId") Integer tradeId, @RequestParam(value = "source") String source){
+    public Result<Integer> deleteTransactionList(@RequestParam(value = "tradeId") Integer tradeId, @RequestParam(value = "source") String source){
         return transactionWriteService.deleteTransactionList(tradeId,source);
     }
 }

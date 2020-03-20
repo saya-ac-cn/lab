@@ -30,7 +30,7 @@ public class FilesController {
      * @修改人和其它信息
      */
     @PostMapping(value = "/")
-    public Result<Object> insertFile(@RequestBody FilesEntity entity){
+    public Result<Integer> insertFile(@RequestBody FilesEntity entity){
         return filesService.insertFile(entity);
     }
 
@@ -43,7 +43,7 @@ public class FilesController {
      * @修改人和其它信息
      */
     @PutMapping(value = "/")
-    public Result<Object> updateFile(@RequestBody FilesEntity entity){
+    public Result<Integer> updateFile(@RequestBody FilesEntity entity){
         return filesService.updateFile(entity);
     }
 
@@ -56,7 +56,7 @@ public class FilesController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Object> deleteFile(FilesEntity entity){
+    public Result<Integer> deleteFile(FilesEntity entity){
         return filesService.deleteFile(entity);
     }
 
@@ -82,7 +82,7 @@ public class FilesController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/one")
-    public Result<Object> getOneFile(FilesEntity entity){
-        return filesService.getFilePage(entity);
+    public Result<FilesEntity> getOneFile(FilesEntity entity){
+        return filesService.getOneFile(entity);
     }
 }

@@ -40,7 +40,7 @@ public class GuestBookServiceImpl implements GuestBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insertGuestBook(GuestBookEntity entity) {
+    public Result<Integer> insertGuestBook(GuestBookEntity entity) {
         try {
             return ResultUtil.success(guestBookDAO.insertGuestBook(entity));
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class GuestBookServiceImpl implements GuestBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> updateGuestBook(GuestBookEntity entity) {
+    public Result<Integer> updateGuestBook(GuestBookEntity entity) {
         try {
             return ResultUtil.success(guestBookDAO.updateGuestBook(entity));
         } catch (Exception e) {
@@ -72,13 +72,13 @@ public class GuestBookServiceImpl implements GuestBookService {
     /**
      * @描述 查询一条留言
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NewsEntity
+     * @返回值 ac.cn.saya.lab.api.entity.GuestBookEntity
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/12
+     * @创建时间 2020/3/12
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> queryOneGuestBook(GuestBookEntity entity) {
+    public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity) {
         try {
             return ResultUtil.success(guestBookDAO.getOneGuestBook(entity));
         } catch (Exception e) {

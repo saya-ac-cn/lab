@@ -22,7 +22,7 @@ public interface GuestBookService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> insertGuestBook(GuestBookEntity entity);
+    public Result<Integer> insertGuestBook(GuestBookEntity entity);
 
     /**
      * @描述 审核修改
@@ -32,17 +32,17 @@ public interface GuestBookService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> updateGuestBook(GuestBookEntity entity);
+    public Result<Integer> updateGuestBook(GuestBookEntity entity);
 
     /**
      * @描述 查询一条留言
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NewsEntity
+     * @返回值 ac.cn.saya.lab.api.entity.GuestBookEntity
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/12
+     * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> queryOneGuestBook(GuestBookEntity entity);
+    public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity);
 
     /**
      * @描述 获取分页后的留言

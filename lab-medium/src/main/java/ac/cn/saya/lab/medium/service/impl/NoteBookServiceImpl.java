@@ -39,7 +39,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insertNoteBook(NoteBookEntity entity) {
+    public Result<Integer> insertNoteBook(NoteBookEntity entity) {
         try {
             return ResultUtil.success(noteBookDAO.insertNoteBook(entity));
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> editNoteBook(NoteBookEntity entity) {
+    public Result<Integer> editNoteBook(NoteBookEntity entity) {
         try {
             return ResultUtil.success(noteBookDAO.updateNoteBook(entity));
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deleteNoteBook(NoteBookEntity entity) {
+    public Result<Integer> deleteNoteBook(NoteBookEntity entity) {
         try {
             return ResultUtil.success(noteBookDAO.deleteNoteBook(entity));
         } catch (Exception e) {
@@ -90,13 +90,13 @@ public class NoteBookServiceImpl implements NoteBookService {
     /**
      * @描述 查询一条笔记簿
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NoteBookEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NoteBookEntity
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/12
+     * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOneNoteBook(NoteBookEntity entity) {
+    public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity) {
         try {
             return ResultUtil.success(noteBookDAO.getOneNoteBook(entity));
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getNoteBook(NoteBookEntity entity) {
+    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity) {
         try {
             List<NoteBookEntity> list = noteBookDAO.getNoteBook(entity);
             if (list.size() <= 0) {

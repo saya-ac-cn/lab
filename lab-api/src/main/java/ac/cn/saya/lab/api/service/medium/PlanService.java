@@ -22,7 +22,7 @@ public interface PlanService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> insertPlan(PlanEntity entity);
+    public Result<Integer> insertPlan(PlanEntity entity);
 
     /**
      * @描述 编辑修改计划安排
@@ -32,7 +32,7 @@ public interface PlanService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> editPlan(PlanEntity entity);
+    public Result<Integer> editPlan(PlanEntity entity);
 
     /**
      * @描述 删除计划安排
@@ -42,17 +42,17 @@ public interface PlanService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> deletePlan(PlanEntity entity);
+    public Result<Integer> deletePlan(PlanEntity entity);
 
     /**
      * @描述 查询一条计划安排
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.PlanEntity
+     * @返回值 ac.cn.saya.lab.api.entity.PlanEntity
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getOnePlan(PlanEntity entity);
+    public Result<PlanEntity> getOnePlan(PlanEntity entity);
 
     /**
      * @描述 获取计划安排列表
@@ -67,12 +67,12 @@ public interface PlanService {
     /**
      * @描述 获取当天的计划内容
      * @参数 []
-     * @返回值 java.util.List<ac.cn.saya.laboratory.entity.PlanEntity>
+     * @返回值 java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getTodayPlanList();
+    public Result<PlanEntity> getTodayPlanList();
 
     /**
      * @描述 获取指定用户当天的计划内容
@@ -82,5 +82,5 @@ public interface PlanService {
      * @创建时间  2020-03-15
      * @修改人和其它信息
      */
-    public Result<Object> getTodayPlanListByUser(String source);
+    public Result<PlanEntity> getTodayPlanListByUser(String source);
 }

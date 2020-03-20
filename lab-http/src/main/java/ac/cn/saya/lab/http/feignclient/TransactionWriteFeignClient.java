@@ -26,7 +26,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @PostMapping(value = "/financial/write/transactionInfo")
-    public Result<Object> insertTransactionInfo(@RequestBody TransactionInfoEntity entity);
+    public Result<Integer> insertTransactionInfo(@RequestBody TransactionInfoEntity entity);
 
     /**
      * @描述 写入到财政父表
@@ -37,7 +37,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @PostMapping(value = "/financial/write/transactionList")
-    public Result<Object> insertTransactionList(@RequestBody TransactionListEntity entity);
+    public Result<Integer> insertTransactionList(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 修改财政明细表
@@ -48,7 +48,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @PutMapping(value = "/financial/write/transactionInfo")
-    public Result<Object> updateTransactionInfo(@RequestBody TransactionInfoEntity entity);
+    public Result<Integer> updateTransactionInfo(@RequestBody TransactionInfoEntity entity);
 
     /**
      * @描述 修改财政父表
@@ -59,7 +59,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @PutMapping(value = "/financial/write/transactionList")
-    public Result<Object> updateTransactionList(@RequestBody TransactionListEntity entity);
+    public Result<Integer> updateTransactionList(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 删除财政明细表
@@ -70,7 +70,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/financial/write/transactionInfo")
-    public Result<Object> deleteTransactionInfo(@RequestParam(value = "id") Integer id, @RequestParam(value = "source") String source);
+    public Result<Integer> deleteTransactionInfo(@RequestParam(value = "id") Integer id, @RequestParam(value = "source") String source);
 
     /**
      * @描述 删除财政父表
@@ -81,6 +81,6 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/financial/write/transactionList")
-    public Result<Object> deleteTransactionList(@RequestParam(value = "tradeId") Integer tradeId, @RequestParam(value = "source") String source);
+    public Result<Integer> deleteTransactionList(@RequestParam(value = "tradeId") Integer tradeId, @RequestParam(value = "source") String source);
 
 }

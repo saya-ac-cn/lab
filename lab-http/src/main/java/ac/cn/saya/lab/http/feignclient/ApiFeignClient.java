@@ -26,7 +26,7 @@ public interface ApiFeignClient {
      * @修改人和其它信息
      */
     @PostMapping(value = "/medium/api")
-    public Result<Object> insertApi(@RequestBody ApiEntity entity);
+    public Result<Integer> insertApi(@RequestBody ApiEntity entity);
 
     /**
      * @描述 编辑接口
@@ -37,7 +37,7 @@ public interface ApiFeignClient {
      * @修改人和其它信息
      */
     @PutMapping(value = "/medium/api")
-    public Result<Object> editApi(@RequestBody ApiEntity entity);
+    public Result<Integer> editApi(@RequestBody ApiEntity entity);
 
     /**
      * @描述 删除接口
@@ -48,7 +48,7 @@ public interface ApiFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/medium/api")
-    public Result<Object> deleteApi(ApiEntity entity);
+    public Result<Integer> deleteApi(ApiEntity entity);
 
     /**
      * @描述 查询一条接口信息
@@ -59,7 +59,7 @@ public interface ApiFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/api/query")
-    public Result<Object> getOneApi(ApiEntity entity);
+    public Result<ApiEntity> getOneApi(ApiEntity entity);
 
     /**
      * @描述 获取分页后的接口

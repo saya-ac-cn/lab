@@ -22,7 +22,7 @@ public interface MemoService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> insert(MemoEntity entity);
+    public Result<Integer> insert(MemoEntity entity);
 
     /**
      * @描述 查询便笺
@@ -32,7 +32,7 @@ public interface MemoService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> getOne(MemoEntity entity);
+    public Result<MemoEntity> getOne(MemoEntity entity);
 
     /**
      * @描述 修改便笺
@@ -42,7 +42,7 @@ public interface MemoService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> update(MemoEntity entity);
+    public Result<Integer> update(MemoEntity entity);
 
     /**
      * @描述 删除便笺
@@ -52,7 +52,7 @@ public interface MemoService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> delete(MemoEntity entity);
+    public Result<Integer> delete(MemoEntity entity);
 
     /**
      * @描述 获取分页后的便笺

@@ -39,7 +39,7 @@ public class MemoServiceImpl implements MemoService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insert(MemoEntity entity) {
+    public Result<Integer> insert(MemoEntity entity) {
         try {
             // 进行加密
             entity.setContent(AesUtil.Encrypt(entity.getContent()));
@@ -61,7 +61,7 @@ public class MemoServiceImpl implements MemoService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOne(MemoEntity entity) {
+    public Result<MemoEntity> getOne(MemoEntity entity) {
         try {
             MemoEntity result = memoDAO.query(entity);
             if (null != result && !StringUtils.isEmpty(result.getContent())) {
@@ -84,7 +84,7 @@ public class MemoServiceImpl implements MemoService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> update(MemoEntity entity) {
+    public Result<Integer> update(MemoEntity entity) {
         try {
             // 加密处理
             entity.setContent(AesUtil.Encrypt(entity.getContent()));
@@ -105,7 +105,7 @@ public class MemoServiceImpl implements MemoService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> delete(MemoEntity entity) {
+    public Result<Integer> delete(MemoEntity entity) {
         try {
             return ResultUtil.success(memoDAO.delete(entity));
         } catch (Exception e) {

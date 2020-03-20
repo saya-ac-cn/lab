@@ -2,6 +2,7 @@ package ac.cn.saya.lab.financial.controller;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
+import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.service.financial.TransactionReadService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TransactionReadController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/transactionType")
-    public Result<Object> getTransactionType(){
+    public Result<TransactionTypeEntity> getTransactionType(){
         return transactionReadService.selectTransactionType();
     }
 

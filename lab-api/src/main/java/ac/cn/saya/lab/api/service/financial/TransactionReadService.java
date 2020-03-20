@@ -23,7 +23,7 @@ public interface TransactionReadService {
      *
      * @return
      */
-    public Result<Object> selectTransactionType();
+    public Result<TransactionTypeEntity> selectTransactionType();
 
     /**
      * 查看流水

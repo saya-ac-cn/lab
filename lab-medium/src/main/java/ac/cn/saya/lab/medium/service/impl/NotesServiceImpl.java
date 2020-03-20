@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Title: NotesServiceImpl
@@ -43,7 +44,7 @@ public class NotesServiceImpl implements NotesService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insertNotes(NotesEntity entity) {
+    public Result<Integer> insertNotes(NotesEntity entity) {
         try {
             return ResultUtil.success(notesDAO.insertNotes(entity));
         } catch (Exception e) {
@@ -62,7 +63,7 @@ public class NotesServiceImpl implements NotesService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> editNotes(NotesEntity entity) {
+    public Result<Integer> editNotes(NotesEntity entity) {
         try {
             return ResultUtil.success(notesDAO.updateNotes(entity));
         } catch (Exception e) {
@@ -81,7 +82,7 @@ public class NotesServiceImpl implements NotesService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deleteNotes(NotesEntity entity) {
+    public Result<Integer> deleteNotes(NotesEntity entity) {
         try {
             return ResultUtil.success(notesDAO.deleteNotes(entity));
         } catch (Exception e) {
@@ -94,13 +95,13 @@ public class NotesServiceImpl implements NotesService {
     /**
      * @描述 查询一条笔记
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NotesEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NotesEntity
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOneNotes(NotesEntity entity) {
+    public Result<NotesEntity> getOneNotes(NotesEntity entity) {
         try {
             return ResultUtil.success(notesDAO.getOneNotes(entity));
         } catch (Exception e) {
@@ -134,14 +135,14 @@ public class NotesServiceImpl implements NotesService {
 
     /**
      * @描述 查询指定id附近的笔记
-     * @参数 [notesId]
-     * @返回值 java.util.Map<java.lang.String                               ,                               java.lang.String>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020/3/13
+     * @参数  [notesId]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.Map<java.lang.String,java.lang.String>>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-20
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getNotesPreAndNext(Integer notesId) {
+    public Result<Map<String,String>> getNotesPreAndNext(Integer notesId) {
         try {
             return ResultUtil.success(proceDureDAO.getNewsNotesPreAndNext(2, notesId));
         } catch (Exception e) {

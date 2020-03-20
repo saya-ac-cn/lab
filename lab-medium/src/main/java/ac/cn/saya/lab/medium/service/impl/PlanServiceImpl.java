@@ -40,7 +40,7 @@ public class PlanServiceImpl implements PlanService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insertPlan(PlanEntity entity) {
+    public Result<Integer> insertPlan(PlanEntity entity) {
         try {
             Integer flog = null;
             List<PlanEntity> list = planDAO.getPlanList(entity);
@@ -67,7 +67,7 @@ public class PlanServiceImpl implements PlanService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> editPlan(PlanEntity entity) {
+    public Result<Integer> editPlan(PlanEntity entity) {
         try {
             Integer flog = null;
             PlanEntity query = new PlanEntity();
@@ -112,7 +112,7 @@ public class PlanServiceImpl implements PlanService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deletePlan(PlanEntity entity) {
+    public Result<Integer> deletePlan(PlanEntity entity) {
         try {
             return ResultUtil.success(planDAO.deletePlan(entity));
         } catch (Exception e) {
@@ -125,13 +125,13 @@ public class PlanServiceImpl implements PlanService {
     /**
      * @描述 查询一条计划安排
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.PlanEntity
+     * @返回值 ac.cn.saya.lab.api.entity.PlanEntity
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOnePlan(PlanEntity entity) {
+    public Result<PlanEntity> getOnePlan(PlanEntity entity) {
         try {
             return ResultUtil.success(planDAO.getOnePlan(entity));
         } catch (Exception e) {
@@ -166,13 +166,13 @@ public class PlanServiceImpl implements PlanService {
     /**
      * @描述 获取当天的计划内容
      * @参数 []
-     * @返回值 java.util.List<ac.cn.saya.laboratory.entity.PlanEntity>
+     * @返回值 java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getTodayPlanList() {
+    public Result<PlanEntity> getTodayPlanList() {
         try {
             List<PlanEntity> list = planDAO.getTodayPlanList();
             if (list.size() <= 0) {
@@ -195,7 +195,7 @@ public class PlanServiceImpl implements PlanService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getTodayPlanListByUser(String source) {
+    public Result<PlanEntity> getTodayPlanListByUser(String source) {
         try {
             // 查询用户当日安排
             return ResultUtil.success(planDAO.getTodayPlanListByUser(source));

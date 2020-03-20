@@ -40,7 +40,7 @@ public class PictureStorageServiceImpl implements PictureStorageService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> uploadPictureBase64(PictureEntity entity) {
+    public Result<Integer> uploadPictureBase64(PictureEntity entity) {
         try {
             return ResultUtil.success(pictureDAO.insertPictuBase64(entity));
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class PictureStorageServiceImpl implements PictureStorageService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deletePictuBase64(PictureEntity entity) {
+    public Result<Integer> deletePictuBase64(PictureEntity entity) {
         try {
             return ResultUtil.success(pictureDAO.deletePictuBase64(entity));
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class PictureStorageServiceImpl implements PictureStorageService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOnePictuBase64(PictureEntity entity) {
+    public Result<PictureEntity> getOnePictuBase64(PictureEntity entity) {
         try {
             return ResultUtil.success(pictureDAO.getOnePictuBase64(entity));
         } catch (Exception e) {

@@ -23,7 +23,7 @@ public interface FilesService {
      * @修改人和其它信息
      * @param entity
      */
-    public Result<Object> insertFile(FilesEntity entity);
+    public Result<Integer> insertFile(FilesEntity entity);
 
     /**
      * @param entity
@@ -34,7 +34,7 @@ public interface FilesService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> updateFile(FilesEntity entity);
+    public Result<Integer> updateFile(FilesEntity entity);
 
     /**
      * @param entity
@@ -45,7 +45,7 @@ public interface FilesService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> deleteFile(FilesEntity entity);
+    public Result<Integer> deleteFile(FilesEntity entity);
 
     /**
      * @param entity
@@ -67,6 +67,6 @@ public interface FilesService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
-    public Result<Object> getOneFile(FilesEntity entity);
+    public Result<FilesEntity> getOneFile(FilesEntity entity);
 
 }

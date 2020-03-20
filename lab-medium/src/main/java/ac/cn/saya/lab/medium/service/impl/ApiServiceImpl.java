@@ -38,7 +38,7 @@ public class ApiServiceImpl implements ApiService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> insertApi(ApiEntity entity) {
+    public Result<Integer> insertApi(ApiEntity entity) {
         try {
             return ResultUtil.success(apiDAO.insertApi(entity));
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class ApiServiceImpl implements ApiService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> editApi(ApiEntity entity) {
+    public Result<Integer> editApi(ApiEntity entity) {
         try {
             return ResultUtil.success(apiDAO.updateApi(entity));
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public class ApiServiceImpl implements ApiService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> deleteApi(ApiEntity entity) {
+    public Result<Integer> deleteApi(ApiEntity entity) {
         try {
             return ResultUtil.success(apiDAO.deleteApi(entity));
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class ApiServiceImpl implements ApiService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getOneApi(ApiEntity entity) {
+    public Result<ApiEntity> getOneApi(ApiEntity entity) {
         try {
             return ResultUtil.success(apiDAO.getOneApi(entity));
         } catch (Exception e) {

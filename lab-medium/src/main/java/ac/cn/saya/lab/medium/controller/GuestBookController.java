@@ -24,39 +24,39 @@ public class GuestBookController {
     /**
      * @描述 留言
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @PostMapping(value = "/")
-    public Result<Object> insertGuestBook(@RequestBody GuestBookEntity entity){
+    public Result<Integer> insertGuestBook(@RequestBody GuestBookEntity entity){
         return guestBookService.insertGuestBook(entity);
     }
 
     /**
      * @描述 审核修改
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @PutMapping(value = "/")
-    public Result<Object> updateGuestBook(@RequestBody GuestBookEntity entity){
+    public Result<Integer> updateGuestBook(@RequestBody GuestBookEntity entity){
         return guestBookService.updateGuestBook(entity);
     }
 
     /**
      * @描述 查询一条留言
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.GuestBookEntity>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/one")
-    public Result<Object> queryOneGuestBook(GuestBookEntity entity){
+    public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity){
         return guestBookService.queryOneGuestBook(entity);
     }
 

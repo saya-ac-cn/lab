@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.medium;
 import ac.cn.saya.lab.api.entity.NotesEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.Map;
+
 /**
  * @Title: NotesService
  * @ProjectName lab
@@ -22,7 +24,7 @@ public interface NotesService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> insertNotes(NotesEntity entity);
+    public Result<Integer> insertNotes(NotesEntity entity);
 
     /**
      * @描述 编辑修改笔记
@@ -32,7 +34,7 @@ public interface NotesService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> editNotes(NotesEntity entity);
+    public Result<Integer> editNotes(NotesEntity entity);
 
     /**
      * @描述 删除笔记
@@ -42,17 +44,17 @@ public interface NotesService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> deleteNotes(NotesEntity entity);
+    public Result<Integer> deleteNotes(NotesEntity entity);
 
     /**
      * @描述 查询一条笔记
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NotesEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NotesEntity
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getOneNotes(NotesEntity entity);
+    public Result<NotesEntity> getOneNotes(NotesEntity entity);
 
     /**
      * @描述 获取分页后的笔记
@@ -72,6 +74,6 @@ public interface NotesService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<Object> getNotesPreAndNext(Integer notesId);
+    public Result<Map<String,String>> getNotesPreAndNext(Integer notesId);
 
 }

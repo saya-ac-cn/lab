@@ -20,46 +20,46 @@ public interface NoteBookFeignClient {
     /**
      * @描述 添加笔记簿
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @PostMapping(value = "/medium/notebook")
-    public Result<Object> insertNoteBook(@RequestBody NoteBookEntity entity);
+    public Result<Integer> insertNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
      * @描述 编辑修改笔记簿
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @PutMapping(value = "/medium/notebook")
-    public Result<Object> editNoteBook(@RequestBody NoteBookEntity entity);
+    public Result<Integer> editNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
      * @描述 删除笔记簿
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/medium/notebook")
-    public Result<Object> deleteNoteBook(NoteBookEntity entity);
+    public Result<Integer> deleteNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 查询一条笔记簿
      * @参数 [entity]
-     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值 ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.NoteBookEntity>
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/notebook/one")
-    public Result<Object> getOneNoteBook(NoteBookEntity entity);
+    public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 获取分页后的笔记簿
@@ -81,6 +81,6 @@ public interface NoteBookFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "/medium/notebook/list")
-    public Result<Object> getNoteBook(NoteBookEntity entity);
+    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity);
 
 }

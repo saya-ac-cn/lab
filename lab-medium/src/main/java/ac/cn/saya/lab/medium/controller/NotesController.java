@@ -6,6 +6,8 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @Title: NotesController
  * @ProjectName lab
@@ -24,52 +26,52 @@ public class NotesController {
     /**
      * @描述 添加笔记
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @PostMapping(value = "/")
-    public Result<Object> insertNotes(@RequestBody NotesEntity entity){
+    public Result<Integer> insertNotes(@RequestBody NotesEntity entity){
         return notesService.insertNotes(entity);
     }
 
     /**
      * @描述 编辑修改笔记
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @PutMapping(value = "/")
-    public Result<Object> editNotes(@RequestBody NotesEntity entity){
+    public Result<Integer> editNotes(@RequestBody NotesEntity entity){
         return notesService.editNotes(entity);
     }
 
     /**
      * @描述 删除笔记
      * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Object> deleteNotes(NotesEntity entity){
+    public Result<Integer> deleteNotes(NotesEntity entity){
         return notesService.deleteNotes(entity);
     }
 
     /**
      * @描述 查询一条笔记
      * @参数 [entity]
-     * @返回值 ac.cn.saya.datacenter.entity.NotesEntity
+     * @返回值 ac.cn.saya.lab.api.entity.NotesEntity
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
     @GetMapping(value = "/one")
-    public Result<Object> getOneNotes(NotesEntity entity){
+    public Result<NotesEntity> getOneNotes(NotesEntity entity){
         return notesService.getOneNotes(entity);
     }
 
@@ -89,13 +91,13 @@ public class NotesController {
     /**
      * @描述 查询指定id附近的笔记
      * @参数  [notesId]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @返回值  java.util.Map<java.lang.String               ,               java.lang.String>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
     @GetMapping(value = "/nearby")
-    public Result<Object> getNotesPreAndNext(@RequestParam(value = "notesId") Integer notesId){
+    public Result<Map<String,String>> getNotesPreAndNext(@RequestParam(value = "notesId") Integer notesId){
         return notesService.getNotesPreAndNext(notesId);
     }
 
