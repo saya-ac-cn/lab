@@ -46,7 +46,11 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public Result<Integer> insertNotes(NotesEntity entity) {
         try {
-            return ResultUtil.success(notesDAO.insertNotes(entity));
+            Integer result = notesDAO.insertNotes(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("创建笔记异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -65,7 +69,11 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public Result<Integer> editNotes(NotesEntity entity) {
         try {
-            return ResultUtil.success(notesDAO.updateNotes(entity));
+            Integer result = notesDAO.updateNotes(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("编辑修改笔记异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -84,7 +92,11 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public Result<Integer> deleteNotes(NotesEntity entity) {
         try {
-            return ResultUtil.success(notesDAO.deleteNotes(entity));
+            Integer result = notesDAO.deleteNotes(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除笔记异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -103,7 +115,11 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public Result<NotesEntity> getOneNotes(NotesEntity entity) {
         try {
-            return ResultUtil.success(notesDAO.getOneNotes(entity));
+            NotesEntity result = notesDAO.getOneNotes(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询笔记异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -144,7 +160,11 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public Result<Map<String,String>> getNotesPreAndNext(Integer notesId) {
         try {
-            return ResultUtil.success(proceDureDAO.getNewsNotesPreAndNext(2, notesId));
+            Map<String, String> map = proceDureDAO.getNewsNotesPreAndNext(2, notesId);
+            if (!map.isEmpty()){
+                return ResultUtil.success(map);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("获取上下笔记时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

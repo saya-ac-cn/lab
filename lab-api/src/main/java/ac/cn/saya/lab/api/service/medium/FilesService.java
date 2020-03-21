@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.medium;
 import ac.cn.saya.lab.api.entity.FilesEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.Map;
+
 /**
  * @Title: FilesService
  * @ProjectName lab
@@ -68,5 +70,15 @@ public interface FilesService {
      * @修改人和其它信息
      */
     public Result<FilesEntity> getOneFile(FilesEntity entity);
+
+    /**
+     * @描述 查询近半年文件上传情况
+     * @参数 [user]
+     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-12
+     * @修改人和其它信息
+     */
+    public Result<Map<String,String>> countPre6Files(String user);
 
 }

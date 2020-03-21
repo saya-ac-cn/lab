@@ -8,6 +8,7 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -46,7 +47,7 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "transactionPage")
+    @GetMapping(value = "/transactionPage")
     public Result<Object> getTransactionPage(TransactionListEntity entity){
         return transactionReadService.selectTransactionPage(entity);
     }
@@ -59,7 +60,7 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "transactionInfoPage")
+    @GetMapping(value = "/transactionInfoPage")
     public Result<Object> getTransactionInfoPage(TransactionInfoEntity entity){
         return transactionReadService.selectTransactionInfoPage(entity);
     }
@@ -72,7 +73,7 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "getTransactionFinalPage")
+    @GetMapping(value = "/getTransactionFinalPage")
     public Result<Object> getTransactionFinalPage(TransactionListEntity entity){
         return transactionReadService.selectTransactionFinalPage(entity);
     }
@@ -85,7 +86,7 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "getTransactionForDayPage")
+    @GetMapping(value = "/getTransactionForDayPage")
     public Result<Object> getTransactionForDayPage(TransactionListEntity entity){
         return transactionReadService.selectTransactionForDayPage(entity);
     }
@@ -98,7 +99,7 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "getTransactionForMonthPage")
+    @GetMapping(value = "/getTransactionForMonthPage")
     public Result<Object> getTransactionForMonthPage(TransactionListEntity entity){
         return transactionReadService.selectTransactionForMonthPage(entity);
     }
@@ -111,8 +112,21 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "getTransactionForYearPage")
+    @GetMapping(value = "/getTransactionForYearPage")
     public Result<Object> getTransactionForYearPage(TransactionListEntity entity){
         return transactionReadService.selectTransactionForYearPage(entity);
+    }
+
+    /**
+     * @描述 查询近半年财政收支情况
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-21
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "/pre6Financial")
+    public Result<Object> countPre6Financial(@RequestParam(value = "user") String user){
+        return transactionReadService.countPre6Financial(user);
     }
 }

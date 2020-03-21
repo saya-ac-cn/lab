@@ -1,10 +1,7 @@
 package ac.cn.saya.lab.http.service;
 
 
-import ac.cn.saya.lab.api.entity.ApiEntity;
-import ac.cn.saya.lab.api.entity.LogEntity;
-import ac.cn.saya.lab.api.entity.PlanEntity;
-import ac.cn.saya.lab.api.entity.UserEntity;
+import ac.cn.saya.lab.api.entity.*;
 import ac.cn.saya.lab.api.tools.Result;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +71,7 @@ public interface ICoreService {
      *
      * @return
      */
-    public Result<Object> getLogType() throws Exception;
+    public Result<LogTypeEntity> getLogType() throws Exception;
 
     /**
      * 查询日志

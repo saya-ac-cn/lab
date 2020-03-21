@@ -42,15 +42,17 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Result<Integer> insertPlan(PlanEntity entity) {
         try {
-            Integer flog = null;
             List<PlanEntity> list = planDAO.getPlanList(entity);
             if (list.size() <= 0) {
-                flog = planDAO.insertPlan(entity);
+                Integer flog = planDAO.insertPlan(entity);
+                if (flog > 0){
+                    return ResultUtil.success(flog);
+                }
+                return ResultUtil.error(ResultEnum.DB_ERROR);
             } else {
                 // 该天的计划已经存在
-                flog = -2;
+                return ResultUtil.error(ResultEnum.ERROP);
             }
-            return ResultUtil.success(flog);
         } catch (Exception e) {
             logger.error("发布计划安排异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -76,11 +78,15 @@ public class PlanServiceImpl implements PlanService {
             PlanEntity oldEntity = planDAO.getOnePlan(query);
             if (oldEntity == null) {
                 // 未找到原值，不允许修改
-                flog = -1;
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
             } else {
                 if (oldEntity.getPlandate().trim().equals(entity.getPlandate().trim())) {
                     // 用户未修改日期
                     flog = planDAO.updatePlan(entity);
+                    if (flog>0){
+                        return ResultUtil.success(flog);
+                    }
+                    return ResultUtil.error(ResultEnum.DB_ERROR);
                 } else {
                     // 用户已经修改日期
                     // 必须清除上一步的查询条件
@@ -89,13 +95,16 @@ public class PlanServiceImpl implements PlanService {
                     List<PlanEntity> list = planDAO.getPlanList(entity);
                     if (list.size() > 0) {
                         // 该天已存在计划
-                        flog = -2;
+                        return ResultUtil.error(ResultEnum.ERROP);
                     } else {
                         flog = planDAO.updatePlan(entity);
+                        if (flog>0){
+                            return ResultUtil.success(flog);
+                        }
+                        return ResultUtil.error(ResultEnum.DB_ERROR);
                     }
                 }
             }
-            return ResultUtil.success(flog);
         } catch (Exception e) {
             logger.error("编辑修改计划安排异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -114,7 +123,11 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Result<Integer> deletePlan(PlanEntity entity) {
         try {
-            return ResultUtil.success(planDAO.deletePlan(entity));
+            Integer result = planDAO.deletePlan(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除计划安排异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -133,7 +146,11 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Result<PlanEntity> getOnePlan(PlanEntity entity) {
         try {
-            return ResultUtil.success(planDAO.getOnePlan(entity));
+            PlanEntity result = planDAO.getOnePlan(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询一条计划安排异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -176,7 +193,7 @@ public class PlanServiceImpl implements PlanService {
         try {
             List<PlanEntity> list = planDAO.getTodayPlanList();
             if (list.size() <= 0) {
-                list = null;
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
             }
             return ResultUtil.success(list);
         } catch (Exception e) {
@@ -198,7 +215,11 @@ public class PlanServiceImpl implements PlanService {
     public Result<PlanEntity> getTodayPlanListByUser(String source) {
         try {
             // 查询用户当日安排
-            return ResultUtil.success(planDAO.getTodayPlanListByUser(source));
+            List<PlanEntity> result = planDAO.getTodayPlanListByUser(source);
+            if (!result.isEmpty()){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询用户当日安排失败" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

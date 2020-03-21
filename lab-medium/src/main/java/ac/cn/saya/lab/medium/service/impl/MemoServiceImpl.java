@@ -41,9 +41,16 @@ public class MemoServiceImpl implements MemoService {
     @Override
     public Result<Integer> insert(MemoEntity entity) {
         try {
+            if (entity == null){
+                return ResultUtil.error(ResultEnum.NOT_PARAMETER);
+            }
             // 进行加密
             entity.setContent(AesUtil.Encrypt(entity.getContent()));
-            return ResultUtil.success(memoDAO.insert(entity));
+            int result = memoDAO.insert(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("创建便笺异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -66,8 +73,9 @@ public class MemoServiceImpl implements MemoService {
             MemoEntity result = memoDAO.query(entity);
             if (null != result && !StringUtils.isEmpty(result.getContent())) {
                 result.setContent(AesUtil.Decrypt(result.getContent()));
+                return ResultUtil.success(result);
             }
-            return ResultUtil.success(result);
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询便笺异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -86,9 +94,16 @@ public class MemoServiceImpl implements MemoService {
     @Override
     public Result<Integer> update(MemoEntity entity) {
         try {
+            if (entity == null){
+                return ResultUtil.error(ResultEnum.NOT_PARAMETER);
+            }
             // 加密处理
             entity.setContent(AesUtil.Encrypt(entity.getContent()));
-            return ResultUtil.success(memoDAO.update(entity));
+            int result = memoDAO.update(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("修改便笺异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -107,7 +122,11 @@ public class MemoServiceImpl implements MemoService {
     @Override
     public Result<Integer> delete(MemoEntity entity) {
         try {
-            return ResultUtil.success(memoDAO.delete(entity));
+            int result = memoDAO.delete(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除便笺异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

@@ -85,4 +85,15 @@ public interface NewsFeignClient {
     @GetMapping(value = "/medium/news/nearby")
     public Result<Map<String,String>> getNewsPreAndNext(@RequestParam(value = "newsId") Integer newsId);
 
+    /**
+     * @描述 查询近半年发表的动态
+     * @参数  [user]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.Map<java.lang.String,java.lang.String>>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-21
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "/medium/news/pre6MonthNews")
+    public Result<Map<String,String>> countPre6MonthNews(@RequestParam(value = "user") String user);
+
 }

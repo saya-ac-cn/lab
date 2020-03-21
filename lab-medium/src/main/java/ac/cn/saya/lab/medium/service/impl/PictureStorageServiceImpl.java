@@ -42,7 +42,11 @@ public class PictureStorageServiceImpl implements PictureStorageService {
     @Override
     public Result<Integer> uploadPictureBase64(PictureEntity entity) {
         try {
-            return ResultUtil.success(pictureDAO.insertPictuBase64(entity));
+            Integer result = pictureDAO.insertPictuBase64(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("写入到图片表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -61,7 +65,11 @@ public class PictureStorageServiceImpl implements PictureStorageService {
     @Override
     public Result<Integer> deletePictuBase64(PictureEntity entity) {
         try {
-            return ResultUtil.success(pictureDAO.deletePictuBase64(entity));
+            Integer result = pictureDAO.deletePictuBase64(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除图片表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -101,7 +109,11 @@ public class PictureStorageServiceImpl implements PictureStorageService {
     @Override
     public Result<PictureEntity> getOnePictuBase64(PictureEntity entity) {
         try {
-            return ResultUtil.success(pictureDAO.getOnePictuBase64(entity));
+            PictureEntity result = pictureDAO.getOnePictuBase64(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询一张图片异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

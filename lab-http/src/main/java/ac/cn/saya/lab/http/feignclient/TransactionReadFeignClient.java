@@ -6,6 +6,7 @@ import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Title: TransactionReadFeignClient
@@ -95,4 +96,15 @@ public interface TransactionReadFeignClient {
      */
     @GetMapping(value = "/financial/read/getTransactionForYearPage")
     public Result<Object> getTransactionForYearPage(TransactionListEntity entity);
+
+    /**
+     * @描述 查询近半年财政收支情况
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-21
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "/financial/read/pre6Financial")
+    public Result<Object> countPre6Financial(@RequestParam(value = "user") String user);
 }

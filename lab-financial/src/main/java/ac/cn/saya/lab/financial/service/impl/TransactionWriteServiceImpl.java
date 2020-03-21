@@ -43,7 +43,12 @@ public class TransactionWriteServiceImpl implements TransactionWriteService {
     @Override
     public Result<Integer> insertTransactionInfo(TransactionInfoEntity entity) {
         try {
-            return ResultUtil.success(transactionWriteDAO.insertTransactionInfo(entity));
+            Integer result = transactionWriteDAO.insertTransactionInfo(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("写入到财政明细表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -61,14 +66,15 @@ public class TransactionWriteServiceImpl implements TransactionWriteService {
      */
     @Override
     public Result<Integer> insertTransactionList(TransactionListEntity entity) {
-        Integer tradeId = null;
         try {
-            tradeId = transactionWriteDAO.insertTransactionList(entity);
+            Integer tradeId = transactionWriteDAO.insertTransactionList(entity);
             if (tradeId > 0) {
                 // 取出主键回填的值
                 tradeId = entity.getTradeId();
+                return ResultUtil.success(tradeId);
             }
-            return ResultUtil.success(tradeId);
+            // 修改失败
+            return ResultUtil.error(ResultEnum.DB_ERROR);
         } catch (Exception e) {
             logger.error("写入到财政父表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -87,7 +93,12 @@ public class TransactionWriteServiceImpl implements TransactionWriteService {
     @Override
     public Result<Integer> updateTransactionInfo(TransactionInfoEntity entity) {
         try {
-            return ResultUtil.success(transactionWriteDAO.updateTransactionInfo(entity));
+            Integer result = transactionWriteDAO.updateTransactionInfo(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("修改财政明细表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -106,7 +117,12 @@ public class TransactionWriteServiceImpl implements TransactionWriteService {
     @Override
     public Result<Integer> updateTransactionList(TransactionListEntity entity) {
         try {
-            return ResultUtil.success(transactionWriteDAO.updateTransactionList(entity));
+            Integer result = transactionWriteDAO.updateTransactionList(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("修改财政父表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -125,7 +141,12 @@ public class TransactionWriteServiceImpl implements TransactionWriteService {
     @Override
     public Result<Integer> deleteTransactionInfo(Integer id, String source) {
         try {
-            return ResultUtil.success(transactionWriteDAO.deleteTransactionInfo(id));
+            Integer result = transactionWriteDAO.deleteTransactionInfo(id);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除财政明细表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -144,7 +165,12 @@ public class TransactionWriteServiceImpl implements TransactionWriteService {
     @Override
     public Result<Integer> deleteTransactionList(Integer tradeId, String source) {
         try {
-            return ResultUtil.success(transactionWriteDAO.deleteTransactionList(tradeId, source));
+            Integer result = transactionWriteDAO.deleteTransactionList(tradeId, source);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除财政父表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

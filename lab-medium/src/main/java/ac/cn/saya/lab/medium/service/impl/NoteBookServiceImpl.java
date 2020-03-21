@@ -41,7 +41,11 @@ public class NoteBookServiceImpl implements NoteBookService {
     @Override
     public Result<Integer> insertNoteBook(NoteBookEntity entity) {
         try {
-            return ResultUtil.success(noteBookDAO.insertNoteBook(entity));
+            Integer result = noteBookDAO.insertNoteBook(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("创建笔记簿异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -60,7 +64,11 @@ public class NoteBookServiceImpl implements NoteBookService {
     @Override
     public Result<Integer> editNoteBook(NoteBookEntity entity) {
         try {
-            return ResultUtil.success(noteBookDAO.updateNoteBook(entity));
+            Integer result = noteBookDAO.updateNoteBook(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("编辑修改笔记簿异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -79,7 +87,11 @@ public class NoteBookServiceImpl implements NoteBookService {
     @Override
     public Result<Integer> deleteNoteBook(NoteBookEntity entity) {
         try {
-            return ResultUtil.success(noteBookDAO.deleteNoteBook(entity));
+            Integer result = noteBookDAO.deleteNoteBook(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除笔记簿异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -98,7 +110,11 @@ public class NoteBookServiceImpl implements NoteBookService {
     @Override
     public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity) {
         try {
-            return ResultUtil.success(noteBookDAO.getOneNoteBook(entity));
+            NoteBookEntity result = noteBookDAO.getOneNoteBook(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询笔记簿异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -140,7 +156,7 @@ public class NoteBookServiceImpl implements NoteBookService {
         try {
             List<NoteBookEntity> list = noteBookDAO.getNoteBook(entity);
             if (list.size() <= 0) {
-                list = null;
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
             }
             return ResultUtil.success(list);
         } catch (Exception e) {

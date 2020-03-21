@@ -6,6 +6,8 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @Title: FilesController
  * @ProjectName lab
@@ -84,5 +86,18 @@ public class FilesController {
     @GetMapping(value = "/one")
     public Result<FilesEntity> getOneFile(FilesEntity entity){
         return filesService.getOneFile(entity);
+    }
+
+    /**
+     * @描述 查询近半年文件上传情况
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-21
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "/pre6Files")
+    public Result<Map<String,String>> countPre6Files(String user){
+        return filesService.countPre6Files(user);
     }
 }

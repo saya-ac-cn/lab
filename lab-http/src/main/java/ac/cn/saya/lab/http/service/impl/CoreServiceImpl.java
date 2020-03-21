@@ -83,7 +83,7 @@ public class CoreServiceImpl implements ICoreService {
         UserEntity entity = userResult.getData();
         if (userSession != null) {
             // 读取该用户最近的登录及安排信息
-            Result<Object> todayPlanResult = planFeignClient.getTodayPlanListByUser(userSession.getUser());
+            Result<PlanEntity> todayPlanResult = planFeignClient.getTodayPlanListByUser(userSession.getUser());
             Result<LogEntity> recentlyLogResult = logFeignClient.queryRecentlyLog(userSession.getUser());
             Map<String, Object> result = new HashMap<>(2);
             if (null != todayPlanResult
@@ -149,7 +149,7 @@ public class CoreServiceImpl implements ICoreService {
                 entity.setLogo(UploadUtils.descUrl(entity.getLogo()));
                 entity.setBackground(UploadUtils.descUrl(entity.getBackground()));
                 // 读取该用户最近的登录及安排信息
-                Result<Object> todayPlanResult = planFeignClient.getTodayPlanListByUser(user.getUser());
+                Result<PlanEntity> todayPlanResult = planFeignClient.getTodayPlanListByUser(user.getUser());
                 Result<LogEntity> recentlyLogResult = logFeignClient.queryRecentlyLog(user.getUser());
                 Map<String, Object> result = new HashMap<>(2);
                 if (null != todayPlanResult
@@ -184,7 +184,20 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> getUserInfo(HttpServletRequest request) throws Exception {
-        return null;
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        // 在系统中查询该用户是否存在
+        Result<UserEntity> userResult = userFeignClient.getUser(userSession.getUser());
+        if (userResult == null || userResult.getCode() != ResultEnum.SUCCESS.getCode()) {
+            // 没有该用户的信息 直接中断返回
+            //未找到该用户
+            throw new MyException(ResultEnum.ERROP);
+        } else {
+            UserEntity entity = userResult.getData();
+            //脱敏用户密码
+            entity.setPassword("");
+            return ResultUtil.success(entity);
+        }
     }
 
     /**
@@ -196,7 +209,15 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> logout(HttpServletRequest request) throws Exception {
-        return null;
+        HttpSession session = request.getSession();
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) session.getAttribute("user");
+        if (userSession != null) {
+            // 删除缓存里面的登录信息
+            RepeatLogin.delSession(session);
+            session.invalidate();
+        }
+        return ResultUtil.success();
     }
 
     /**
@@ -208,7 +229,25 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> setUserInfo(UserEntity user, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (user == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        user.setUser(userSession.getUser());
+        Result<Integer> result = userFeignClient.setUser(user);
+        if (result != null && result.getCode() == ResultEnum.SUCCESS.getCode()) {
+            /**
+             * 记录日志
+             */
+            // 修改个人信息
+            recordService.record("OX002", request);
+            return ResultUtil.success();
+        } else {
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
@@ -220,7 +259,27 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> setPassword(UserEntity user, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (user == null || StringUtils.isEmpty(user.getPassword())) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        user.setUser(userSession.getUser());
+        //加密后用户的密码
+        user.setPassword(DesUtil.encrypt(user.getPassword()));
+        Result<Integer> result = userFeignClient.setUser(user);
+        if (result != null && result.getCode() == ResultEnum.SUCCESS.getCode()) {
+            /**
+             * 记录日志
+             */
+            // 修改密码
+            recordService.record("OX004", request);
+            return ResultUtil.success();
+        } else {
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
@@ -229,8 +288,15 @@ public class CoreServiceImpl implements ICoreService {
      * @return
      */
     @Override
-    public Result<Object> getLogType() throws Exception {
-        return null;
+    public Result<LogTypeEntity> getLogType() throws Exception {
+        Result<LogTypeEntity> result = logFeignClient.selectLogType();
+        if (result == null || result.getCode() != ResultEnum.SUCCESS.getCode()) {
+            // 没有该用户的信息 直接中断返回
+            //未找到登录类别
+            throw new MyException(ResultEnum.NOT_EXIST);
+        } else {
+            return result;
+        }
     }
 
     /**

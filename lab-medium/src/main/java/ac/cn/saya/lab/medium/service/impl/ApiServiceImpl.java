@@ -40,7 +40,12 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result<Integer> insertApi(ApiEntity entity) {
         try {
-            return ResultUtil.success(apiDAO.insertApi(entity));
+            Integer result = apiDAO.insertApi(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("添加接口异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -59,7 +64,12 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result<Integer> editApi(ApiEntity entity) {
         try {
-            return ResultUtil.success(apiDAO.updateApi(entity));
+            Integer result = apiDAO.updateApi(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("编辑接口异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -78,7 +88,12 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result<Integer> deleteApi(ApiEntity entity) {
         try {
-            return ResultUtil.success(apiDAO.deleteApi(entity));
+            Integer result = apiDAO.deleteApi(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除接口异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -97,7 +112,11 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result<ApiEntity> getOneApi(ApiEntity entity) {
         try {
-            return ResultUtil.success(apiDAO.getOneApi(entity));
+            ApiEntity result = apiDAO.getOneApi(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询一条接口信息异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

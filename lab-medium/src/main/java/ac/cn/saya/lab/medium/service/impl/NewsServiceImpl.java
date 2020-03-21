@@ -49,7 +49,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public Result<Integer> publishNews(NewsEntity entity) {
         try {
-            return ResultUtil.success(newsDAO.insertNews(entity));
+            Integer result = newsDAO.insertNews(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("发布动态异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -68,7 +72,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public Result<Integer> editNews(NewsEntity entity) {
         try {
-            return ResultUtil.success(newsDAO.updateNews(entity));
+            Integer result = newsDAO.updateNews(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("编辑修改动态异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -87,7 +95,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public Result<Integer> deleteNews(NewsEntity entity) {
         try {
-            return ResultUtil.success(newsDAO.deleteNews(entity));
+            Integer result = newsDAO.deleteNews(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除动态异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -106,7 +118,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public Result<NewsEntity> getOneNews(NewsEntity entity) {
         try {
-            return ResultUtil.success(newsDAO.getOneNews(entity));
+            NewsEntity result = newsDAO.getOneNews(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询动态异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -141,15 +157,42 @@ public class NewsServiceImpl implements NewsService {
      * @参数 [newsId]
      * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019-03-12
+     * @创建时间 2020-03-12
      * @修改人和其它信息
      */
     @Override
     public Result<Map<String,String>> getNewsPreAndNext(Integer newsId) {
         try {
-            return ResultUtil.success(proceDureDAO.getNewsNotesPreAndNext(1, newsId));
+            Map<String, String> map = proceDureDAO.getNewsNotesPreAndNext(1, newsId);
+            if (!map.isEmpty()){
+                return ResultUtil.success(map);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("获取上一条和下一条动态时发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 查询近半年发表的动态
+     * @参数 [user]
+     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-12
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Map<String,String>> countPre6MonthNews(String user) {
+        try {
+            Map<String, Object> map = proceDureDAO.countPre6MonthNews(user);
+            if (!map.isEmpty()){
+                return ResultUtil.success(map);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查询近半年发表的动态时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }

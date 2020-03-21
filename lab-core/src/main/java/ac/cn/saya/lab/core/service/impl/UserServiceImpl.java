@@ -70,13 +70,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Result<Integer> setUser(UserEntity user) {
-        Integer result = 0;
         if (user == null || StringUtils.isEmpty(user.getUser())) {
             // 缺少参数
             throw new MyException(ResultEnum.NOT_PARAMETER);
         }
         try {
-            result = userDAO.updateUser(user);
+            Integer result = userDAO.updateUser(user);
             if (result <= 0) {
                 // 修改失败
                 return ResultUtil.error(ResultEnum.DB_ERROR);

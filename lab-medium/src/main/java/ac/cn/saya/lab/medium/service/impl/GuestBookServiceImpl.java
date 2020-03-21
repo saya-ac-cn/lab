@@ -5,12 +5,14 @@ import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.medium.GuestBookService;
 import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.medium.repository.GuestBookDAO;
+import ac.cn.saya.lab.medium.repository.ProceDureDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Title: NewsServiceImpl
@@ -31,6 +33,10 @@ public class GuestBookServiceImpl implements GuestBookService {
     @Qualifier("guestBookDAO")
     private GuestBookDAO guestBookDAO;
 
+    @Resource
+    @Qualifier("proceDureDAO")
+    private ProceDureDAO proceDureDAO;
+
     /**
      * @描述 留言
      * @参数
@@ -42,7 +48,11 @@ public class GuestBookServiceImpl implements GuestBookService {
     @Override
     public Result<Integer> insertGuestBook(GuestBookEntity entity) {
         try {
-            return ResultUtil.success(guestBookDAO.insertGuestBook(entity));
+            Integer result = guestBookDAO.insertGuestBook(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("用户留言异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -61,7 +71,11 @@ public class GuestBookServiceImpl implements GuestBookService {
     @Override
     public Result<Integer> updateGuestBook(GuestBookEntity entity) {
         try {
-            return ResultUtil.success(guestBookDAO.updateGuestBook(entity));
+            Integer result = guestBookDAO.updateGuestBook(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("审核修改留言异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -80,7 +94,11 @@ public class GuestBookServiceImpl implements GuestBookService {
     @Override
     public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity) {
         try {
-            return ResultUtil.success(guestBookDAO.getOneGuestBook(entity));
+            GuestBookEntity result = guestBookDAO.getOneGuestBook(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("查询动态异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -104,6 +122,29 @@ public class GuestBookServiceImpl implements GuestBookService {
             return result;
         } catch (Exception e) {
             logger.error("获取分页后的留言发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 查询近半年留言情况
+     * @参数
+     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-12
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Map<String,String>> countPre6Board() {
+        try {
+            Map<String, Object> map = proceDureDAO.countPre6Board();
+            if (!map.isEmpty()){
+                return ResultUtil.success(map);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查询近半年留言情况时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }

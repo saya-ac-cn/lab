@@ -71,9 +71,19 @@ public interface NewsService {
      * @参数 [newsId]
      * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
      * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019-03-12
+     * @创建时间 2020-03-12
      * @修改人和其它信息
      */
     public Result<Map<String,String>> getNewsPreAndNext(Integer newsId);
+
+    /**
+     * @描述 查询近半年发表的动态
+     * @参数 [user]
+     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-12
+     * @修改人和其它信息
+     */
+    public Result<Map<String,String>> countPre6MonthNews(String user);
 
 }

@@ -5,12 +5,14 @@ import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.medium.FilesService;
 import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.medium.repository.FilesDAO;
+import ac.cn.saya.lab.medium.repository.ProceDureDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Title: FilesServiceImpl
@@ -31,6 +33,11 @@ public class FilesServiceImpl implements FilesService {
     @Qualifier("filesDAO")
     private FilesDAO filesDAO;
 
+    @Resource
+    @Qualifier("proceDureDAO")
+    private ProceDureDAO proceDureDAO;
+
+
     /***
      * @描述 添加文件上传记录
      * @参数 [entity]
@@ -42,7 +49,11 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public Result<Integer> insertFile(FilesEntity entity) {
         try {
-            return ResultUtil.success(filesDAO.insertFile(entity));
+            Integer result = filesDAO.insertFile(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("添加文件上传记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -61,7 +72,12 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public Result<Integer> updateFile(FilesEntity entity) {
         try {
-            return ResultUtil.success(filesDAO.updateFile(entity));
+            Integer result = filesDAO.updateFile(entity);
+            if (result <= 0) {
+                // 修改失败
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("保存修改文件记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -81,7 +97,11 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public Result<Integer> deleteFile(FilesEntity entity) {
         try {
-            return ResultUtil.success(filesDAO.deleteFile(entity));
+            Integer result = filesDAO.deleteFile(entity);
+            if (result <= 0) {
+                return ResultUtil.error(ResultEnum.DB_ERROR);
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             logger.error("删除文件记录异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -124,11 +144,39 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public Result<FilesEntity> getOneFile(FilesEntity entity) {
         try {
-            return ResultUtil.success(filesDAO.getOneFile(entity));
+            FilesEntity result = filesDAO.getOneFile(entity);
+            if (null != result){
+                return ResultUtil.success(result);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("获取一条文件信息异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }
     }
+
+    /**
+     * @描述 查询近半年文件上传情况
+     * @参数 [user]
+     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-12
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Map<String,String>> countPre6Files(String user) {
+        try {
+            Map<String, Object> map = proceDureDAO.countPre6Files(user);
+            if (!map.isEmpty()){
+                return ResultUtil.success(map);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查询近半年文件上传情况时发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
 }
