@@ -12,17 +12,24 @@ import ac.cn.saya.lab.http.service.ICoreService;
 import ac.cn.saya.lab.api.bean.JwtOperator;
 import ac.cn.saya.lab.http.tools.AmapLocateUtils;
 import ac.cn.saya.lab.http.tools.HttpRequestUtil;
+import ac.cn.saya.lab.http.tools.OutExcelUtils;
 import ac.cn.saya.lab.http.tools.UploadUtils;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,7 +82,7 @@ public class CoreServiceImpl implements ICoreService {
         //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
         UserMemory userSession = HttpRequestUtil.getUserMemory(request);
         Result<UserEntity> userResult = userFeignClient.getUser(user.getUser());
-        if (userResult == null || userResult.getCode() != ResultEnum.SUCCESS.getCode()) {
+        if (!ResultUtil.checkSuccess(userResult)) {
             // 没有该用户的信息 直接中断返回
             //未找到该用户
             throw new MyException(ResultEnum.ERROP);
@@ -86,10 +93,7 @@ public class CoreServiceImpl implements ICoreService {
             Result<PlanEntity> todayPlanResult = planFeignClient.getTodayPlanListByUser(userSession.getUser());
             Result<LogEntity> recentlyLogResult = logFeignClient.queryRecentlyLog(userSession.getUser());
             Map<String, Object> result = new HashMap<>(2);
-            if (null != todayPlanResult
-                    && todayPlanResult.getCode() != ResultEnum.SUCCESS.getCode()
-                    && null != recentlyLogResult
-                    && recentlyLogResult.getCode() != ResultEnum.SUCCESS.getCode()){
+            if (ResultUtil.checkSuccess(todayPlanResult) && ResultUtil.checkSuccess(recentlyLogResult)){
                 result.put("plan",todayPlanResult.getData());
                 result.put("log",recentlyLogResult.getData());
             }else {
@@ -152,10 +156,7 @@ public class CoreServiceImpl implements ICoreService {
                 Result<PlanEntity> todayPlanResult = planFeignClient.getTodayPlanListByUser(user.getUser());
                 Result<LogEntity> recentlyLogResult = logFeignClient.queryRecentlyLog(user.getUser());
                 Map<String, Object> result = new HashMap<>(2);
-                if (null != todayPlanResult
-                        && todayPlanResult.getCode() != ResultEnum.SUCCESS.getCode()
-                        && null != recentlyLogResult
-                        && recentlyLogResult.getCode() != ResultEnum.SUCCESS.getCode()){
+                if (ResultUtil.checkSuccess(todayPlanResult) && ResultUtil.checkSuccess(recentlyLogResult)){
                     result.put("log",recentlyLogResult.getData());
                     result.put("plan",todayPlanResult.getData());
                 }else {
@@ -188,7 +189,7 @@ public class CoreServiceImpl implements ICoreService {
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         // 在系统中查询该用户是否存在
         Result<UserEntity> userResult = userFeignClient.getUser(userSession.getUser());
-        if (userResult == null || userResult.getCode() != ResultEnum.SUCCESS.getCode()) {
+        if (!ResultUtil.checkSuccess(userResult)) {
             // 没有该用户的信息 直接中断返回
             //未找到该用户
             throw new MyException(ResultEnum.ERROP);
@@ -238,7 +239,7 @@ public class CoreServiceImpl implements ICoreService {
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         user.setUser(userSession.getUser());
         Result<Integer> result = userFeignClient.setUser(user);
-        if (result != null && result.getCode() == ResultEnum.SUCCESS.getCode()) {
+        if (ResultUtil.checkSuccess(result)) {
             /**
              * 记录日志
              */
@@ -270,7 +271,7 @@ public class CoreServiceImpl implements ICoreService {
         //加密后用户的密码
         user.setPassword(DesUtil.encrypt(user.getPassword()));
         Result<Integer> result = userFeignClient.setUser(user);
-        if (result != null && result.getCode() == ResultEnum.SUCCESS.getCode()) {
+        if (ResultUtil.checkSuccess(result)) {
             /**
              * 记录日志
              */
@@ -290,7 +291,7 @@ public class CoreServiceImpl implements ICoreService {
     @Override
     public Result<LogTypeEntity> getLogType() throws Exception {
         Result<LogTypeEntity> result = logFeignClient.selectLogType();
-        if (result == null || result.getCode() != ResultEnum.SUCCESS.getCode()) {
+        if (!ResultUtil.checkSuccess(result)) {
             // 没有该用户的信息 直接中断返回
             //未找到登录类别
             throw new MyException(ResultEnum.NOT_EXIST);
@@ -309,7 +310,11 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> getLog(LogEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        entity.setUser(userSession.getUser());
+        Result<Object> result = logFeignClient.display(entity);
+        return result;
     }
 
     /**
@@ -323,6 +328,45 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> outLogExcel(LogEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String[] keys = {"user", "describe", "ip", "city", "date"};
+        //放置到第一行的字段名
+        String[] titles = {"用户", "操作详情", "IP", "城市", "日期"};
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        try {
+            //获取满足条件的总记录（不分页）
+            Long pageSize = logService.selectCount(entity);
+            if (pageSize <= 0) {
+                response.setStatus(404);
+                return ResultUtil.error(-1, "没有可导出的数据");
+            }
+            //设置行索引
+            entity.setPage(0, pageSize.intValue());
+            entity.setUser(userSession.getUser());
+            //获取满足条件的记录集合
+            List<LogEntity> entityList = logService.selectPage(entity);
+            List<JSONObject> jsonObjectList = new ArrayList<>();
+            for (LogEntity item : entityList) {
+                JSONObject json = new JSONObject();
+                json.put("user", item.getUser());
+                json.put("describe", item.getLogType().getDescribe());
+                json.put("ip", item.getIp());
+                json.put("city", item.getCity());
+                json.put("date", item.getDate());
+                jsonObjectList.add(json);
+            }
+            // 设置contentType为excel格式
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("UTF-8");
+            //设置文件头：最后一个参数是设置下载文件名
+            response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode("操作日志.xlsx", "UTF-8"));
+            ServletOutputStream out = response.getOutputStream();
+            response.flushBuffer();
+            OutExcelUtils.outExcelTemplateSimple(keys, titles, jsonObjectList, out);
+        } catch (Exception e) {
+            response.setStatus(500);
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -338,7 +382,34 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> updateLogo(String imgBase64, HttpServletRequest request) throws Exception {
-        return null;
+        Result<String> upload = UploadUtils.uploadLogo(imgBase64, request);
+        if (upload.getCode() == 0) {
+            //logo上传成功
+            //得到文件上传成功的回传地址
+            String successUrl = String.valueOf(upload.getData());
+            //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+            UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+            UserEntity user = new UserEntity();
+            user.setUser(userSession.getUser());
+            user.setLogo(successUrl);
+            Result<Integer> result = userFeignClient.setUser(user);
+            if (ResultUtil.checkSuccess(result)) {
+                /**
+                 * 记录日志
+                 * 上传头像
+                 */
+                recordService.record("OX003", request);
+                return ResultUtil.success(UploadUtils.descUrl(successUrl));
+            } else {
+                throw new MyException(ResultEnum.ERROP);
+            }
+        } else if (upload.getCode() == -2) {
+            //不是有效的图片
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        } else {
+            // 图片上传异常
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
@@ -354,7 +425,47 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public void fileDownload(String fileName, HttpServletRequest request, HttpServletResponse response) {
-
+        String path = request.getServletContext().getRealPath(fileName);
+        File filepath = new File(path);
+        //获取要下载的文件名
+        String[] fileArray = fileName.split(File.separator);
+        String newFilename = fileArray[fileArray.length - 1];
+        //判断文件父目录是否存在
+        if (filepath.exists()) {
+            response.setHeader("content-type", "application/octet-stream");
+            response.setContentType("application/octet-stream");
+            // 设置content-disposition响应头控制浏览器以下载的形式打开文件
+            response.setHeader("Content-Disposition", "attachment;filename=" + newFilename);
+            //创建数据缓冲区
+            byte[] buff = new byte[1024];
+            BufferedInputStream bis = null;
+            OutputStream os = null;
+            try {
+                //通过response对象获取OutputStream流
+                os = response.getOutputStream();
+                // 根据文件路径获取要下载的文件输入流
+                bis = new BufferedInputStream(new FileInputStream(filepath));
+                //将FileInputStream流写入到buffer缓冲区
+                int i = bis.read(buff);
+                while (i != -1) {
+                    // 使用将OutputStream缓冲区的数据输出到客户端浏览器
+                    os.write(buff, 0, buff.length);
+                    os.flush();
+                    i = bis.read(buff);
+                }
+            } catch (IOException e) {
+                response.setStatus(500);
+                e.printStackTrace();
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -369,7 +480,72 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> getPlan(String date, HttpServletRequest request) throws Exception {
-        return null;
+        // 日期准备
+        // 第一天
+        String firstDay = DateUtils.getFirstDayOfMonth(date);
+        // 最后一天
+        String lastDay = DateUtils.getLastDayOfMonth(date);
+        // 获取该月的总天数
+        int monthCount = DateUtils.getLengthOfMonth(date);
+        // 获取该月第一天是星期几--星期日i==1，星期六i==7
+        int firstDayWeek = DateUtils.getFirstDayWeek(date);
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        PlanEntity query = new PlanEntity();
+        // 查询该用户的计划
+        query.setSource(userSession.getUser());
+        // 查询该月的计划
+        query.setBeginTime(firstDay);
+        query.setEndTime(lastDay);
+        if (firstDayWeek < 1 || firstDayWeek > 7) {
+            // 获取的该月第一天是否正常
+            throw new MyException(ResultEnum.ERROP);
+        } else {
+            // 表格中单元格个数（1号前的空单元格加上日历的单元格）
+            Integer gridCount = monthCount + (firstDayWeek - 1);
+            // 总行数
+            Integer tableLine = 5;
+            if (gridCount % 7 == 0) {
+                tableLine = gridCount / 7;
+            } else {
+                tableLine = gridCount / 7 + 1;
+            }
+            // 统计有效的单元格（加上月尾的空白单元格）
+            gridCount = tableLine * 7;
+            List<JSONObject> jsonObjectList = new ArrayList<>();
+            Result<Object> result = planFeignClient.getPlanList(query);
+            List<PlanEntity> plan = null;
+            if (ResultUtil.checkSuccess(result)){
+                plan = result.getData();
+            }
+            List<PlanEntity> plan = planFeignClient.getPlanList(query);
+            for (int i = 1; i <= gridCount; i++) {
+                JSONObject json = new JSONObject();
+                if (i >= firstDayWeek && i <= (monthCount + (firstDayWeek - 1))) {
+                    json.put("flog", 1);
+                    json.put("number", i - (firstDayWeek - 1));
+                    json.put("value", 0);
+                    json.put("id", -1);
+                    // 输出日历
+                    if (plan != null) {
+                        for (PlanEntity item : plan) {
+                            if (item.getNumber() == (i - (firstDayWeek - 1))) {
+                                // 该天有内容
+                                json.put("value", item.getDescribe());
+                                json.put("id", item.getId());
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    // 输出空白
+                    json.put("flog", 0);
+                    json.put("number", 0);
+                    json.put("value", 0);
+                }
+                jsonObjectList.add(json);
+            }
+            return ResultUtil.success(jsonObjectList);
+        }
     }
 
     /**

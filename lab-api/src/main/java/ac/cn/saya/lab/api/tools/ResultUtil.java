@@ -1,5 +1,7 @@
 package ac.cn.saya.lab.api.tools;
 
+import java.util.Optional;
+
 /**
  * 统一返回的外包装类
  */
@@ -76,6 +78,23 @@ public class ResultUtil {
         result.setCode(resultEnum.getCode());
         result.setMsg(resultEnum.getMsg());
         return result;
+    }
+
+    /**
+     * 检查返回体是否成功
+     * @param result
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean checkSuccess(Result<T> result){
+        // 可能为空
+        Optional<Result<T>> ofNull = Optional.ofNullable(result);
+        // 判定Optional中是否有值
+        boolean bool = ofNull.isPresent();
+        if(bool && result.getCode() == ResultEnum.SUCCESS.getCode()){
+           return true;
+        }
+        return false;
     }
 
 }
