@@ -121,4 +121,27 @@ public class PictureStorageServiceImpl implements PictureStorageService {
         }
     }
 
+    /**
+     * @描述 查询图片的总数
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2019/1/12
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Long> getPictuBase64Count(PictureEntity entity){
+        try {
+            Long count = pictureDAO.getPictuBase64Count(entity);
+            if (count > 0){
+                return ResultUtil.success(count);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查询图片的总数异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
 }

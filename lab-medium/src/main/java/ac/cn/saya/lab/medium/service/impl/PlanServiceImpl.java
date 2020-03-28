@@ -159,7 +159,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     /**
-     * @描述 获取计划安排列表
+     * @描述 获取计划安排列表(不分页)
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
@@ -167,11 +167,10 @@ public class PlanServiceImpl implements PlanService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> getPlanList(PlanEntity entity) {
+    public Result<List<PlanEntity>> getPlanList(PlanEntity entity) {
         try {
-            long count = planDAO.getPlanCount(entity);
-            Result<Object> result = PageTools.page(count, entity, (condition) -> planDAO.getPlanList((PlanEntity) condition));
-            return result;
+            List<PlanEntity> list = planDAO.getPlanList(entity);
+            return ResultUtil.success(list);
         } catch (Exception e) {
             logger.error("获取计划安排列表异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());

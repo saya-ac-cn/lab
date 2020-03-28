@@ -6,6 +6,8 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Title: PlanController
  * @ProjectName lab
@@ -74,15 +76,15 @@ public class PlanController {
     }
 
     /**
-     * @描述 获取计划安排列表
-     * @参数  [entity]
-     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-14
-     * @修改人和其它信息
+     * @Title 获取计划安排列表
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
      */
     @GetMapping(value = "/list")
-    public Result<Object> getPlanList(PlanEntity entity){
+    public Result<List<PlanEntity>> getPlanList(PlanEntity entity){
         return planService.getPlanList(entity);
     }
 

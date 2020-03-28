@@ -84,7 +84,7 @@ public class ResultUtil {
      * 检查返回体是否成功
      * @param result
      * @param <T>
-     * @return
+     * @return 正常为true
      */
     public static <T> boolean checkSuccess(Result<T> result){
         // 可能为空
@@ -95,6 +95,19 @@ public class ResultUtil {
            return true;
         }
         return false;
+    }
+
+    /**
+     * 提取包装类中的long
+     * @param result
+     * @return
+     */
+    public static long extractLong(Result<Long> result){
+        boolean success = checkSuccess(result);
+        if (success){
+            return result.getData();
+        }
+        return 0;
     }
 
 }

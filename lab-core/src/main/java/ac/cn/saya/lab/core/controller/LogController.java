@@ -4,8 +4,11 @@ import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
 import ac.cn.saya.lab.api.service.core.LogService;
 import ac.cn.saya.lab.api.tools.Result;
+import ac.cn.saya.lab.api.tools.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Title: LogController
@@ -74,4 +77,31 @@ public class LogController {
     public Result<LogEntity> queryRecentlyLog(@RequestParam(value = "user") String user){
         return logService.queryRecentlyLog(user);
     }
+
+    /**
+     * @Title 获取日志总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
+     */
+    @GetMapping(value = "/count")
+    public Result<Long> getCount(LogEntity entity){
+        return logService.quertCount(entity);
+    }
+
+    /**
+     * @Title 获取日志列表(分页) 需配合quertCount使用
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.LogEntity>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
+     */
+    @GetMapping(value = "/list")
+    public Result<List<LogEntity>> getList(LogEntity entity){
+        return logService.quertList(entity);
+    }
+
 }

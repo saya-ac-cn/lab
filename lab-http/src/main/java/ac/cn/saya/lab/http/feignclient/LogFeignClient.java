@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * @Title: LogFeignClient
  * @ProjectName lab
@@ -64,5 +66,27 @@ public interface LogFeignClient {
      */
     @GetMapping(value = "/core/log/recently")
     public Result<LogEntity> queryRecentlyLog(@RequestParam(value = "user") String user);
+
+    /**
+     * @Title 获取日志总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
+     */
+    @GetMapping(value = "/core/log/count")
+    public Result<Long> getCount(LogEntity entity);
+
+    /**
+     * @Title 获取日志列表(分页) 需配合quertCount使用
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.LogEntity>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
+     */
+    @GetMapping(value = "/core/log/list")
+    public Result<List<LogEntity>> getList(LogEntity entity);
 
 }

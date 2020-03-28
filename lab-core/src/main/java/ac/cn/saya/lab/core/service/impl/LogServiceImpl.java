@@ -135,4 +135,51 @@ public class LogServiceImpl implements LogService {
             throw new MyException(ResultEnum.DB_ERROR);
         }
     }
+
+    /**
+     * @描述 获取日志总数
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-28
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Long> quertCount(LogEntity entity){
+        try {
+            Long count = logDAO.selectCount(entity);
+            if (count > 0){
+                return ResultUtil.success(count);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("获取日志总数失败" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 获取日志列表(分页) 需配合quertCount使用
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-28
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<List<LogEntity>> quertList(LogEntity entity){
+        try {
+            List<LogEntity> entityList = logDAO.selectPage(entity);
+            if (entityList.size()>0){
+                return ResultUtil.success(entityList);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("获取日志列表(分页)异常" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
 }

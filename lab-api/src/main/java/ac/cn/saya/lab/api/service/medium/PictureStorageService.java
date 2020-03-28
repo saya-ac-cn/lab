@@ -53,4 +53,14 @@ public interface PictureStorageService {
      * @修改人和其它信息
      */
     public Result<PictureEntity> getOnePictuBase64(PictureEntity entity);
+
+    /**
+     * @描述 查询图片的总数
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2019/1/12
+     * @修改人和其它信息
+     */
+    public Result<Long> getPictuBase64Count(PictureEntity entity);
 }

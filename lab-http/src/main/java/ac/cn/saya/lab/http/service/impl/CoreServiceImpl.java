@@ -5,9 +5,7 @@ import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.http.auth.RepeatLogin;
 import ac.cn.saya.lab.http.entity.SecurityEntity;
-import ac.cn.saya.lab.http.feignclient.LogFeignClient;
-import ac.cn.saya.lab.http.feignclient.PlanFeignClient;
-import ac.cn.saya.lab.http.feignclient.UserFeignClient;
+import ac.cn.saya.lab.http.feignclient.*;
 import ac.cn.saya.lab.http.service.ICoreService;
 import ac.cn.saya.lab.api.bean.JwtOperator;
 import ac.cn.saya.lab.http.tools.AmapLocateUtils;
@@ -44,8 +42,6 @@ import java.util.Map;
 @Service
 public class CoreServiceImpl implements ICoreService {
 
-    private static Logger logger = LoggerFactory.getLogger(CoreServiceImpl.class);
-
     @Resource
     private UserFeignClient userFeignClient;
 
@@ -60,6 +56,18 @@ public class CoreServiceImpl implements ICoreService {
 
     @Resource
     private RecordService recordService;
+
+    @Resource
+    private ApiFeignClient apiFeignClient;
+
+    @Resource
+    private PictureStorageFeignClient pictureStorageFeignClient;
+
+    @Resource
+    private NoteBookFeignClient noteBookFeignClient;
+
+    @Resource
+    private NotesFeignClient notesFeignClient;
 
     @Resource
     private JwtOperator jwtOperator;
@@ -335,16 +343,22 @@ public class CoreServiceImpl implements ICoreService {
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         try {
             //获取满足条件的总记录（不分页）
-            Long pageSize = logService.selectCount(entity);
-            if (pageSize <= 0) {
+            Result<Long> countResult = logFeignClient.getCount(entity);
+            if (!ResultUtil.checkSuccess(countResult)){
                 response.setStatus(404);
                 return ResultUtil.error(-1, "没有可导出的数据");
             }
+            Long count = countResult.getData();
             //设置行索引
-            entity.setPage(0, pageSize.intValue());
+            entity.setPage(0, count.intValue());
             entity.setUser(userSession.getUser());
+            Result<List<LogEntity>> listResult = logFeignClient.getList(entity);
+            if (!ResultUtil.checkSuccess(listResult)){
+                response.setStatus(404);
+                return ResultUtil.error(-1, "没有可导出的数据");
+            }
             //获取满足条件的记录集合
-            List<LogEntity> entityList = logService.selectPage(entity);
+            List<LogEntity> entityList = listResult.getData();
             List<JSONObject> jsonObjectList = new ArrayList<>();
             for (LogEntity item : entityList) {
                 JSONObject json = new JSONObject();
@@ -371,14 +385,12 @@ public class CoreServiceImpl implements ICoreService {
     }
 
     /**
-     * @param imgBase64
-     * @param request
-     * @描述 上传logo
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2018/11/11
-     * @修改人和其它信息
+     * @Title 上传logo
+     * @Params  [imgBase64, request]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
      */
     @Override
     public Result<Object> updateLogo(String imgBase64, HttpServletRequest request) throws Exception {
@@ -413,15 +425,12 @@ public class CoreServiceImpl implements ICoreService {
     }
 
     /**
-     * @param fileName
-     * @param request
-     * @param response
-     * @描述 下载文件 By 文件名
-     * @参数 [fileName, request, response]
-     * @返回值 void
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/6
-     * @修改人和其它信息
+     * @Title 下载文件 By 文件名
+     * @Params  [fileName, request, response]
+     * @Return  void
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
      */
     @Override
     public void fileDownload(String fileName, HttpServletRequest request, HttpServletResponse response) {
@@ -469,14 +478,12 @@ public class CoreServiceImpl implements ICoreService {
     }
 
     /**
-     * @param date
-     * @param request
-     * @描述
-     * @参数 [date, request]
-     * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2019/1/24
-     * @修改人和其它信息 查询该月的计划
+     * @Title 查询该月的计划
+     * @Params  [date, request]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
      */
     @Override
     public Result<Object> getPlan(String date, HttpServletRequest request) throws Exception {
@@ -512,12 +519,11 @@ public class CoreServiceImpl implements ICoreService {
             // 统计有效的单元格（加上月尾的空白单元格）
             gridCount = tableLine * 7;
             List<JSONObject> jsonObjectList = new ArrayList<>();
-            Result<Object> result = planFeignClient.getPlanList(query);
+            Result<List<PlanEntity>> result = planFeignClient.getPlanList(query);
             List<PlanEntity> plan = null;
             if (ResultUtil.checkSuccess(result)){
                 plan = result.getData();
             }
-            List<PlanEntity> plan = planFeignClient.getPlanList(query);
             for (int i = 1; i <= gridCount; i++) {
                 JSONObject json = new JSONObject();
                 if (i >= firstDayWeek && i <= (monthCount + (firstDayWeek - 1))) {
@@ -549,8 +555,6 @@ public class CoreServiceImpl implements ICoreService {
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数
      * @返回值
@@ -559,13 +563,18 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 查询计划详情
      */
     @Override
-    public Result<Object> getPlanDetail(PlanEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+    public Result<PlanEntity> getPlanDetail(PlanEntity entity, HttpServletRequest request) throws Exception {
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        entity.setSource(userSession.getUser());
+        if (entity == null || entity.getId() == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        Result<PlanEntity> result = planFeignClient.getOnePlan(entity);
+        return result;
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -575,12 +584,27 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> createPlan(PlanEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (entity == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        entity.setSource(userSession.getUser());
+        Result<Integer> result = planFeignClient.insertPlan(entity);
+        if (ResultUtil.checkSuccess(result)) {
+            /**
+             * 记录日志
+             */
+            recordService.record("OX022", request);
+            return ResultUtil.success();
+        } else{
+            // 该天计划已经存在
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -590,12 +614,30 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> editPlan(PlanEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (entity == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        entity.setSource(userSession.getUser());
+        // 日期准备
+        entity.setPlandate(DateUtils.getCurrentDateTime(DateUtils.dateFormat));
+        Result<Integer> result = planFeignClient.editPlan(entity);
+        if (ResultUtil.checkSuccess(result)) {
+            /**
+             * 记录日志
+             */
+            recordService.record("OX023", request);
+            return ResultUtil.success();
+        } else {
+            // 该天计划已经存在
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -605,12 +647,27 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> deletePlan(PlanEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (entity == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        entity.setSource(userSession.getUser());
+        Result<Integer> result = planFeignClient.deletePlan(entity);
+        if (ResultUtil.checkSuccess(result))  {
+            /**
+             * 记录日志
+             */
+            recordService.record("OX024", request);
+            return ResultUtil.success();
+        } else {
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -620,12 +677,10 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> getApi(ApiEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        return apiFeignClient.getApiPage(entity);
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -635,12 +690,24 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> createApi(ApiEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (entity == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        Result<Integer> result = apiFeignClient.insertApi(entity);
+        if (ResultUtil.checkSuccess(result)) {
+            /**
+             * 记录日志
+             */
+            recordService.record("OX031", request);
+            return ResultUtil.success();
+        } else {
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -650,12 +717,24 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> editApi(ApiEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (entity == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        Result<Integer> result = apiFeignClient.editApi(entity);
+        if (ResultUtil.checkSuccess(result)) {
+            /**
+             * 记录日志
+             */
+            recordService.record("OX032", request);
+            return ResultUtil.success();
+        } else {
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
-     * @param entity
-     * @param request
      * @描述
      * @参数 [entity, request]
      * @返回值 ac.cn.saya.datacenter.tools.Result<java.lang.Object>
@@ -665,11 +744,24 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> deleteApi(ApiEntity entity, HttpServletRequest request) throws Exception {
-        return null;
+        // 校验用户输入的参数
+        if (entity == null) {
+            // 缺少参数
+            throw new MyException(ResultEnum.NOT_PARAMETER);
+        }
+        Result<Integer> result = apiFeignClient.deleteApi(entity);
+        if (ResultUtil.checkSuccess(result)) {
+            /**
+             * 记录日志
+             */
+            recordService.record("OX033", request);
+            return ResultUtil.success();
+        } else {
+            throw new MyException(ResultEnum.ERROP);
+        }
     }
 
     /**
-     * @param request
      * @描述 获取统计报表数据
      * @参数
      * @返回值
@@ -679,6 +771,58 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> dashBoard(HttpServletRequest request) throws Exception {
-        return null;
+        Map<String, Object> result = new HashMap<>(20);
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        // 统计图片总数
+        PictureEntity pictureEntity = new PictureEntity();
+        pictureEntity.setSource(userSession.getUser());
+        Long pictureCount = ResultUtil.extractLong(pictureStorageFeignClient.getPictuBase64Count(pictureEntity));
+        result.put("pictureCount", pictureCount);
+        // 统计文件总数
+        FilesEntity filesEntity = new FilesEntity();
+        filesEntity.setSource(userSession.getUser());
+        Long fileCount = filesService.getFileCount(filesEntity);
+        result.put("fileCount", fileCount);
+        // 统计笔记簿总数
+        NoteBookEntity bookEntity = new NoteBookEntity();
+        bookEntity.setSource(userSession.getUser());
+        Long bookCount = noteBookService.getNoteBookCount(bookEntity);
+        result.put("bookCount", bookCount);
+        // 统计笔记总数
+        NotesEntity notesEntity = new NotesEntity();
+        notesEntity.setNotebook(bookEntity);
+        Long notesCount = notesService.getNotesCount(notesEntity);
+        result.put("notesCount", notesCount);
+        // 统计计划总数
+        PlanEntity planEntity = new PlanEntity();
+        planEntity.setSource(userSession.getUser());
+        Long planCount = planService.getPlanCount(planEntity);
+        result.put("planCount", planCount);
+        // 统计公告总数
+        NewsEntity newsEntity = new NewsEntity();
+        newsEntity.setSource(userSession.getUser());
+        Long newsCount = newsService.getNewsCount(newsEntity);
+        result.put("newsCount", newsCount);
+        // 统计便笺总数
+        GuestBookEntity guestBookEntity = new GuestBookEntity();
+        Long guestCount = getGuestBookCount(guestBookEntity);
+        result.put("guestCount", guestCount);
+        // 统计登录总数
+        LogEntity logEntity = new LogEntity();
+        logEntity.setUser(userSession.getUser());
+        logEntity.setType("OX001");
+        Long logCount = logService.selectCount(logEntity);
+        result.put("logCount", logCount);
+        // 统计笔记簿
+        bookEntity.setStartLine(0);
+        bookEntity.setEndLine(bookCount.intValue());
+        List<NoteBookEntity> bookList = noteBookService.getNoteBook(bookEntity);
+        result.put("bookList", bookList);
+        result.put("news6", userService.countPre6MonthNews(userSession.getUser()));
+        result.put("log6", userService.countPre6Logs(userSession.getUser()));
+        result.put("files6", userService.countPre6Files(userSession.getUser()));
+        result.put("board", userService.countPre6Board());
+        result.put("financial6", userService.countPre6Financial(userSession.getUser()));
+        return ResultUtil.success(result);
     }
 }

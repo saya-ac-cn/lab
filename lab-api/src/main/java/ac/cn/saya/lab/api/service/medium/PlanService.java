@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.medium;
 import ac.cn.saya.lab.api.entity.PlanEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.List;
+
 /**
  * @Title: PlanService
  * @ProjectName lab
@@ -55,14 +57,14 @@ public interface PlanService {
     public Result<PlanEntity> getOnePlan(PlanEntity entity);
 
     /**
-     * @描述 获取计划安排列表
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020/3/13
-     * @修改人和其它信息
+     * @Title 获取计划安排列表
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
      */
-    public Result<Object> getPlanList(PlanEntity entity);
+    public Result<List<PlanEntity>> getPlanList(PlanEntity entity);
 
     /**
      * @描述 获取当天的计划内容

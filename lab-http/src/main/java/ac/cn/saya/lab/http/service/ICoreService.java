@@ -132,7 +132,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 查询计划详情
      */
-    public Result<Object> getPlanDetail(PlanEntity entity, HttpServletRequest request) throws Exception;
+    public Result<PlanEntity> getPlanDetail(PlanEntity entity, HttpServletRequest request) throws Exception;
 
     /**
      * @描述

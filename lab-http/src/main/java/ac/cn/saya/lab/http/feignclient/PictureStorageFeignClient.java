@@ -64,4 +64,15 @@ public interface PictureStorageFeignClient {
     @GetMapping(value = "/medium/picturestorage/one")
     public Result<PictureEntity> getOnePictuBase64(PictureEntity entity);
 
+    /**
+     * @Title 查询图片的总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-03-28
+     * @Description
+     */
+    @GetMapping(value = "/medium/picturestorage/count")
+    public Result<Long> getPictuBase64Count(PictureEntity entity);
+
 }

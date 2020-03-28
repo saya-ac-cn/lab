@@ -62,5 +62,24 @@ public interface LogService {
     public Result<LogEntity> queryRecentlyLog(String user);
 
 
+    /**
+     * @描述 获取日志总数
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-28
+     * @修改人和其它信息
+     */
+    public Result<Long> quertCount(LogEntity entity);
+
+    /**
+     * @描述 获取日志列表(分页) 需配合quertCount使用
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020-03-28
+     * @修改人和其它信息
+     */
+    public Result<List<LogEntity>> quertList(LogEntity entity);
 
 }
