@@ -171,4 +171,28 @@ public class NotesServiceImpl implements NotesService {
             throw new MyException(ResultEnum.DB_ERROR);
         }
     }
+
+    /**
+     * @Title 统计笔记总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-03
+     * @Description
+     */
+    @Override
+    public Result<Long> totalNotesCount(NotesEntity entity){
+        try {
+            Long count = notesDAO.getNotesCount(entity);
+            if (count > 0){
+                return ResultUtil.success(count);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("统计笔记总数时发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
 }

@@ -83,4 +83,15 @@ public interface NoteBookFeignClient {
     @GetMapping(value = "/medium/notebook/list")
     public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity);
 
+    /**
+     * @Title 统计笔记簿总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-03
+     * @Description
+     */
+    @GetMapping(value = "/medium/notebook/totalNoteBookCount")
+    public Result<Long> totalNoteBookCount(NoteBookEntity entity);
+
 }

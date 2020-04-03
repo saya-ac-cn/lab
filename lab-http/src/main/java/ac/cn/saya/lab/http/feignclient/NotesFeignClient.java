@@ -85,4 +85,15 @@ public interface NotesFeignClient {
     @GetMapping(value = "/medium/notes/nearby")
     public Result<Map<String,String>> getNotesPreAndNext(@RequestParam(value = "notesId") Integer notesId);
 
+    /**
+     * @Title 统计笔记总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-03
+     * @Description
+     */
+    @GetMapping(value = "/medium/notes/totalNotesCount")
+    public Result<Long> totalNotesCount(NotesEntity entity);
+
 }

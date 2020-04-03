@@ -70,6 +70,9 @@ public class CoreServiceImpl implements ICoreService {
     private NotesFeignClient notesFeignClient;
 
     @Resource
+    private FilesFeignClient filesFeignClient;
+
+    @Resource
     private JwtOperator jwtOperator;
 
     /**
@@ -781,17 +784,17 @@ public class CoreServiceImpl implements ICoreService {
         // 统计文件总数
         FilesEntity filesEntity = new FilesEntity();
         filesEntity.setSource(userSession.getUser());
-        Long fileCount = filesService.getFileCount(filesEntity);
+        Long fileCount = ResultUtil.extractLong(filesFeignClient.totalFileCount(filesEntity));
         result.put("fileCount", fileCount);
         // 统计笔记簿总数
         NoteBookEntity bookEntity = new NoteBookEntity();
         bookEntity.setSource(userSession.getUser());
-        Long bookCount = noteBookService.getNoteBookCount(bookEntity);
+        Long bookCount = ResultUtil.extractLong(noteBookFeignClient.totalNoteBookCount(bookEntity));
         result.put("bookCount", bookCount);
         // 统计笔记总数
         NotesEntity notesEntity = new NotesEntity();
         notesEntity.setNotebook(bookEntity);
-        Long notesCount = notesService.getNotesCount(notesEntity);
+        Long notesCount = ResultUtil.extractLong(notesFeignClient.totalNotesCount(notesEntity));
         result.put("notesCount", notesCount);
         // 统计计划总数
         PlanEntity planEntity = new PlanEntity();

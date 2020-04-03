@@ -83,4 +83,16 @@ public interface FilesFeignClient {
      */
     @GetMapping(value = "/medium/files/pre6Files")
     public Result<Map<String,String>> countPre6Files(String user);
+
+    /**
+     * @Title 统计文件总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-03
+     * @Description
+     */
+    @GetMapping(value = "/medium/files/totalFileCount")
+    public Result<Long> totalFileCount(FilesEntity entity);
+
 }

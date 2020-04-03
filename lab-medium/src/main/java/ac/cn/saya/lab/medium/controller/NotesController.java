@@ -101,4 +101,17 @@ public class NotesController {
         return notesService.getNotesPreAndNext(notesId);
     }
 
+    /**
+     * @Title 统计笔记总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-03
+     * @Description
+     */
+    @GetMapping(value = "/totalNotesCount")
+    public Result<Long> totalNotesCount(NotesEntity entity){
+        return notesService.totalNotesCount(entity);
+    }
+
 }

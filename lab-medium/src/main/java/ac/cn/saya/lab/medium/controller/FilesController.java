@@ -100,4 +100,17 @@ public class FilesController {
     public Result<Map<String,String>> countPre6Files(String user){
         return filesService.countPre6Files(user);
     }
+
+    /**
+     * @Title 统计文件总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-03
+     * @Description
+     */
+    @GetMapping(value = "/totalFileCount")
+    public Result<Long> totalFileCount(FilesEntity entity){
+        return filesService.totalFileCount(entity);
+    }
 }
