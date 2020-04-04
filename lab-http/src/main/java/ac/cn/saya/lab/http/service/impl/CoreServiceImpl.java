@@ -799,7 +799,7 @@ public class CoreServiceImpl implements ICoreService {
         // 统计计划总数
         PlanEntity planEntity = new PlanEntity();
         planEntity.setSource(userSession.getUser());
-        Long planCount = planService.getPlanCount(planEntity);
+        Long planCount = ResultUtil.extractLong(planFeignClient.totalPlanCount(planEntity));
         result.put("planCount", planCount);
         // 统计公告总数
         NewsEntity newsEntity = new NewsEntity();

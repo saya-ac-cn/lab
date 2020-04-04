@@ -96,4 +96,16 @@ public interface PlanFeignClient {
     @GetMapping(value = "/medium/plan/user/today")
     public Result<PlanEntity> getTodayPlanListByUser(@RequestParam(value = "source") String source);
 
+
+    /**
+     * @Title 获取计划总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-04
+     * @Description
+     */
+    @GetMapping(value = "/medium/plan/totalPlanCount")
+    public Result<Long> totalPlanCount(PlanEntity entity);
+
 }

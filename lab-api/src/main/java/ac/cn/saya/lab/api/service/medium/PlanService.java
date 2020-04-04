@@ -85,4 +85,16 @@ public interface PlanService {
      * @修改人和其它信息
      */
     public Result<PlanEntity> getTodayPlanListByUser(String source);
+
+
+    /**
+     * @Title 获取计划总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-04
+     * @Description
+     */
+    public Result<Long> totalPlanCount(PlanEntity entity);
+
 }
