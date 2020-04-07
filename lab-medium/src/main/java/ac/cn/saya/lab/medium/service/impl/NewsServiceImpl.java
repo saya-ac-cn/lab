@@ -198,4 +198,27 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
+    /**
+     * @Title 统计动态总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-07
+     * @Description
+     */
+    @Override
+    public Result<Long> totalNewsCount(NewsEntity entity){
+        try {
+            Long count = newsDAO.getNewsCount(entity);
+            if (count > 0){
+                return ResultUtil.success(count);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("统计动态总数时发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
 }

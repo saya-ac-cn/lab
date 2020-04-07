@@ -6,6 +6,8 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Title: NoteBookController
  * @ProjectName lab
@@ -95,7 +97,7 @@ public class NoteBookController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/list")
-    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity){
+    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity){
         return noteBookService.getNoteBook(entity);
     }
 

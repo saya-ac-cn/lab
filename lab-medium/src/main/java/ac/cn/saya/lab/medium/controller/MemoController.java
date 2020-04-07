@@ -85,4 +85,17 @@ public class MemoController {
         return memoService.getPage(entity);
     }
 
+    /**
+     * @Title 统计便笺总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-07
+     * @Description
+     */
+    @GetMapping(value = "/totalCount")
+    public Result<Long> totalCount(MemoEntity entity){
+        return memoService.totalCount(entity);
+    }
+
 }

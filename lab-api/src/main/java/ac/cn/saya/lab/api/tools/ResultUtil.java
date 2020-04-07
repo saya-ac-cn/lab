@@ -12,6 +12,7 @@ public class ResultUtil {
 
     /**
      * 用于查询，添加，修改等方法返回值
+     *
      * @param object
      * @return
      */
@@ -26,6 +27,7 @@ public class ResultUtil {
 
     /**
      * 用于修改、删除等方法返回的值，只返回操作的结果
+     *
      * @return
      */
     public static Result success() {
@@ -37,13 +39,13 @@ public class ResultUtil {
 
     /**
      * 用于特殊场景下的返回值（eg：查询学生注册状态）
+     *
      * @param code
      * @param msg
      * @param object
      * @return
      */
-    public static Result success(int code,String msg,Object object)
-    {
+    public static Result success(int code, String msg, Object object) {
         Result result = new Result();
         result.setCode(code);
         result.setMsg(msg);
@@ -54,6 +56,7 @@ public class ResultUtil {
 
     /**
      * 用于错误，异常等方法返回值
+     *
      * @param code
      * @param msg
      * @return
@@ -69,8 +72,8 @@ public class ResultUtil {
      * @描述 用于返回枚举错误
      * @参数
      * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-15
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-15
      * @修改人和其它信息
      */
     public static Result error(ResultEnum resultEnum) {
@@ -82,32 +85,48 @@ public class ResultUtil {
 
     /**
      * 检查返回体是否成功
+     *
      * @param result
      * @param <T>
      * @return 正常为true
      */
-    public static <T> boolean checkSuccess(Result<T> result){
+    public static <T> boolean checkSuccess(Result<T> result) {
         // 可能为空
         Optional<Result<T>> ofNull = Optional.ofNullable(result);
         // 判定Optional中是否有值
         boolean bool = ofNull.isPresent();
-        if(bool && result.getCode() == ResultEnum.SUCCESS.getCode()){
-           return true;
+        if (bool && result.getCode() == ResultEnum.SUCCESS.getCode()) {
+            return true;
         }
         return false;
     }
 
     /**
      * 提取包装类中的long
+     *
      * @param result
      * @return
      */
-    public static long extractLong(Result<Long> result){
+    public static long extractLong(Result<Long> result) {
         boolean success = checkSuccess(result);
-        if (success){
+        if (success) {
             return result.getData();
         }
         return 0;
+    }
+
+    /**
+     * 提取包装类中的list
+     *
+     * @param result
+     * @return
+     */
+    public static <T> T extractList(Result<T> result) {
+        boolean success = checkSuccess(result);
+        if (success) {
+            return result.getData();
+        }
+        return null;
     }
 
 }

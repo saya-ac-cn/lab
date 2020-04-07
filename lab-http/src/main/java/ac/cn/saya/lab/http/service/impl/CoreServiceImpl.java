@@ -73,6 +73,12 @@ public class CoreServiceImpl implements ICoreService {
     private FilesFeignClient filesFeignClient;
 
     @Resource
+    private NewsFeignClient newsFeignClient;
+
+    @Resource
+    private MemoFeignClient memoFeignClient;
+
+    @Resource
     private JwtOperator jwtOperator;
 
     /**
@@ -804,28 +810,28 @@ public class CoreServiceImpl implements ICoreService {
         // 统计公告总数
         NewsEntity newsEntity = new NewsEntity();
         newsEntity.setSource(userSession.getUser());
-        Long newsCount = newsService.getNewsCount(newsEntity);
+        Long newsCount = ResultUtil.extractLong(newsFeignClient.totalNewsCount(newsEntity));
         result.put("newsCount", newsCount);
         // 统计便笺总数
-        GuestBookEntity guestBookEntity = new GuestBookEntity();
-        Long guestCount = getGuestBookCount(guestBookEntity);
-        result.put("guestCount", guestCount);
+        MemoEntity memoEntity = new MemoEntity();
+        memoEntity.setSource(userSession.getUser());
+        Long guestCount = ResultUtil.extractLong(memoFeignClient.totalCount(memoEntity));
+        result.put("memoCount", guestCount);
         // 统计登录总数
         LogEntity logEntity = new LogEntity();
         logEntity.setUser(userSession.getUser());
         logEntity.setType("OX001");
-        Long logCount = logService.selectCount(logEntity);
+        Long logCount = ResultUtil.extractLong(logFeignClient.getCount(logEntity));
         result.put("logCount", logCount);
         // 统计笔记簿
         bookEntity.setStartLine(0);
         bookEntity.setEndLine(bookCount.intValue());
-        List<NoteBookEntity> bookList = noteBookService.getNoteBook(bookEntity);
-        result.put("bookList", bookList);
-        result.put("news6", userService.countPre6MonthNews(userSession.getUser()));
-        result.put("log6", userService.countPre6Logs(userSession.getUser()));
-        result.put("files6", userService.countPre6Files(userSession.getUser()));
-        result.put("board", userService.countPre6Board());
-        result.put("financial6", userService.countPre6Financial(userSession.getUser()));
+        result.put("bookList", ResultUtil.extractList(noteBookFeignClient.getNoteBook(bookEntity)));
+        result.put("news6", ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
+        result.put("log6", ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
+        result.put("files6", ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
+        result.put("memo", userService.countPre6Board());
+        result.put("financial6", ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
         return ResultUtil.success(result);
     }
 }

@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date: 2020-03-14 10:14
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "news")
+@FeignClient(value = "lab-medium-server", contextId = "news",path = "/medium/news")
 public interface NewsFeignClient {
 
 
@@ -27,7 +27,7 @@ public interface NewsFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/news")
+    @PostMapping(value = "/")
     public Result<Integer> publishNews(@RequestBody NewsEntity entity);
 
     /**
@@ -38,7 +38,7 @@ public interface NewsFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/news")
+    @PutMapping(value = "/")
     public Result<Integer> editNews(@RequestBody NewsEntity entity);
 
     /**
@@ -49,7 +49,7 @@ public interface NewsFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/news")
+    @DeleteMapping(value = "/")
     public Result<Integer> deleteNews(NewsEntity entity);
 
     /**
@@ -60,7 +60,7 @@ public interface NewsFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/news/one")
+    @GetMapping(value = "/one")
     public Result<NewsEntity> getOneNews(NewsEntity entity);
 
     /**
@@ -71,7 +71,7 @@ public interface NewsFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/news/pagin")
+    @GetMapping(value = "/pagin")
     public Result<Object> getNewsPage(NewsEntity entity);
 
     /**
@@ -82,7 +82,7 @@ public interface NewsFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/news/nearby")
+    @GetMapping(value = "/nearby")
     public Result<Map<String,String>> getNewsPreAndNext(@RequestParam(value = "newsId") Integer newsId);
 
     /**
@@ -93,7 +93,18 @@ public interface NewsFeignClient {
      * @创建时间  2020-03-21
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/news/pre6MonthNews")
+    @GetMapping(value = "/pre6MonthNews")
     public Result<Map<String,String>> countPre6MonthNews(@RequestParam(value = "user") String user);
+
+    /**
+     * @Title 统计动态总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-07
+     * @Description
+     */
+    @GetMapping(value = "/totalNewsCount")
+    public Result<Long> totalNewsCount(NewsEntity entity);
 
 }

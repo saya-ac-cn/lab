@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.medium;
 import ac.cn.saya.lab.api.entity.NoteBookEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.List;
+
 /**
  * @Title: NoteBookService
  * @ProjectName lab
@@ -65,14 +67,14 @@ public interface NoteBookService {
     public Result<Object> getNoteBookPage(NoteBookEntity entity);
 
     /**
-     * @描述 获取笔记簿
-     * @参数
-     * @返回值
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020/3/13
-     * @修改人和其它信息
+     * @Title 获取笔记簿
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<List<NoteBookEntity>>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-07
+     * @Description
      */
-    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity);
+    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity);
 
     /**
      * @Title 统计笔记簿总数

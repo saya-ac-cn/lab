@@ -5,6 +5,8 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Title: NoteBookFeignClient
  * @ProjectName lab
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date: 2020-03-14 13:31
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "notebook")
+@FeignClient(value = "lab-medium-server", contextId = "notebook",path = "/medium/notebook")
 public interface NoteBookFeignClient {
 
 
@@ -25,7 +27,7 @@ public interface NoteBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/notebook")
+    @PostMapping(value = "/")
     public Result<Integer> insertNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
@@ -36,7 +38,7 @@ public interface NoteBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/notebook")
+    @PutMapping(value = "/")
     public Result<Integer> editNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
@@ -47,7 +49,7 @@ public interface NoteBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/notebook")
+    @DeleteMapping(value = "/")
     public Result<Integer> deleteNoteBook(NoteBookEntity entity);
 
     /**
@@ -58,7 +60,7 @@ public interface NoteBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/notebook/one")
+    @GetMapping(value = "/one")
     public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity);
 
     /**
@@ -69,7 +71,7 @@ public interface NoteBookFeignClient {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/notebook/pagin")
+    @GetMapping(value = "/pagin")
     public Result<Object> getNoteBookPage(NoteBookEntity entity);
 
     /**
@@ -80,8 +82,8 @@ public interface NoteBookFeignClient {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/notebook/list")
-    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity);
+    @GetMapping(value = "/list")
+    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity);
 
     /**
      * @Title 统计笔记簿总数
@@ -91,7 +93,7 @@ public interface NoteBookFeignClient {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/medium/notebook/totalNoteBookCount")
+    @GetMapping(value = "/totalNoteBookCount")
     public Result<Long> totalNoteBookCount(NoteBookEntity entity);
 
 }

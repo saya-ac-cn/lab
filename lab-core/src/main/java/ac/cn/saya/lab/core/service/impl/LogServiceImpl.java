@@ -100,7 +100,7 @@ public class LogServiceImpl implements LogService {
     public Result<Object> show(LogEntity entity) {
         try {
             Long count = logDAO.selectCount(entity);
-            if (count > 0){
+            if (count > 0) {
                 Result<Object> result = PageTools.page(count, entity, (condition) -> logDAO.selectPage((LogEntity) condition));
                 return result;
             }
@@ -125,7 +125,7 @@ public class LogServiceImpl implements LogService {
         try {
             // 查询用户当日安排
             LogEntity log = logDAO.queryRecentlyLog(user);
-            if (null == log){
+            if (null == log) {
                 return ResultUtil.error(ResultEnum.NOT_EXIST);
             }
             return ResultUtil.success(log);
@@ -140,15 +140,15 @@ public class LogServiceImpl implements LogService {
      * @描述 获取日志总数
      * @参数
      * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-28
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-28
      * @修改人和其它信息
      */
     @Override
-    public Result<Long> quertCount(LogEntity entity){
+    public Result<Long> quertCount(LogEntity entity) {
         try {
             Long count = logDAO.selectCount(entity);
-            if (count > 0){
+            if (count > 0) {
                 return ResultUtil.success(count);
             }
             return ResultUtil.error(ResultEnum.NOT_EXIST);
@@ -163,15 +163,15 @@ public class LogServiceImpl implements LogService {
      * @描述 获取日志列表(分页) 需配合quertCount使用
      * @参数
      * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-28
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2020-03-28
      * @修改人和其它信息
      */
     @Override
-    public Result<List<LogEntity>> quertList(LogEntity entity){
+    public Result<List<LogEntity>> quertList(LogEntity entity) {
         try {
             List<LogEntity> entityList = logDAO.selectPage(entity);
-            if (entityList.size()>0){
+            if (entityList.size() > 0) {
                 return ResultUtil.success(entityList);
             }
             return ResultUtil.error(ResultEnum.NOT_EXIST);
@@ -181,5 +181,6 @@ public class LogServiceImpl implements LogService {
             throw new MyException(ResultEnum.DB_ERROR);
         }
     }
+
 
 }

@@ -152,7 +152,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @修改人和其它信息
      */
     @Override
-    public Result<NoteBookEntity> getNoteBook(NoteBookEntity entity) {
+    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity) {
         try {
             List<NoteBookEntity> list = noteBookDAO.getNoteBook(entity);
             if (list.size() <= 0) {

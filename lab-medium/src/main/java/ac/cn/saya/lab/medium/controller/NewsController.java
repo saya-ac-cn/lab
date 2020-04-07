@@ -114,4 +114,17 @@ public class NewsController {
         return newsService.countPre6MonthNews(user);
     }
 
+    /**
+     * @Title 统计动态总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-07
+     * @Description
+     */
+    @GetMapping(value = "/totalNewsCount")
+    public Result<Long> totalNewsCount(NewsEntity entity){
+        return newsService.totalNewsCount(entity);
+    }
+
 }

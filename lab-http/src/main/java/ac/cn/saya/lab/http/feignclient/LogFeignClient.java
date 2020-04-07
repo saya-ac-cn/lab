@@ -19,7 +19,7 @@ import java.util.List;
  * @Date: 2020-02-29 14:50
  * @Description:
  */
-@FeignClient(value = "lab-core-server", contextId = "log")
+@FeignClient(value = "lab-core-server", contextId = "log",path = "/core/log")
 public interface LogFeignClient {
 
 
@@ -31,7 +31,7 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @PostMapping(value = "/core/log/record")
+    @PostMapping(value = "/record")
     public Result<Integer> insert(@RequestBody LogEntity entity);
 
     /**
@@ -42,7 +42,7 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/log/type")
+    @GetMapping(value = "/type")
     public Result<LogTypeEntity> selectLogType();
 
     /**
@@ -53,7 +53,7 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/log/display")
+    @GetMapping(value = "/display")
     public Result<Object> display(LogEntity entity);
 
     /**
@@ -64,7 +64,7 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/log/recently")
+    @GetMapping(value = "/recently")
     public Result<LogEntity> queryRecentlyLog(@RequestParam(value = "user") String user);
 
     /**
@@ -75,7 +75,7 @@ public interface LogFeignClient {
      * @Date  2020-03-28
      * @Description
      */
-    @GetMapping(value = "/core/log/count")
+    @GetMapping(value = "/count")
     public Result<Long> getCount(LogEntity entity);
 
     /**
@@ -86,7 +86,7 @@ public interface LogFeignClient {
      * @Date  2020-03-28
      * @Description
      */
-    @GetMapping(value = "/core/log/list")
+    @GetMapping(value = "/list")
     public Result<List<LogEntity>> getList(LogEntity entity);
 
 }

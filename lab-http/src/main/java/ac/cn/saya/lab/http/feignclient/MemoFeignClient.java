@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date: 2020-03-14 10:01
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "memo")
+@FeignClient(value = "lab-medium-server", contextId = "memo",path = "/medium/memo")
 public interface MemoFeignClient {
 
     /**
@@ -24,7 +24,7 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/memo")
+    @PostMapping(value = "/")
     public Result<Integer> insert(@RequestBody MemoEntity entity);
 
     /**
@@ -35,7 +35,7 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/memo/one")
+    @GetMapping(value = "/one")
     public Result<MemoEntity> getOne(MemoEntity entity);
 
     /**
@@ -46,7 +46,7 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/memo")
+    @PutMapping(value = "/")
     public Result<Integer> update(@RequestBody MemoEntity entity);
 
     /**
@@ -57,7 +57,7 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/memo")
+    @DeleteMapping(value = "/")
     public Result<Integer> delete(MemoEntity entity);
 
     /**
@@ -68,7 +68,18 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/memo/pagin")
+    @GetMapping(value = "/pagin")
     public Result<Object> getPage(MemoEntity entity);
+
+    /**
+     * @Title 统计便笺总数
+     * @Params  [entity]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-07
+     * @Description
+     */
+    @GetMapping(value = "/totalCount")
+    public Result<Long> totalCount(MemoEntity entity);
 
 }
