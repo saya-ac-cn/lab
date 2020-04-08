@@ -830,7 +830,7 @@ public class CoreServiceImpl implements ICoreService {
         result.put("news6", ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
         result.put("log6", ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
         result.put("files6", ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
-        result.put("memo", userService.countPre6Board());
+        result.put("memo", ResultUtil.extractList(memoFeignClient.countPre6Memo(userSession.getUser())));
         result.put("financial6", ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
         return ResultUtil.success(result);
     }

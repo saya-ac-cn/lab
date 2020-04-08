@@ -3,6 +3,8 @@ package ac.cn.saya.lab.api.service.medium;
 import ac.cn.saya.lab.api.entity.MemoEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import java.util.Map;
+
 /**
  * @Title: MemoService
  * @ProjectName lab
@@ -73,5 +75,15 @@ public interface MemoService {
      * @Description
      */
     public Result<Long> totalCount(MemoEntity entity);
+
+    /**
+     * @Title 查询近半年留言情况
+     * @Params  [user]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.util.Map<java.lang.String,java.lang.String>>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-08
+     * @Description
+     */
+    public Result<Map<String,String>> countPre6Memo(String user);
 
 }

@@ -5,6 +5,7 @@ import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.medium.MemoService;
 import ac.cn.saya.lab.api.tools.*;
 import ac.cn.saya.lab.medium.repository.MemoDAO;
+import ac.cn.saya.lab.medium.repository.ProceDureDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Title: MemoServiceImpl
@@ -29,6 +31,10 @@ public class MemoServiceImpl implements MemoService {
     @Resource
     @Qualifier("memoDAO")
     private MemoDAO memoDAO;
+
+    @Resource
+    @Qualifier("proceDureDAO")
+    private ProceDureDAO proceDureDAO;
 
     /**
      * @描述 创建便笺
@@ -173,6 +179,29 @@ public class MemoServiceImpl implements MemoService {
             return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("统计便笺总数时发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @Title 查询近半年留言情况
+     * @Params  [user]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.util.Map<java.lang.String,java.lang.String>>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-08
+     * @Description
+     */
+    @Override
+    public Result<Map<String,String>> countPre6Memo(String user) {
+        try {
+            Map<String, Object> map = proceDureDAO.countPre6Memo(user);
+            if (!map.isEmpty()){
+                return ResultUtil.success(map);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查询近半年留言情况时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }

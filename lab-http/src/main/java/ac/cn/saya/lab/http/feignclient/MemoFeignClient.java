@@ -5,6 +5,8 @@ import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @Title: MemoFeignClient
  * @ProjectName lab
@@ -81,5 +83,16 @@ public interface MemoFeignClient {
      */
     @GetMapping(value = "/totalCount")
     public Result<Long> totalCount(MemoEntity entity);
+
+    /**
+     * @Title 查询近半年便笺情况
+     * @Params  [user]
+     * @Return  ac.cn.saya.lab.api.tools.Result<java.util.Map<java.lang.String,java.lang.String>>
+     * @Author  saya.ac.cn-刘能凯
+     * @Date  2020-04-08
+     * @Description
+     */
+    @GetMapping(value = "/pre6Memo")
+    public Result<Map<String,String>> countPre6Memo(@RequestParam(value = "user") String user);
 
 }

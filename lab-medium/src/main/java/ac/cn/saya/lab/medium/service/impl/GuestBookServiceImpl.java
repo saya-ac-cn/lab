@@ -33,10 +33,6 @@ public class GuestBookServiceImpl implements GuestBookService {
     @Qualifier("guestBookDAO")
     private GuestBookDAO guestBookDAO;
 
-    @Resource
-    @Qualifier("proceDureDAO")
-    private ProceDureDAO proceDureDAO;
-
     /**
      * @描述 留言
      * @参数
@@ -126,29 +122,5 @@ public class GuestBookServiceImpl implements GuestBookService {
             throw new MyException(ResultEnum.DB_ERROR);
         }
     }
-
-    /**
-     * @描述 查询近半年留言情况
-     * @参数
-     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020-03-12
-     * @修改人和其它信息
-     */
-    @Override
-    public Result<Map<String,String>> countPre6Board() {
-        try {
-            Map<String, Object> map = proceDureDAO.countPre6Board();
-            if (!map.isEmpty()){
-                return ResultUtil.success(map);
-            }
-            return ResultUtil.error(ResultEnum.NOT_EXIST);
-        } catch (Exception e) {
-            logger.error("查询近半年留言情况时发生异常：" + Log4jUtils.getTrace(e));
-            logger.error(CurrentLineInfo.printCurrentLineInfo());
-            throw new MyException(ResultEnum.DB_ERROR);
-        }
-    }
-
 
 }

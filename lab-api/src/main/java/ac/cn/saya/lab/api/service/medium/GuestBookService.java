@@ -56,14 +56,4 @@ public interface GuestBookService {
      */
     public Result<Object> getGuestBookPage(GuestBookEntity entity);
 
-    /**
-     * @描述 查询近半年留言情况
-     * @参数
-     * @返回值 java.util.Map<java.lang.String   ,   java.lang.String>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020-03-12
-     * @修改人和其它信息
-     */
-    public Result<Map<String,String>> countPre6Board();
-
 }

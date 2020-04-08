@@ -65,15 +65,4 @@ public interface GuestBookFeignClient {
     @GetMapping(value = "/medium/guestbook/pagin")
     public Result<Object> getGuestBookPage(GuestBookEntity entity);
 
-    /**
-     * @描述 查询近半年留言情况
-     * @参数
-     * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-21
-     * @修改人和其它信息
-     */
-    @GetMapping(value = "/medium/guestbook/pre6Board")
-    public Result<Map<String,String>> countPre6Board();
-
 }

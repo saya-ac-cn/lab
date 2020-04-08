@@ -103,14 +103,14 @@ public class ProceDureDAO extends JDBCBaseConnection {
     }
 
     /**
-     * @描述 调用存储过程查询近半年留言情况
+     * @描述 调用存储过程查询近半年便笺情况
      * @参数
      * @返回值
      * @创建人 saya.ac.cn-刘能凯
      * @创建时间 2019-03-03
      * @修改人和其它信息
      */
-    public Map<String, Object> countPre6Board() {
+    public Map<String, Object> countPre6Memo(String user) {
         Map<String, Object> result = null;
         SqlSession sqlSession = null;
         //连接对象
@@ -120,7 +120,9 @@ public class ProceDureDAO extends JDBCBaseConnection {
             sqlSession = getSqlSession();
             //建立jdbc连接
             sqlCon = sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection();
-            CallableStatement cs = sqlCon.prepareCall("{Call countPre6Board()}");
+            CallableStatement cs = sqlCon.prepareCall("{Call countPre6Memo(?)}");
+            //设置参数
+            cs.setString(1, user);
             //执行
             cs.executeQuery();
             ResultSet rs = cs.getResultSet();
