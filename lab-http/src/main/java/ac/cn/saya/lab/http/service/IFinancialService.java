@@ -2,6 +2,7 @@ package ac.cn.saya.lab.http.service;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
+import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransactionType() throws Exception;
+    public Result<TransactionTypeEntity> getTransactionType() throws Exception;
 
     /**
      * 查看流水（这里不是明细）
@@ -49,7 +50,7 @@ public interface IFinancialService {
     public Result<Object> getTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request) throws Exception;
 
     /**
-     * 查询详细的流水明细总数
+     * 查询详细的流水明细
      * 根据用户、类型、日期
      *
      * @param entity
