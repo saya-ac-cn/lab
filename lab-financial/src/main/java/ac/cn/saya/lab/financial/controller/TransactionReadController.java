@@ -3,6 +3,7 @@ package ac.cn.saya.lab.financial.controller;
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
+import ac.cn.saya.lab.api.service.financial.FinancialDeclareService;
 import ac.cn.saya.lab.api.service.financial.TransactionReadService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionReadController {
 
     @Autowired
-    private TransactionReadService transactionReadService;
+    private FinancialDeclareService financialDeclareService;
 
     /**
      * @描述 获取所有交易类别数据
@@ -36,7 +37,7 @@ public class TransactionReadController {
      */
     @GetMapping(value = "/transactionType")
     public Result<TransactionTypeEntity> getTransactionType(){
-        return transactionReadService.selectTransactionType();
+        return financialDeclareService.selectTransactionType();
     }
 
     /**

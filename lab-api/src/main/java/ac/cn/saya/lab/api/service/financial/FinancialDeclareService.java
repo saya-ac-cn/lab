@@ -1,41 +1,43 @@
-package ac.cn.saya.lab.financial.repository;
+package ac.cn.saya.lab.api.service.financial;
+
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
-import org.apache.ibatis.annotations.Mapper;
+import ac.cn.saya.lab.api.tools.Result;
 
 import java.util.List;
 
 /**
- * @Title: TransactionReadDAO
- * @ProjectName DataCenter
+ * @Title: FinancialDeclareService
+ * @ProjectName laboratory
  * @Description: TODO
- * @Author Saya
- * @Date: 2018/11/1 22:06
- * @Description: 财政数据库只读DAO
+ * @Author liunengkai
+ * @Date: 2020-04-22 21:47
+ * @Description: 财政申报中间件
  */
-
-@Mapper
-public interface TransactionReadDAO {
+public interface FinancialDeclareService {
 
     /**
-     * 获取交易类别表
+     * @描述 查询近半年财政收支情况
+     * @参数
+     * @返回值
+     * @创建人 saya.ac.cn-刘能凯
+     * @创建时间 2019-03-03
+     * @修改人和其它信息
+     */
+    public List<TransactionListEntity> countPre6Financial(String user);
+
+    /**
+     * 获取所有交易类别数据
      *
      * @return
      */
     public List<TransactionTypeEntity> selectTransactionType();
 
     /**
-     * 获取交易总览
-     *
-     * @param entity
-     * @return
-     */
-    public TransactionListEntity selectTransactionList(TransactionListEntity entity);
-
-    /**
      * 查看流水
+     * 根据用户、类型、日期
      *
      * @param entity
      * @return
@@ -44,6 +46,7 @@ public interface TransactionReadDAO {
 
     /**
      * 查看流水总数
+     * 根据用户、类型、日期
      *
      * @param entity
      * @return
@@ -129,5 +132,65 @@ public interface TransactionReadDAO {
      * @return
      */
     public Long selectTransactionForYearCount(TransactionListEntity entity);
+
+    /**
+     * 添加财政记录父+子
+     *
+     * @param entity
+     * @return
+     */
+    public Result<Object> insertTransaction(TransactionListEntity entity);
+
+    /**
+     * 修改财政记录父
+     *
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    public Result<Object> updateTransaction(TransactionListEntity entity);
+
+    /**
+     * 这里是级联删除
+     * 删除财政记录父+子
+     *
+     * @param entity
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public Result<Object> deleteTransaction(TransactionListEntity entity, String user);
+
+    /**
+     * 单行
+     * 添加财政子记录
+     *
+     * @param entity
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public Result<Object> insertTransactioninfo(TransactionInfoEntity entity, String user);
+
+    /**
+     * 单行
+     * 修改财政子记录
+     *
+     * @param entity
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public Result<Object> updateTransactioninfo(TransactionInfoEntity entity, String user);
+
+    /**
+     * 删除财政子记录
+     *
+     * @param entity
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public Result<Object> deleteTransactioninfo(TransactionInfoEntity entity, String user);
 
 }

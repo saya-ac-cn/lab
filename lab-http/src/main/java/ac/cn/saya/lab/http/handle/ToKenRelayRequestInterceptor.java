@@ -2,7 +2,6 @@ package ac.cn.saya.lab.http.handle;
 
 import ac.cn.saya.lab.api.entity.UserMemory;
 import ac.cn.saya.lab.http.auth.RepeatLogin;
-import ac.cn.saya.lab.http.entity.SecurityEntity;
 import ac.cn.saya.lab.http.tools.HttpRequestUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

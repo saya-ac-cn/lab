@@ -8,6 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * @Title: TransactionReadFeignClient
  * @ProjectName lab
@@ -106,5 +108,5 @@ public interface TransactionReadFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "/financial/read/pre6Financial")
-    public Result<Object> countPre6Financial(@RequestParam(value = "user") String user);
+    public Result<List<TransactionListEntity>> countPre6Financial(@RequestParam(value = "user") String user);
 }

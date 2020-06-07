@@ -4,25 +4,24 @@ import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Title: ProceDureDAO
- * @ProjectName lab
+ * @ProjectName laboratory
  * @Description: TODO
  * @Author liunengkai
- * @Date: 2020-03-04 21:56
+ * @Date: 2019-03-03 16:05
  * @Description:
- * 数据库原生MySQL操作
  */
+
 @Repository("proceDureDAO")
-public class ProceDureDAO extends JDBCBaseConnection{
+public class ProceDureDAO extends JDBCBaseConnection {
 
     /**
      * @描述 调用存储过程查询近半年财政收支情况
@@ -50,7 +49,7 @@ public class ProceDureDAO extends JDBCBaseConnection{
             ResultSet rs = cs.getResultSet();
             result = new ArrayList<>();
             while (rs.next()) {
-                result.add(new TransactionListEntity(rs.getString("totalCount"), rs.getDouble("deposited"), rs.getDouble("expenditure"), rs.getDouble("currencyNumber")));
+                result.add(new TransactionListEntity(rs.getString("totalCount"), new BigDecimal(rs.getString("deposited") == null ? "0.0" : rs.getString("deposited")), new BigDecimal(rs.getString("expenditure") == null ? "0.0" : rs.getString("expenditure")), new BigDecimal(rs.getString("currencyNumber") == null ? "0.0" : rs.getString("currencyNumber"))));
             }
             cs.close();
             sqlCon.close();
@@ -64,5 +63,6 @@ public class ProceDureDAO extends JDBCBaseConnection{
             return result;
         }
     }
+
 
 }

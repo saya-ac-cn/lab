@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @Title: CoreServiceImpl
@@ -79,18 +80,21 @@ public class CoreServiceImpl implements ICoreService {
     private MemoFeignClient memoFeignClient;
 
     @Resource
+    private TransactionReadFeignClient transactionReadFeignClient;
+
+    @Resource
     private JwtOperator jwtOperator;
 
     /**
      * 用户登录
-     *
+     * @param platform
      * @param user
      * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> login(UserEntity user, HttpServletRequest request) throws Exception {
+    public Result<Object> login(String platform,UserEntity user, HttpServletRequest request) throws Exception {
         // 校验用户输入的参数
         if (StringUtils.isEmpty(user.getUser()) || StringUtils.isEmpty(user.getPassword())) {
             // 缺少参数
@@ -780,58 +784,97 @@ public class CoreServiceImpl implements ICoreService {
      */
     @Override
     public Result<Object> dashBoard(HttpServletRequest request) throws Exception {
-        Map<String, Object> result = new HashMap<>(20);
+        Map<String, Object> result = new HashMap<>();
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         // 统计图片总数
         PictureEntity pictureEntity = new PictureEntity();
         pictureEntity.setSource(userSession.getUser());
-        Long pictureCount = ResultUtil.extractLong(pictureStorageFeignClient.getPictuBase64Count(pictureEntity));
-        result.put("pictureCount", pictureCount);
+        CompletableFuture<Long> pictureCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(pictureStorageFeignClient.getPictuBase64Count(pictureEntity)));
+
         // 统计文件总数
         FilesEntity filesEntity = new FilesEntity();
         filesEntity.setSource(userSession.getUser());
-        Long fileCount = ResultUtil.extractLong(filesFeignClient.totalFileCount(filesEntity));
-        result.put("fileCount", fileCount);
+        CompletableFuture<Long> fileCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(filesFeignClient.totalFileCount(filesEntity)));
+
         // 统计笔记簿总数
         NoteBookEntity bookEntity = new NoteBookEntity();
         bookEntity.setSource(userSession.getUser());
-        Long bookCount = ResultUtil.extractLong(noteBookFeignClient.totalNoteBookCount(bookEntity));
-        result.put("bookCount", bookCount);
+        CompletableFuture<Long> bookCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(noteBookFeignClient.totalNoteBookCount(bookEntity)));
+
         // 统计笔记总数
         NotesEntity notesEntity = new NotesEntity();
         notesEntity.setNotebook(bookEntity);
-        Long notesCount = ResultUtil.extractLong(notesFeignClient.totalNotesCount(notesEntity));
-        result.put("notesCount", notesCount);
+        CompletableFuture<Long> notesCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(notesFeignClient.totalNotesCount(notesEntity)));
+
         // 统计计划总数
         PlanEntity planEntity = new PlanEntity();
         planEntity.setSource(userSession.getUser());
-        Long planCount = ResultUtil.extractLong(planFeignClient.totalPlanCount(planEntity));
-        result.put("planCount", planCount);
+        CompletableFuture<Long> planCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(planFeignClient.totalPlanCount(planEntity)));
+
         // 统计公告总数
         NewsEntity newsEntity = new NewsEntity();
         newsEntity.setSource(userSession.getUser());
-        Long newsCount = ResultUtil.extractLong(newsFeignClient.totalNewsCount(newsEntity));
-        result.put("newsCount", newsCount);
-        // 统计便笺总数
-        MemoEntity memoEntity = new MemoEntity();
-        memoEntity.setSource(userSession.getUser());
-        Long guestCount = ResultUtil.extractLong(memoFeignClient.totalCount(memoEntity));
-        result.put("memoCount", guestCount);
+        CompletableFuture<Long> newsCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(newsFeignClient.totalNewsCount(newsEntity)));
+
         // 统计登录总数
         LogEntity logEntity = new LogEntity();
         logEntity.setUser(userSession.getUser());
         logEntity.setType("OX001");
-        Long logCount = ResultUtil.extractLong(logFeignClient.getCount(logEntity));
+        CompletableFuture<Long> logCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(logFeignClient.getCount(logEntity)));
+
+        CompletableFuture<Map<String, String>> news6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(newsFeignClient.countPre6MonthNews(userSession.getUser())));
+
+        CompletableFuture<Map<String, Object>> log6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
+
+        CompletableFuture<Map<String, String>> files6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
+
+        CompletableFuture<Map<String, String>> memo6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(memoFeignClient.countPre6Memo(userSession.getUser())));
+
+        CompletableFuture<List<TransactionListEntity>> financial6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(transactionReadFeignClient.countPre6Financial(userSession.getUser())));
+
+        Long pictureCount = pictureCountFuture.exceptionally(f -> 0L).get();
+        result.put("pictureCount", pictureCount);
+
+        Long fileCount = fileCountFuture.exceptionally(f -> 0L).get();
+        result.put("fileCount", fileCount);
+
+        Long bookCount = bookCountFuture.exceptionally(f -> 0L).get();
+        result.put("bookCount", bookCount);
+
+        Long notesCount = notesCountFuture.exceptionally(f -> 0L).get();
+        result.put("notesCount", notesCount);
+
+        Long planCount = planCountFuture.exceptionally(f -> 0L).get();
+        result.put("planCount", planCount);
+
+        Long newsCount = newsCountFuture.exceptionally(f -> 0L).get();
+        result.put("newsCount", newsCount);
+
+        Long logCount = logCountFuture.exceptionally(f -> 0L).get();
         result.put("logCount", logCount);
+
+        Map<String, String> news6 = news6Future.exceptionally(f -> null).get();
+        result.put("news6", news6);
+
+        Map<String, Object> log6 = log6Future.exceptionally(f -> null).get();
+        result.put("log6", log6);
+
+        Map<String, String> files6 = files6Future.exceptionally(f -> null).get();
+        result.put("files6", files6);
+
+        Map<String, String> memo6 = memo6Future.exceptionally(f -> null).get();
+        result.put("memo6", memo6);
+
+        List<TransactionListEntity> financial6 = financial6Future.exceptionally(f -> null).get();
+        result.put("financial6", financial6);
+
         // 统计笔记簿
         bookEntity.setStartLine(0);
         bookEntity.setEndLine(bookCount.intValue());
-        result.put("bookList", ResultUtil.extractList(noteBookFeignClient.getNoteBook(bookEntity)));
-        result.put("news6", ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
-        result.put("log6", ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
-        result.put("files6", ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
-        result.put("memo", ResultUtil.extractList(memoFeignClient.countPre6Memo(userSession.getUser())));
-        result.put("financial6", ResultUtil.extractList(filesFeignClient.countPre6Files(userSession.getUser())));
+        CompletableFuture<List<NoteBookEntity>> bookListFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractList(noteBookFeignClient.getNoteBook(bookEntity)));
+        List<NoteBookEntity> bookList = bookListFuture.exceptionally(f -> null).get();
+        result.put("bookList", bookList);
+
         return ResultUtil.success(result);
     }
 }

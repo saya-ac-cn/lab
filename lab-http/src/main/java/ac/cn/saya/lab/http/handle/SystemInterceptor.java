@@ -42,6 +42,8 @@ public class SystemInterceptor implements HandlerInterceptor {
             // 设置将字符以"UTF-8"编码输出到客户端浏览器
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
+            // 401（未授权） 请求要求身份验证
+            response.setStatus(401);
             //获取PrintWriter输出流
             PrintWriter out = response.getWriter();
             out.write(JSON.toJSONString(ResultUtil.error(-7, "请登录")));
@@ -62,7 +64,7 @@ public class SystemInterceptor implements HandlerInterceptor {
         // 其他的路径放行
         String path = request.getRequestURI();
         if (path.startsWith("/backend/")) {
-            if (path.startsWith("/backend/download/") || "/backend/login".equals(path)) {
+            if (path.startsWith("/backend/download/") || path.startsWith("/backend/login")) {
                 return 1;
             } else {
                 // 需要授信认证的资源

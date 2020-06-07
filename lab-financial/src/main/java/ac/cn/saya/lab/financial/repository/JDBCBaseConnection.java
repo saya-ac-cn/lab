@@ -8,12 +8,11 @@ import javax.annotation.Resource;
 
 /**
  * @Title: JDBCBaseConnection
- * @ProjectName lab
+ * @ProjectName laboratory
  * @Description: TODO
  * @Author liunengkai
- * @Date: 2020-03-04 21:51
- * @Description:
- * 基类Dao
+ * @Date: 2019-03-03 16:03
+ * @Description: 基类Dao
  * 自动实现相关的Mybatis变量
  * 把配置文件中的been注入到此
  */
