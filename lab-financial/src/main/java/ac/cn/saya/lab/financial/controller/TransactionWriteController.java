@@ -2,6 +2,7 @@ package ac.cn.saya.lab.financial.controller;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
+import ac.cn.saya.lab.api.service.financial.FinancialDeclareService;
 import ac.cn.saya.lab.api.service.financial.TransactionWriteService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionWriteController {
 
     @Autowired
-    private TransactionWriteService transactionWriteService;
+    private FinancialDeclareService financialDeclareService;
 
     /**
      * @描述 写入到财政明细表
