@@ -2,11 +2,11 @@ package ac.cn.saya.lab.financial.controller;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
-import ac.cn.saya.lab.api.service.financial.FinancialDeclareService;
-import ac.cn.saya.lab.api.service.financial.TransactionWriteService;
+import ac.cn.saya.lab.api.service.financial.IFinancialService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Title: TransactionWriteController
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionWriteController {
 
     @Autowired
-    private FinancialDeclareService financialDeclareService;
+    private IFinancialService financialService;
 
     /**
      * @描述 写入到财政明细表
@@ -32,8 +32,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PostMapping(value = "transactionInfo")
-    public Result<Integer> insertTransactionInfo(@RequestBody TransactionInfoEntity entity){
-        return transactionWriteService.insertTransactionInfo(entity);
+    public Result<Object> insertTransactionInfo(@RequestBody TransactionInfoEntity entity, HttpServletRequest request){
+        return financialService.insertTransactionInfo(entity,request);
     }
 
     /**
@@ -45,8 +45,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PostMapping(value = "transactionList")
-    public Result<Integer> insertTransactionList(@RequestBody TransactionListEntity entity){
-        return transactionWriteService.insertTransactionList(entity);
+    public Result<Object> insertTransactionList(@RequestBody TransactionListEntity entity, HttpServletRequest request){
+        return financialService.insertTransaction(entity,request);
     }
 
     /**
@@ -58,8 +58,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PutMapping(value = "transactionInfo")
-    public Result<Integer> updateTransactionInfo(@RequestBody TransactionInfoEntity entity){
-        return transactionWriteService.updateTransactionInfo(entity);
+    public Result<Object> updateTransactionInfo(@RequestBody TransactionInfoEntity entity, HttpServletRequest request){
+        return financialService.updateTransactionInfo(entity,request);
     }
 
     /**
@@ -71,8 +71,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PutMapping(value = "transactionList")
-    public Result<Integer> updateTransactionList(@RequestBody TransactionListEntity entity){
-        return transactionWriteService.updateTransactionList(entity);
+    public Result<Object> updateTransactionList(@RequestBody TransactionListEntity entity, HttpServletRequest request){
+        return financialService.updateTransaction(entity,request);
     }
 
     /**
@@ -84,8 +84,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionInfo")
-    public Result<Integer> deleteTransactionInfo(@RequestParam(value = "id") Integer id, @RequestParam(value = "source") String source){
-        return transactionWriteService.deleteTransactionInfo(id,source);
+    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request){
+        return financialService.deleteTransactionInfo(entity,request);
     }
 
     /**
@@ -97,7 +97,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionList")
-    public Result<Integer> deleteTransactionList(@RequestParam(value = "tradeId") Integer tradeId, @RequestParam(value = "source") String source){
-        return transactionWriteService.deleteTransactionList(tradeId,source);
+    public Result<Object> deleteTransactionList(TransactionListEntity entity, HttpServletRequest request){
+        return financialService.deleteTransaction(entity,request);
     }
 }

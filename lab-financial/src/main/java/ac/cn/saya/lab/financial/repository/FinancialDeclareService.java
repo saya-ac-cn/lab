@@ -1,15 +1,10 @@
-package ac.cn.saya.lab.financial.service.impl;
-
+package ac.cn.saya.lab.financial.repository;
 
 import ac.cn.saya.lab.api.entity.TransactionInfoEntity;
 import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.exception.MyException;
-import ac.cn.saya.lab.api.service.financial.FinancialDeclareService;
 import ac.cn.saya.lab.api.tools.*;
-import ac.cn.saya.lab.financial.repository.ProceDureDAO;
-import ac.cn.saya.lab.financial.repository.TransactionReadDAO;
-import ac.cn.saya.lab.financial.repository.TransactionWriteDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * @Title: FinancialDeclareServiceImpl
+ * @Title: FinancialDeclareService
  * @ProjectName laboratory
  * @Description: TODO
  * @Author liunengkai
@@ -32,10 +27,10 @@ import java.util.List;
  * @Description: 财政申报中间件
  */
 @Service("financialDeclareService")
-@Transactional(readOnly = true,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor= MyException.class)
-public class FinancialDeclareServiceImpl implements FinancialDeclareService {
+@Transactional(readOnly = true,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
+public class FinancialDeclareService {
 
-    private static Logger logger = LoggerFactory.getLogger(FinancialDeclareServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(FinancialDeclareService.class);
 
     @Resource
     @Qualifier("transactionWriteDAO")
@@ -46,8 +41,8 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
     private TransactionReadDAO transactionReadDAO;
 
     @Resource
-    @Qualifier("financialBatchDAO")
-    private ProceDureDAO batchDAO;
+    @Qualifier("proceDureDAO")
+    private ProceDureDAO proceDureDAO;
 
     /**
      * @描述 查询近半年财政收支情况
@@ -57,10 +52,9 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @创建时间 2019-03-03
      * @修改人和其它信息
      */
-    @Override
     public List<TransactionListEntity> countPre6Financial(String user) {
         try {
-            return batchDAO.countPre6Financial(user);
+            return proceDureDAO.countPre6Financial(user);
         } catch (Exception e) {
             logger.error("查询近半年财政收支情况失败" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
@@ -73,7 +67,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      *
      * @return
      */
-    @Override
     public List<TransactionTypeEntity> selectTransactionType() {
         try {
             List<TransactionTypeEntity> list = transactionReadDAO.selectTransactionType();
@@ -95,7 +88,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public List<TransactionListEntity> selectTransactionPage(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionPage(entity);
@@ -113,7 +105,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public Long selectTransactionCount(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionCount(entity);
@@ -130,7 +121,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public List<TransactionInfoEntity> selectTransactionInfoPage(TransactionInfoEntity entity) {
         try {
             List<TransactionInfoEntity> list = transactionReadDAO.selectTransactionInfoPage(entity);
@@ -151,7 +141,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public Long selectTransactionInfoCount(TransactionInfoEntity entity) {
         try {
             return transactionReadDAO.selectTransactionInfoCount(entity);
@@ -168,7 +157,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public List<TransactionInfoEntity> selectTransactionFinalPage(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionFinalPage(entity);
@@ -185,7 +173,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public Long selectTransactionFinalCount(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionFinalCount(entity);
@@ -202,7 +189,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public List<TransactionListEntity> selectTransactionForDayPage(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionForDayPage(entity);
@@ -219,7 +205,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public Long selectTransactionForDayCount(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionForDayCount(entity);
@@ -236,7 +221,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public List<TransactionListEntity> selectTransactionForMonthPage(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionForMonthPage(entity);
@@ -253,7 +237,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public Long selectTransactionForMonthCount(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionForMonthCount(entity);
@@ -270,7 +253,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public List<TransactionListEntity> selectTransactionForYearPage(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionForYearPage(entity);
@@ -287,7 +269,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     public Long selectTransactionForYearCount(TransactionListEntity entity) {
         try {
             return transactionReadDAO.selectTransactionForYearCount(entity);
@@ -304,7 +285,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @param entity
      * @return
      */
-    @Override
     @Transactional(readOnly = false)
     public Result<Object> insertTransaction(TransactionListEntity entity) {
         try {
@@ -365,7 +345,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @return
      * @throws Exception
      */
-    @Override
     @Transactional(readOnly = false)
     public Result<Object> updateTransaction(TransactionListEntity entity) {
         // 只允许修改交易类别以及交易摘要
@@ -401,7 +380,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @return
      * @throws Exception
      */
-    @Override
     @Transactional(readOnly = false)
     public Result<Object> deleteTransaction(TransactionListEntity entity, String user) {
         if (entity == null || entity.getTradeId() == null) {
@@ -434,7 +412,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @return
      * @throws Exception
      */
-    @Override
     @Transactional(readOnly = false)
     public Result<Object> insertTransactioninfo(TransactionInfoEntity entity, String user) {
         TransactionListEntity preview = transactionReadDAO.selectTransactionList(new TransactionListEntity(entity.getTradeId(),user));
@@ -513,7 +490,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @return
      * @throws Exception
      */
-    @Override
     @Transactional(readOnly = false)
     public Result<Object> updateTransactioninfo(TransactionInfoEntity entity, String user) {
         TransactionListEntity preview = transactionReadDAO.selectTransactionList(new TransactionListEntity(entity.getTradeId(),user));
@@ -591,7 +567,6 @@ public class FinancialDeclareServiceImpl implements FinancialDeclareService {
      * @return
      * @throws Exception
      */
-    @Override
     @Transactional(readOnly = false)
     public Result<Object> deleteTransactioninfo(TransactionInfoEntity entity, String user) {
         TransactionListEntity preview = transactionReadDAO.selectTransactionList(new TransactionListEntity(entity.getTradeId(),user));

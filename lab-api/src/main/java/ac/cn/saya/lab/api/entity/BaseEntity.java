@@ -17,11 +17,11 @@ public class BaseEntity implements Serializable {
     /**
      * 请求页面
      */
-    private Integer nowPage;
+    private Integer nowPage = 1;
     /**
      * 请求页宽
      */
-    private Integer pageSize;
+    private Integer pageSize = 20;
     /**
      * 开始行->放入到sql中执行的
      */
