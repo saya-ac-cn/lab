@@ -2,12 +2,14 @@ package ac.cn.saya.lab.core.controller;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
+import ac.cn.saya.lab.api.entity.OutExcelEntity;
 import ac.cn.saya.lab.api.service.core.LogService;
 import ac.cn.saya.lab.api.tools.Result;
-import ac.cn.saya.lab.api.tools.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -76,6 +78,18 @@ public class LogController {
     @GetMapping(value = "/recently")
     public Result<LogEntity> queryRecentlyLog(@RequestParam(value = "user") String user){
         return logService.queryRecentlyLog(user);
+    }
+
+    /**
+     * 导出日志到excel
+     *
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "log/excel")
+    public Result<OutExcelEntity> logExcel(LogEntity entity) throws Exception {
+        return logService.outLogExcel(entity);
     }
 
     /**

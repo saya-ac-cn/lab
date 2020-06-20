@@ -2,8 +2,10 @@ package ac.cn.saya.lab.api.service.core;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
+import ac.cn.saya.lab.api.entity.OutExcelEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -61,25 +63,11 @@ public interface LogService {
      */
     public Result<LogEntity> queryRecentlyLog(String user);
 
-
     /**
-     * @描述 获取日志总数
-     * @参数
-     * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-28
-     * @修改人和其它信息
+     * 导出日志到excel
+     * @param entity
+     * @return
      */
-    public Result<Long> quertCount(LogEntity entity);
-
-    /**
-     * @描述 获取日志列表(分页) 需配合quertCount使用
-     * @参数
-     * @返回值
-     * @创建人  saya.ac.cn-刘能凯
-     * @创建时间  2020-03-28
-     * @修改人和其它信息
-     */
-    public Result<List<LogEntity>> quertList(LogEntity entity);
+    public Result<OutExcelEntity> outLogExcel(LogEntity entity);
 
 }
