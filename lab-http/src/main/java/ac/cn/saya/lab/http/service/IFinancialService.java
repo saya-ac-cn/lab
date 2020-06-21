@@ -25,7 +25,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<TransactionTypeEntity> getTransactionType() throws Exception;
+    public Result<TransactionTypeEntity> getTransactionType();
 
     /**
      * 查看流水（这里不是明细）
@@ -36,7 +36,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransaction(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> getTransaction(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 查看流水子明细
@@ -47,7 +47,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> getTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request);
 
     /**
      * 查询详细的流水明细
@@ -58,7 +58,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransactionFinal(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> getTransactionFinal(TransactionListEntity entity, HttpServletRequest request);
 
 
     /**
@@ -69,7 +69,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> insertTransaction(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> insertTransaction(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 修改财政记录父
@@ -79,7 +79,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> updateTransaction(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> updateTransaction(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 删除财政记录父+子
@@ -89,7 +89,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> deleteTransaction(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> deleteTransaction(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 添加财政子记录
@@ -99,7 +99,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> insertTransactioninfo(TransactionInfoEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> insertTransactioninfo(TransactionInfoEntity entity, HttpServletRequest request);
 
     /**
      * 修改财政子记录
@@ -109,7 +109,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> updateTransactioninfo(TransactionInfoEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> updateTransactioninfo(TransactionInfoEntity entity, HttpServletRequest request);
 
     /**
      * 删除财政子记录
@@ -119,7 +119,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> deleteTransactioninfo(TransactionInfoEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> deleteTransactioninfo(TransactionInfoEntity entity, HttpServletRequest request);
 
     /**
      * 导出流水
@@ -130,7 +130,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> outTransactionListExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> outTransactionListExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
 
 
     /**
@@ -142,7 +142,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> outTransactionInfoExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> outTransactionInfoExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 按天统计流水
@@ -152,7 +152,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> totalTransactionForDay(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> totalTransactionForDay(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 按月统计流水
@@ -162,7 +162,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> totalTransactionForMonth(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> totalTransactionForMonth(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 按年统计流水
@@ -172,7 +172,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> totalTransactionForYear(TransactionListEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> totalTransactionForYear(TransactionListEntity entity, HttpServletRequest request);
 
     /**
      * 按天导出流水统计报表
@@ -183,7 +183,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> outTransactionForDayExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> outTransactionForDayExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 按月导出流水统计报表
@@ -194,7 +194,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> outTransactionForMonthExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> outTransactionForMonthExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 按年导出流水统计报表
@@ -205,6 +205,6 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<Object> outTransactionForYearExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> outTransactionForYearExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
 
 }

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @Title: CoreServiceImpl
@@ -94,7 +95,7 @@ public class CoreServiceImpl implements ICoreService {
      * @throws Exception
      */
     @Override
-    public Result<Object> login(String platform,UserEntity user, HttpServletRequest request) throws Exception {
+    public Result<Object> login(String platform,UserEntity user, HttpServletRequest request){
         // 校验用户输入的参数
         if (StringUtils.isEmpty(user.getUser()) || StringUtils.isEmpty(user.getPassword())) {
             // 缺少参数
@@ -145,7 +146,11 @@ public class CoreServiceImpl implements ICoreService {
             }
             // 比对密码
             //加密后用户的密码
-            user.setPassword(DesUtil.encrypt(user.getPassword()));
+            try {
+                user.setPassword(DesUtil.encrypt(user.getPassword()));
+            } catch (Exception e) {
+                throw new MyException(ResultEnum.ERROP);
+            }
             if (entity.getPassword().equals(user.getPassword())) {
                 HttpSession session = request.getSession();
                 //设置session
@@ -205,7 +210,7 @@ public class CoreServiceImpl implements ICoreService {
      * @throws Exception
      */
     @Override
-    public Result<Object> getUserInfo(HttpServletRequest request) throws Exception {
+    public Result<Object> getUserInfo(HttpServletRequest request) {
         //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         // 在系统中查询该用户是否存在
@@ -230,7 +235,7 @@ public class CoreServiceImpl implements ICoreService {
      * @throws Exception
      */
     @Override
-    public Result<Object> logout(HttpServletRequest request) throws Exception {
+    public Result<Object> logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
         UserMemory userSession = (UserMemory) session.getAttribute("user");
@@ -250,7 +255,7 @@ public class CoreServiceImpl implements ICoreService {
      * @return
      */
     @Override
-    public Result<Object> setUserInfo(UserEntity user, HttpServletRequest request) throws Exception {
+    public Result<Object> setUserInfo(UserEntity user, HttpServletRequest request) {
         // 校验用户输入的参数
         if (user == null) {
             // 缺少参数
@@ -280,7 +285,7 @@ public class CoreServiceImpl implements ICoreService {
      * @return
      */
     @Override
-    public Result<Object> setPassword(UserEntity user, HttpServletRequest request) throws Exception {
+    public Result<Object> setPassword(UserEntity user, HttpServletRequest request)  {
         // 校验用户输入的参数
         if (user == null || StringUtils.isEmpty(user.getPassword())) {
             // 缺少参数
@@ -290,7 +295,11 @@ public class CoreServiceImpl implements ICoreService {
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         user.setUser(userSession.getUser());
         //加密后用户的密码
-        user.setPassword(DesUtil.encrypt(user.getPassword()));
+        try {
+            user.setPassword(DesUtil.encrypt(user.getPassword()));
+        } catch (Exception e) {
+            throw new MyException(ResultEnum.ERROP);
+        }
         Result<Integer> result = userFeignClient.setUser(user);
         if (ResultUtil.checkSuccess(result)) {
             /**
@@ -310,7 +319,7 @@ public class CoreServiceImpl implements ICoreService {
      * @return
      */
     @Override
-    public Result<LogTypeEntity> getLogType() throws Exception {
+    public Result<LogTypeEntity> getLogType(){
         Result<LogTypeEntity> result = logFeignClient.selectLogType();
         if (!ResultUtil.checkSuccess(result)) {
             // 没有该用户的信息 直接中断返回
@@ -330,7 +339,7 @@ public class CoreServiceImpl implements ICoreService {
      * @return
      */
     @Override
-    public Result<Object> getLog(LogEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> getLog(LogEntity entity, HttpServletRequest request){
         //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         entity.setUser(userSession.getUser());
@@ -348,39 +357,15 @@ public class CoreServiceImpl implements ICoreService {
      * @throws Exception
      */
     @Override
-    public Result<Object> outLogExcel(LogEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String[] keys = {"user", "describe", "ip", "city", "date"};
-        //放置到第一行的字段名
-        String[] titles = {"用户", "操作详情", "IP", "城市", "日期"};
+    public Result<Object> outLogExcel(LogEntity entity, HttpServletRequest request, HttpServletResponse response){
         //在session中取出管理员的信息   最后放入的都是 用户名 不是邮箱
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        entity.setUser(userSession.getUser());
         try {
-            //获取满足条件的总记录（不分页）
-            Result<Long> countResult = logFeignClient.getCount(entity);
-            if (!ResultUtil.checkSuccess(countResult)){
+            Result<OutExcelEntity> excel = logFeignClient.logExcel(entity);
+            if (!ResultUtil.checkSuccess(excel)){
                 response.setStatus(404);
                 return ResultUtil.error(-1, "没有可导出的数据");
-            }
-            Long count = countResult.getData();
-            //设置行索引
-            entity.setPage(0, count.intValue());
-            entity.setUser(userSession.getUser());
-            Result<List<LogEntity>> listResult = logFeignClient.getList(entity);
-            if (!ResultUtil.checkSuccess(listResult)){
-                response.setStatus(404);
-                return ResultUtil.error(-1, "没有可导出的数据");
-            }
-            //获取满足条件的记录集合
-            List<LogEntity> entityList = listResult.getData();
-            List<JSONObject> jsonObjectList = new ArrayList<>();
-            for (LogEntity item : entityList) {
-                JSONObject json = new JSONObject();
-                json.put("user", item.getUser());
-                json.put("describe", item.getLogType().getDescribe());
-                json.put("ip", item.getIp());
-                json.put("city", item.getCity());
-                json.put("date", item.getDate());
-                jsonObjectList.add(json);
             }
             // 设置contentType为excel格式
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -389,12 +374,14 @@ public class CoreServiceImpl implements ICoreService {
             response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode("操作日志.xlsx", "UTF-8"));
             ServletOutputStream out = response.getOutputStream();
             response.flushBuffer();
-            OutExcelUtils.outExcelTemplateSimple(keys, titles, jsonObjectList, out);
+
+            OutExcelUtils.outExcelTemplateSimple(excel.getData().getKeys(), excel.getData().getTitles(), excel.getData().getBodyData(), out);
+            return ResultUtil.success();
         } catch (Exception e) {
             response.setStatus(500);
             e.printStackTrace();
+            return ResultUtil.error(ResultEnum.ERROP);
         }
-        return null;
     }
 
     /**
@@ -406,8 +393,13 @@ public class CoreServiceImpl implements ICoreService {
      * @Description
      */
     @Override
-    public Result<Object> updateLogo(String imgBase64, HttpServletRequest request) throws Exception {
-        Result<String> upload = UploadUtils.uploadLogo(imgBase64, request);
+    public Result<Object> updateLogo(String imgBase64, HttpServletRequest request){
+        Result<String> upload = null;
+        try {
+            upload = UploadUtils.uploadLogo(imgBase64, request);
+        } catch (Exception e) {
+            throw new MyException(ResultEnum.ERROP);
+        }
         if (upload.getCode() == 0) {
             //logo上传成功
             //得到文件上传成功的回传地址
@@ -499,7 +491,7 @@ public class CoreServiceImpl implements ICoreService {
      * @Description
      */
     @Override
-    public Result<Object> getPlan(String date, HttpServletRequest request) throws Exception {
+    public Result<Object> getPlan(String date, HttpServletRequest request) {
         // 日期准备
         // 第一天
         String firstDay = DateUtils.getFirstDayOfMonth(date);
@@ -576,7 +568,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 查询计划详情
      */
     @Override
-    public Result<PlanEntity> getPlanDetail(PlanEntity entity, HttpServletRequest request) throws Exception {
+    public Result<PlanEntity> getPlanDetail(PlanEntity entity, HttpServletRequest request){
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         entity.setSource(userSession.getUser());
         if (entity == null || entity.getId() == null) {
@@ -596,7 +588,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 创建计划
      */
     @Override
-    public Result<Object> createPlan(PlanEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> createPlan(PlanEntity entity, HttpServletRequest request){
         // 校验用户输入的参数
         if (entity == null) {
             // 缺少参数
@@ -626,7 +618,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 修改计划
      */
     @Override
-    public Result<Object> editPlan(PlanEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> editPlan(PlanEntity entity, HttpServletRequest request) {
         // 校验用户输入的参数
         if (entity == null) {
             // 缺少参数
@@ -659,7 +651,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 删除计划
      */
     @Override
-    public Result<Object> deletePlan(PlanEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> deletePlan(PlanEntity entity, HttpServletRequest request) {
         // 校验用户输入的参数
         if (entity == null) {
             // 缺少参数
@@ -689,7 +681,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 查询接口列表
      */
     @Override
-    public Result<Object> getApi(ApiEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> getApi(ApiEntity entity, HttpServletRequest request){
         return apiFeignClient.getApiPage(entity);
     }
 
@@ -702,7 +694,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 创建接口
      */
     @Override
-    public Result<Object> createApi(ApiEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> createApi(ApiEntity entity, HttpServletRequest request) {
         // 校验用户输入的参数
         if (entity == null) {
             // 缺少参数
@@ -729,7 +721,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 修改接口
      */
     @Override
-    public Result<Object> editApi(ApiEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> editApi(ApiEntity entity, HttpServletRequest request) {
         // 校验用户输入的参数
         if (entity == null) {
             // 缺少参数
@@ -756,7 +748,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息 删除接口
      */
     @Override
-    public Result<Object> deleteApi(ApiEntity entity, HttpServletRequest request) throws Exception {
+    public Result<Object> deleteApi(ApiEntity entity, HttpServletRequest request){
         // 校验用户输入的参数
         if (entity == null) {
             // 缺少参数
@@ -783,7 +775,7 @@ public class CoreServiceImpl implements ICoreService {
      * @修改人和其它信息
      */
     @Override
-    public Result<Object> dashBoard(HttpServletRequest request) throws Exception {
+    public Result<Object> dashBoard(HttpServletRequest request){
         Map<String, Object> result = new HashMap<>();
         UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
         // 统计图片总数
@@ -816,12 +808,6 @@ public class CoreServiceImpl implements ICoreService {
         newsEntity.setSource(userSession.getUser());
         CompletableFuture<Long> newsCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(newsFeignClient.totalNewsCount(newsEntity)));
 
-        // 统计登录总数
-        LogEntity logEntity = new LogEntity();
-        logEntity.setUser(userSession.getUser());
-        logEntity.setType("OX001");
-        CompletableFuture<Long> logCountFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractLong(logFeignClient.getCount(logEntity)));
-
         CompletableFuture<Map<String, String>> news6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(newsFeignClient.countPre6MonthNews(userSession.getUser())));
 
         CompletableFuture<Map<String, Object>> log6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(userFeignClient.countPre6Logs(userSession.getUser())));
@@ -832,48 +818,94 @@ public class CoreServiceImpl implements ICoreService {
 
         CompletableFuture<List<TransactionListEntity>> financial6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(transactionReadFeignClient.countPre6Financial(userSession.getUser())));
 
-        Long pictureCount = pictureCountFuture.exceptionally(f -> 0L).get();
-        result.put("pictureCount", pictureCount);
+        try {
+            Long pictureCount = pictureCountFuture.exceptionally(f -> 0L).get();
+            result.put("pictureCount", pictureCount);
+        } catch (Exception e) {
+            result.put("pictureCount", 0);
+        }
 
-        Long fileCount = fileCountFuture.exceptionally(f -> 0L).get();
-        result.put("fileCount", fileCount);
+        try {
+            Long fileCount = fileCountFuture.exceptionally(f -> 0L).get();
+            result.put("fileCount", fileCount);
+        } catch (Exception e) {
+            result.put("fileCount", 0);
+        }
 
-        Long bookCount = bookCountFuture.exceptionally(f -> 0L).get();
-        result.put("bookCount", bookCount);
+        Long bookCount = null;
+        try {
+            bookCount = bookCountFuture.exceptionally(f -> 0L).get();
+            result.put("bookCount", bookCount);
+        } catch (Exception e) {
+            result.put("bookCount", 0);
+        }
 
-        Long notesCount = notesCountFuture.exceptionally(f -> 0L).get();
-        result.put("notesCount", notesCount);
+        try {
+            Long notesCount = notesCountFuture.exceptionally(f -> 0L).get();
+            result.put("notesCount", notesCount);
+        } catch (Exception e) {
+            result.put("notesCount", 0);
+        }
 
-        Long planCount = planCountFuture.exceptionally(f -> 0L).get();
-        result.put("planCount", planCount);
+        try {
+            Long planCount = planCountFuture.exceptionally(f -> 0L).get();
+            result.put("planCount", planCount);
+        } catch (Exception e) {
+            result.put("planCount", 0);
+        }
 
-        Long newsCount = newsCountFuture.exceptionally(f -> 0L).get();
-        result.put("newsCount", newsCount);
+        try {
+            Long newsCount = newsCountFuture.exceptionally(f -> 0L).get();
+            result.put("newsCount", newsCount);
+        } catch (Exception e) {
+            result.put("newsCount", 0);
+        }
 
-        Long logCount = logCountFuture.exceptionally(f -> 0L).get();
-        result.put("logCount", logCount);
+        try {
+            Map<String, String> news6 = news6Future.exceptionally(f -> null).get();
+            result.put("news6", news6);
+        } catch (Exception e) {
+            result.put("news6", 0);
+        }
 
-        Map<String, String> news6 = news6Future.exceptionally(f -> null).get();
-        result.put("news6", news6);
+        try {
+            Map<String, Object> log6 = log6Future.exceptionally(f -> null).get();
+            result.put("log6", log6);
+        } catch (Exception e) {
+            result.put("log6", 0);
+        }
 
-        Map<String, Object> log6 = log6Future.exceptionally(f -> null).get();
-        result.put("log6", log6);
+        try {
+            Map<String, String> files6 = files6Future.exceptionally(f -> null).get();
+            result.put("files6", files6);
+        } catch (Exception e) {
+            result.put("files6", 0);
+        }
 
-        Map<String, String> files6 = files6Future.exceptionally(f -> null).get();
-        result.put("files6", files6);
+        try {
+            Map<String, String> memo6 = memo6Future.exceptionally(f -> null).get();
+            result.put("memo6", memo6);
+        } catch (Exception e) {
+            result.put("memo6", 0);
+        }
 
-        Map<String, String> memo6 = memo6Future.exceptionally(f -> null).get();
-        result.put("memo6", memo6);
-
-        List<TransactionListEntity> financial6 = financial6Future.exceptionally(f -> null).get();
-        result.put("financial6", financial6);
+        try {
+            List<TransactionListEntity> financial6 = financial6Future.exceptionally(f -> null).get();
+            result.put("financial6", financial6);
+        } catch (Exception e) {
+            result.put("financial6", 0);
+        }
 
         // 统计笔记簿
         bookEntity.setStartLine(0);
         bookEntity.setEndLine(bookCount.intValue());
         CompletableFuture<List<NoteBookEntity>> bookListFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractList(noteBookFeignClient.getNoteBook(bookEntity)));
-        List<NoteBookEntity> bookList = bookListFuture.exceptionally(f -> null).get();
-        result.put("bookList", bookList);
+        try {
+            List<NoteBookEntity> bookList = bookListFuture.exceptionally(f -> null).get();
+            result.put("bookList", bookList);
+        } catch (Exception e) {
+            result.put("bookList", null);
+        }
 
         return ResultUtil.success(result);
     }

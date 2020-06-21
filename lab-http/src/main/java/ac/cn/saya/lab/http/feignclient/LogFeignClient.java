@@ -2,12 +2,10 @@ package ac.cn.saya.lab.http.feignclient;
 
 import ac.cn.saya.lab.api.entity.LogEntity;
 import ac.cn.saya.lab.api.entity.LogTypeEntity;
+import ac.cn.saya.lab.api.entity.OutExcelEntity;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -64,29 +62,18 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/recently")
-    public Result<LogEntity> queryRecentlyLog(@RequestParam(value = "user") String user);
+    @GetMapping(value = "/recently/{user}")
+    public Result<LogEntity> queryRecentlyLog(@PathVariable(value = "user") String user);
 
     /**
-     * @Title 获取日志总数
-     * @Params  [entity]
-     * @Return  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
-     * @Author  saya.ac.cn-刘能凯
-     * @Date  2020-03-28
-     * @Description
+     * @描述 导出日志到excel
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.OutExcelEntity>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/20
+     * @修改人和其它信息
      */
-    @GetMapping(value = "/count")
-    public Result<Long> getCount(LogEntity entity);
-
-    /**
-     * @Title 获取日志列表(分页) 需配合quertCount使用
-     * @Params  [entity]
-     * @Return  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.LogEntity>
-     * @Author  saya.ac.cn-刘能凯
-     * @Date  2020-03-28
-     * @Description
-     */
-    @GetMapping(value = "/list")
-    public Result<List<LogEntity>> getList(LogEntity entity);
+    @GetMapping(value = "log/excel")
+    public Result<OutExcelEntity> logExcel(LogEntity entity);
 
 }

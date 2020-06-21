@@ -7,8 +7,6 @@ import ac.cn.saya.lab.api.entity.TransactionListEntity;
 import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.tools.Result;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -24,6 +22,7 @@ public interface IFinancialService {
 
     /**
      * 查询近半年财政收支情况
+     *
      * @param user
      * @return
      */
@@ -42,176 +41,160 @@ public interface IFinancialService {
      * 根据用户、类型、日期
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransaction(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> getTransaction(TransactionListEntity entity);
 
     /**
      * 查看流水子明细
      * 根据父id，本位id，flog
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request);
+    public Result<Object> getTransactionInfo(TransactionInfoEntity entity);
 
     /**
      * 查询详细的流水明细总数
      * 根据用户、类型、日期
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> getTransactionFinal(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> getTransactionFinal(TransactionListEntity entity);
 
 
     /**
      * 添加财政记录父+子
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> insertTransaction(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> insertTransaction(TransactionListEntity entity);
 
     /**
      * 修改财政记录父
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> updateTransaction(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> updateTransaction(TransactionListEntity entity);
 
     /**
      * 删除财政记录父+子
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> deleteTransaction(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> deleteTransaction(TransactionListEntity entity);
 
     /**
      * 添加财政子记录
      *
      * @param entity
-     * @param request
+     * @param user
      * @return
      * @throws Exception
      */
-    public Result<Object> insertTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request);
+    public Result<Object> insertTransactionInfo(TransactionInfoEntity entity, String user);
 
     /**
      * 修改财政子记录
      *
      * @param entity
-     * @param request
+     * @param user
      * @return
      * @throws Exception
      */
-    public Result<Object> updateTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request);
+    public Result<Object> updateTransactionInfo(TransactionInfoEntity entity, String user);
 
     /**
      * 删除财政子记录
      *
      * @param entity
-     * @param request
+     * @param user
      * @return
      * @throws Exception
      */
-    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request);
+    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, String user);
 
     /**
      * 导出流水
      *
      * @param entity
-     * @param request
-     * @param response
      * @return
      * @throws Exception
      */
-    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
+    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity);
 
 
     /**
      * 导出完整流水及明细
      *
      * @param entity
-     * @param request
-     * @param response
      * @return
      * @throws Exception
      */
-    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response);
+    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity);
 
     /**
      * 按天统计流水
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> totalTransactionForDay(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> totalTransactionForDay(TransactionListEntity entity);
 
     /**
      * 按月统计流水
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> totalTransactionForMonth(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> totalTransactionForMonth(TransactionListEntity entity);
 
     /**
      * 按年统计流水
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<Object> totalTransactionForYear(TransactionListEntity entity, HttpServletRequest request);
+    public Result<Object> totalTransactionForYear(TransactionListEntity entity);
 
     /**
      * 按天导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity, HttpServletRequest request);
+    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity);
 
     /**
      * 按月导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity, HttpServletRequest request);
+    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity);
 
     /**
      * 按年导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
-    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity, HttpServletRequest request);
+    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity);
 
 }

@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,15 +85,12 @@ public class FinancialServiceImpl implements IFinancialService {
      * 根据用户、类型、日期
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> getTransaction(TransactionListEntity entity, HttpServletRequest request) {
+    public Result<Object> getTransaction(TransactionListEntity entity) {
         try {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Long count = financialDeclareService.selectTransactionCount(entity);
             if (count > 0) {
                 Result<Object> result = PageTools.page(count, entity, (condition) -> financialDeclareService.selectTransactionPage((TransactionListEntity) condition));
@@ -112,12 +107,11 @@ public class FinancialServiceImpl implements IFinancialService {
      * 根据父id，本位id，flog
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> getTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request) {
+    public Result<Object> getTransactionInfo(TransactionInfoEntity entity) {
         try {
             Long count = financialDeclareService.selectTransactionInfoCount(entity);
             if (count > 0) {
@@ -135,15 +129,12 @@ public class FinancialServiceImpl implements IFinancialService {
      * 根据用户、类型、日期
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> getTransactionFinal(TransactionListEntity entity, HttpServletRequest request){
+    public Result<Object> getTransactionFinal(TransactionListEntity entity){
         try {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Long count = financialDeclareService.selectTransactionFinalCount(entity);
             if (count > 0) {
                 Result<Object> result = PageTools.page(count, entity, (condition) -> financialDeclareService.selectTransactionFinalPage((TransactionListEntity) condition));
@@ -160,15 +151,12 @@ public class FinancialServiceImpl implements IFinancialService {
      * 添加财政记录父+子
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> insertTransaction(TransactionListEntity entity, HttpServletRequest request){
+    public Result<Object> insertTransaction(TransactionListEntity entity){
         try {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Result<Object> result = financialDeclareService.insertTransaction(entity);
             if (result.getCode() != ResultEnum.SUCCESS.getCode()) {
                 // recordService.record("OX025", request);
@@ -184,18 +172,15 @@ public class FinancialServiceImpl implements IFinancialService {
      * 修改财政记录父
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> updateTransaction(TransactionListEntity entity, HttpServletRequest request) {
+    public Result<Object> updateTransaction(TransactionListEntity entity) {
         // 只允许修改交易类别以及交易摘要
         if (entity == null || entity.getTradeId() == null || entity.getTradeType() == null || StringUtils.isEmpty(entity.getTransactionAmount())) {
             throw new MyException(ResultEnum.NOT_PARAMETER);
         } else {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Result<Object> result = null;
             try {
                 result = financialDeclareService.updateTransaction(entity);
@@ -215,19 +200,17 @@ public class FinancialServiceImpl implements IFinancialService {
      * 删除财政记录父+子
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> deleteTransaction(TransactionListEntity entity, HttpServletRequest request){
+    public Result<Object> deleteTransaction(TransactionListEntity entity){
         if (entity == null || entity.getTradeId() == null) {
             throw new MyException(ResultEnum.NOT_PARAMETER);
         } else {
-            String account = (String) request.getAttribute("account");
             Result<Object> result = null;
             try {
-                result = financialDeclareService.deleteTransaction(entity, account);
+                result = financialDeclareService.deleteTransaction(entity, entity.getSource());
             } catch (Exception e) {
                 throw new MyException(ResultEnum.DB_ERROR);
             }
@@ -247,16 +230,15 @@ public class FinancialServiceImpl implements IFinancialService {
      * 添加财政子记录
      *
      * @param entity
-     * @param request
+     * @param user
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> insertTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request){
-        String account = (String) request.getAttribute("account");
+    public Result<Object> insertTransactionInfo(TransactionInfoEntity entity, String user){
         Result<Object> result = null;
         try {
-            result = financialDeclareService.insertTransactioninfo(entity, account);
+            result = financialDeclareService.insertTransactioninfo(entity, user);
         } catch (Exception e) {
             throw new MyException(ResultEnum.DB_ERROR);
         }
@@ -275,16 +257,15 @@ public class FinancialServiceImpl implements IFinancialService {
      * 修改财政子记录
      *
      * @param entity
-     * @param request
+     * @param user
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> updateTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request) {
-        String account = (String) request.getAttribute("account");
+    public Result<Object> updateTransactionInfo(TransactionInfoEntity entity, String user) {
         Result<Object> result = null;
         try {
-            result = financialDeclareService.updateTransactioninfo(entity, account);
+            result = financialDeclareService.updateTransactioninfo(entity, user);
         } catch (Exception e) {
             throw new MyException(ResultEnum.DB_ERROR);
         }
@@ -299,16 +280,15 @@ public class FinancialServiceImpl implements IFinancialService {
      * 删除财政子记录
      *
      * @param entity
-     * @param request
+     * @param user
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request) {
-        String account = (String) request.getAttribute("account");
+    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, String user) {
         Result<Object> result = null;
         try {
-            result = financialDeclareService.deleteTransactioninfo(entity, account);
+            result = financialDeclareService.deleteTransactioninfo(entity, user);
         } catch (Exception e) {
             throw new MyException(ResultEnum.DB_ERROR);
         }
@@ -323,17 +303,14 @@ public class FinancialServiceImpl implements IFinancialService {
      * 导出流水
      *
      * @param entity
-     * @param request
-     * @param response
      * @return
      * @throws Exception
      */
     @Override
-    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response) {
+    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity) {
         String[] keys = {"tradeId", "deposited", "expenditure", "transactionType", "currencyNumber", "tradeDate", "transactionAmount", "createTime", "updateTime"};
         //放置到第一行的字段名
         String[] titles = {"流水号", "存入", "取出", "交易方式", "产生总额", "产生日期", "摘要", "创建时间", "修改时间"};
-        String account = (String) request.getAttribute("account");
         try {
             //获取满足条件的总记录（不分页）
             Long pageSize = financialDeclareService.selectTransactionCount(entity);
@@ -342,7 +319,6 @@ public class FinancialServiceImpl implements IFinancialService {
             }
             //设置行索引
             entity.setPage(0, pageSize.intValue());
-            entity.setSource(account);
             //获取满足条件的记录集合
             List<TransactionListEntity> entityList = financialDeclareService.selectTransactionPage(entity);
             List<JSONObject> jsonObjectList = new ArrayList<>(pageSize.intValue());
@@ -375,17 +351,14 @@ public class FinancialServiceImpl implements IFinancialService {
      * 导出完整流水及明细
      *
      * @param entity
-     * @param request
-     * @param response
      * @return
      * @throws Exception
      */
     @Override
-    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity, HttpServletRequest request, HttpServletResponse response){
+    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity){
         String[] keys = {"tradeId", "deposited", "expenditure", "transactionType", "currencyNumber", "tradeDate", "transactionAmount", "flog", "itemNumber", "currencyDetails", "createTime", "updateTime"};
         //放置到第一行的字段名
         String[] titles = {"流水号", "存入", "取出", "交易方式", "产生总额", "产生日期", "摘要", "标志", "金额", "详情", "创建时间", "修改时间"};
-        String account = (String) request.getAttribute("account");
         try {
             //获取满足条件的总记录（不分页）
             Long pageSize = financialDeclareService.selectTransactionFinalCount(entity);
@@ -394,7 +367,6 @@ public class FinancialServiceImpl implements IFinancialService {
             }
             //设置行索引
             entity.setPage(0, pageSize.intValue());
-            entity.setSource(account);
             //获取满足条件的记录集合
             List<TransactionInfoEntity> entityList = financialDeclareService.selectTransactionFinalPage(entity);
             List<JSONObject> jsonObjectList = new ArrayList<>(pageSize.intValue());
@@ -434,15 +406,12 @@ public class FinancialServiceImpl implements IFinancialService {
      * 按天分页统计财务报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> totalTransactionForDay(TransactionListEntity entity, HttpServletRequest request) {
+    public Result<Object> totalTransactionForDay(TransactionListEntity entity) {
         try {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Long count = financialDeclareService.selectTransactionForDayCount(entity);
             if (count > 0) {
                 Result<Object> result = PageTools.page(count, entity, (condition) -> financialDeclareService.selectTransactionForDayPage((TransactionListEntity) condition));
@@ -458,15 +427,12 @@ public class FinancialServiceImpl implements IFinancialService {
      * 按月统计流水
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> totalTransactionForMonth(TransactionListEntity entity, HttpServletRequest request) {
+    public Result<Object> totalTransactionForMonth(TransactionListEntity entity) {
         try {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Long count = financialDeclareService.selectTransactionForMonthCount(entity);
             if (count > 0) {
                 Result<Object> result = PageTools.page(count, entity, (condition) -> financialDeclareService.selectTransactionForMonthPage((TransactionListEntity) condition));
@@ -482,15 +448,12 @@ public class FinancialServiceImpl implements IFinancialService {
      * 按年统计流水
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<Object> totalTransactionForYear(TransactionListEntity entity, HttpServletRequest request){
+    public Result<Object> totalTransactionForYear(TransactionListEntity entity){
         try {
-            String account = (String) request.getAttribute("account");
-            entity.setSource(account);
             Long count = financialDeclareService.selectTransactionForYearCount(entity);
             if (count > 0) {
                 Result<Object> result = PageTools.page(count, entity, (condition) -> financialDeclareService.selectTransactionForYearPage((TransactionListEntity) condition));
@@ -506,17 +469,14 @@ public class FinancialServiceImpl implements IFinancialService {
      * 按天导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity, HttpServletRequest request){
+    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity){
         String[] keys = {"tradeDate", "deposited", "expenditure", "currencyNumber"};
         //放置到第一行的字段名
         String[] titles = {"产生日期", "流入", "流出", "产生总额"};
-        String account = (String) request.getAttribute("account");
-        entity.setSource(account);
         try {
             //获取满足条件的总记录（不分页）
             Long pageSize = financialDeclareService.selectTransactionForDayCount(entity);
@@ -552,20 +512,17 @@ public class FinancialServiceImpl implements IFinancialService {
      * 按月导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity, HttpServletRequest request){
+    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity){
         String[] keys = {"tradeDate", "deposited", "expenditure", "currencyNumber"};
         //放置到第一行的字段名
         String[] titles = {"产生日期", "流入", "流出", "产生总额"};
         OutExcelEntity outExcel = new OutExcelEntity();
         outExcel.setKeys(keys);
         outExcel.setTitles(titles);
-        String account = (String) request.getAttribute("account");
-        entity.setSource(account);
         try {
             //获取满足条件的总记录（不分页）
             Long pageSize = financialDeclareService.selectTransactionForMonthCount(entity);
@@ -598,20 +555,17 @@ public class FinancialServiceImpl implements IFinancialService {
      * 按年导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @Override
-    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity, HttpServletRequest request){
+    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity){
         OutExcelEntity outExcel = new OutExcelEntity();
         String[] keys = {"tradeDate", "deposited", "expenditure", "currencyNumber"};
         outExcel.setKeys(keys);
         //放置到第一行的字段名
         String[] titles = {"产生日期", "流入", "流出", "产生总额"};
         outExcel.setTitles(titles);
-        String account = (String) request.getAttribute("account");
-        entity.setSource(account);
         try {
             //获取满足条件的总记录（不分页）
             Long pageSize = financialDeclareService.selectTransactionForYearCount(entity);

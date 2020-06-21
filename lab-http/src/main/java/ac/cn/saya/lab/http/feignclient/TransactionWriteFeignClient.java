@@ -25,8 +25,8 @@ public interface TransactionWriteFeignClient {
      * @创建时间 2020-03-13
      * @修改人和其它信息
      */
-    @PostMapping(value = "/financial/write/transactionInfo")
-    public Result<Integer> insertTransactionInfo(@RequestBody TransactionInfoEntity entity);
+    @PostMapping(value = "/financial/write/transactionInfo/{user}")
+    public Result<Object> insertTransactionInfo(@RequestBody TransactionInfoEntity entity,@PathVariable(value = "user") String user);
 
     /**
      * @描述 写入到财政父表
@@ -37,7 +37,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @PostMapping(value = "/financial/write/transactionList")
-    public Result<Integer> insertTransactionList(@RequestBody TransactionListEntity entity);
+    public Result<Object> insertTransactionList(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 修改财政明细表
@@ -47,8 +47,8 @@ public interface TransactionWriteFeignClient {
      * @创建时间 2020-03-13
      * @修改人和其它信息
      */
-    @PutMapping(value = "/financial/write/transactionInfo")
-    public Result<Integer> updateTransactionInfo(@RequestBody TransactionInfoEntity entity);
+    @PutMapping(value = "/financial/write/transactionInfo/{user}")
+    public Result<Object>  updateTransactionInfo(@RequestBody TransactionInfoEntity entity,@PathVariable(value = "user") String user);
 
     /**
      * @描述 修改财政父表
@@ -59,7 +59,7 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @PutMapping(value = "/financial/write/transactionList")
-    public Result<Integer> updateTransactionList(@RequestBody TransactionListEntity entity);
+    public Result<Object> updateTransactionList(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 删除财政明细表
@@ -69,8 +69,8 @@ public interface TransactionWriteFeignClient {
      * @创建时间 2020-03-13
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/financial/write/transactionInfo")
-    public Result<Integer> deleteTransactionInfo(@RequestParam(value = "id") Integer id, @RequestParam(value = "source") String source);
+    @DeleteMapping(value = "/financial/write/transactionInfo/{user}")
+    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, @PathVariable(value = "user") String user);
 
     /**
      * @描述 删除财政父表
@@ -81,6 +81,6 @@ public interface TransactionWriteFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/financial/write/transactionList")
-    public Result<Integer> deleteTransactionList(@RequestParam(value = "tradeId") Integer tradeId, @RequestParam(value = "source") String source);
+    public Result<Object> deleteTransactionList(TransactionListEntity entity);
 
 }

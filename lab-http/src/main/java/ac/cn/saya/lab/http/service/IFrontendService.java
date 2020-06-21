@@ -5,6 +5,7 @@ import ac.cn.saya.lab.api.tools.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @Title: IFrontendService
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
  * @Date: 2020-02-29 18:42:39
  * @Description:
  * 对外提供访问的接口，无需认证
- * 留言编号：20190318fb8ca4ca , 查询码：44a90448
  */
 
 public interface IFrontendService {
@@ -27,7 +27,7 @@ public interface IFrontendService {
      * @创建时间  2019/1/12
      * @修改人和其它信息
      */
-    public Result<Object> getOneNews(NewsEntity entity) throws Exception;
+    public Result<Object> getOneNews(NewsEntity entity);
 
     /**
      * @描述 获取分页的动态
@@ -37,7 +37,7 @@ public interface IFrontendService {
      * @创建时间  2019/1/11
      * @修改人和其它信息
      */
-    public Result<Object> getNewsList(NewsEntity entity) throws Exception;
+    public Result<Object> getNewsList(NewsEntity entity);
 
     /**
      * @描述 获取分页文件列表
@@ -47,7 +47,7 @@ public interface IFrontendService {
      * @创建时间  2019-03-20
      * @修改人和其它信息
      */
-    public Result<Object> getFileList(FilesEntity entity) throws Exception;
+    public Result<Object> getFileList(FilesEntity entity);
 
     /**
      * @描述 下载文件
@@ -57,7 +57,7 @@ public interface IFrontendService {
      * @创建时间  2019-03-20
      * @修改人和其它信息
      */
-    public Result<Object> downloadFile(String user, Integer id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> downloadFile(String user, Integer id, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * @描述 留言
@@ -67,7 +67,7 @@ public interface IFrontendService {
      * @创建时间  2019/1/11
      * @修改人和其它信息
      */
-    public Result<Object> insertGuestBook(GuestBookEntity entity) throws Exception;
+    public Result<Integer> insertGuestBook(GuestBookEntity entity);
 
     /**
      * 查看行程安排
@@ -78,7 +78,7 @@ public interface IFrontendService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 查询该月的计划
      */
-    public Result<Object> getPlan(String date, String user) throws Exception;
+    public Result<Object> getPlan(String date, String user);
 
     /**
      * @描述 获取笔记簿
@@ -88,7 +88,7 @@ public interface IFrontendService {
      * @创建时间  2019/1/11
      * @修改人和其它信息
      */
-    public Result<Object> getNoteBook(NoteBookEntity entity) throws Exception;
+    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity);
 
     /**
      * @描述 获取分页的笔记
@@ -98,7 +98,7 @@ public interface IFrontendService {
      * @创建时间  2019/1/11
      * @修改人和其它信息
      */
-    public Result<Object> getNotesList(NotesEntity entity) throws Exception;
+    public Result<Object> getNotesList(NotesEntity entity);
 
     /**
      * @描述 查询一条笔记
@@ -108,6 +108,6 @@ public interface IFrontendService {
      * @创建时间  2019-04-02
      * @修改人和其它信息
      */
-    public Result<Object> getOneNotes(String user, NotesEntity entity) throws Exception;
+    public Result<Object> getOneNotes(String user, NotesEntity entity);
 
 }

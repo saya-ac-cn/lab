@@ -27,7 +27,7 @@ public interface ICoreService {
      * @return
      * @throws Exception
      */
-    public Result<Object> login(String platform,UserEntity user, HttpServletRequest request) throws Exception;
+    public Result<Object> login(String platform,UserEntity user, HttpServletRequest request);
 
 
     /**
@@ -37,7 +37,7 @@ public interface ICoreService {
      * @return
      * @throws Exception
      */
-    public Result<Object> getUserInfo(HttpServletRequest request) throws Exception;
+    public Result<Object> getUserInfo(HttpServletRequest request);
 
     /**
      * 注销
@@ -46,7 +46,7 @@ public interface ICoreService {
      * @return
      * @throws Exception
      */
-    public Result<Object> logout(HttpServletRequest request) throws Exception;
+    public Result<Object> logout(HttpServletRequest request);
 
     /**
      * 修改用户信息
@@ -55,7 +55,7 @@ public interface ICoreService {
      * @param request
      * @return
      */
-    public Result<Object> setUserInfo(UserEntity user, HttpServletRequest request) throws Exception;
+    public Result<Object> setUserInfo(UserEntity user, HttpServletRequest request);
 
     /**
      * 修改用户密码
@@ -64,14 +64,14 @@ public interface ICoreService {
      * @param request
      * @return
      */
-    public Result<Object> setPassword(UserEntity user, HttpServletRequest request) throws Exception;
+    public Result<Object> setPassword(UserEntity user, HttpServletRequest request);
 
     /**
      * 获取所有的日志类别
      *
      * @return
      */
-    public Result<LogTypeEntity> getLogType() throws Exception;
+    public Result<LogTypeEntity> getLogType();
 
     /**
      * 查询日志
@@ -81,7 +81,7 @@ public interface ICoreService {
      * @param request
      * @return
      */
-    public Result<Object> getLog(LogEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> getLog(LogEntity entity, HttpServletRequest request);
 
     /**
      * 导出个人日志
@@ -92,7 +92,7 @@ public interface ICoreService {
      * @return
      * @throws Exception
      */
-    public Result<Object> outLogExcel(LogEntity entity, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public Result<Object> outLogExcel(LogEntity entity, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * @描述 上传logo
@@ -102,7 +102,7 @@ public interface ICoreService {
      * @创建时间 2018/11/11
      * @修改人和其它信息
      */
-    public Result<Object> updateLogo(String imgBase64, HttpServletRequest request) throws Exception;
+    public Result<Object> updateLogo(String imgBase64, HttpServletRequest request);
 
     /**
      * @描述 下载文件 By 文件名
@@ -122,7 +122,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 查询该月的计划
      */
-    public Result<Object> getPlan(String date, HttpServletRequest request) throws Exception;
+    public Result<Object> getPlan(String date, HttpServletRequest request);
 
     /**
      * @描述
@@ -132,7 +132,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 查询计划详情
      */
-    public Result<PlanEntity> getPlanDetail(PlanEntity entity, HttpServletRequest request) throws Exception;
+    public Result<PlanEntity> getPlanDetail(PlanEntity entity, HttpServletRequest request);
 
     /**
      * @描述
@@ -142,7 +142,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 创建计划
      */
-    public Result<Object> createPlan(PlanEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> createPlan(PlanEntity entity, HttpServletRequest request);
 
     /**
      * @描述
@@ -152,7 +152,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 修改计划
      */
-    public Result<Object> editPlan(PlanEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> editPlan(PlanEntity entity, HttpServletRequest request);
 
     /**
      * @描述
@@ -162,7 +162,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 删除计划
      */
-    public Result<Object> deletePlan(PlanEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> deletePlan(PlanEntity entity, HttpServletRequest request);
 
     /**
      * @描述
@@ -172,7 +172,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 查询接口列表
      */
-    public Result<Object> getApi(ApiEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> getApi(ApiEntity entity, HttpServletRequest request);
 
 
     /**
@@ -183,7 +183,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 创建接口
      */
-    public Result<Object> createApi(ApiEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> createApi(ApiEntity entity, HttpServletRequest request);
 
     /**
      * @描述
@@ -193,7 +193,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 修改接口
      */
-    public Result<Object> editApi(ApiEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> editApi(ApiEntity entity, HttpServletRequest request);
 
     /**
      * @描述
@@ -203,7 +203,7 @@ public interface ICoreService {
      * @创建时间 2019/1/24
      * @修改人和其它信息 删除接口
      */
-    public Result<Object> deleteApi(ApiEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> deleteApi(ApiEntity entity, HttpServletRequest request);
 
     /**
      * @描述 获取统计报表数据
@@ -213,7 +213,7 @@ public interface ICoreService {
      * @创建时间 2019-03-03
      * @修改人和其它信息
      */
-    public Result<Object> dashBoard(HttpServletRequest request) throws Exception;
+    public Result<Object> dashBoard(HttpServletRequest request);
 
 
 }

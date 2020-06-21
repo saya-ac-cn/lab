@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -52,8 +51,8 @@ public class TransactionReadController {
      * @Description
      */
     @GetMapping(value = "/transactionPage")
-    public Result<Object> getTransactionPage(TransactionListEntity entity,HttpServletRequest request){
-        return financialService.getTransaction(entity,request);
+    public Result<Object> getTransactionPage(TransactionListEntity entity){
+        return financialService.getTransaction(entity);
     }
 
     /**
@@ -65,8 +64,8 @@ public class TransactionReadController {
      * @Description
      */
     @GetMapping(value = "/transactionInfoPage")
-    public Result<Object> getTransactionInfoPage(TransactionInfoEntity entity, HttpServletRequest request){
-        return financialService.getTransactionInfo(entity,request);
+    public Result<Object> getTransactionInfoPage(TransactionInfoEntity entity){
+        return financialService.getTransactionInfo(entity);
     }
 
     /**
@@ -78,8 +77,8 @@ public class TransactionReadController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/getTransactionFinalPage")
-    public Result<Object> getTransactionFinalPage(TransactionListEntity entity,HttpServletRequest request){
-        return financialService.getTransactionFinal(entity, request);
+    public Result<Object> getTransactionFinalPage(TransactionListEntity entity){
+        return financialService.getTransactionFinal(entity);
     }
 
     /**
@@ -91,8 +90,8 @@ public class TransactionReadController {
      * @Description
      */
     @GetMapping(value = "/getTransactionForDayPage")
-    public Result<Object> getTransactionForDayPage(TransactionListEntity entity,HttpServletRequest request){
-        return financialService.totalTransactionForDay(entity, request);
+    public Result<Object> getTransactionForDayPage(TransactionListEntity entity){
+        return financialService.totalTransactionForDay(entity);
     }
 
     /**
@@ -104,8 +103,8 @@ public class TransactionReadController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/getTransactionForMonthPage")
-    public Result<Object> getTransactionForMonthPage(TransactionListEntity entity,HttpServletRequest request){
-        return financialService.totalTransactionForMonth(entity,request);
+    public Result<Object> getTransactionForMonthPage(TransactionListEntity entity){
+        return financialService.totalTransactionForMonth(entity);
     }
 
     /**
@@ -117,47 +116,70 @@ public class TransactionReadController {
      * @修改人和其它信息
      */
     @GetMapping(value = "/getTransactionForYearPage")
-    public Result<Object> getTransactionForYearPage(TransactionListEntity entity,HttpServletRequest request){
-        return financialService.totalTransactionForYear(entity,request);
+    public Result<Object> getTransactionForYearPage(TransactionListEntity entity){
+        return financialService.totalTransactionForYear(entity);
+    }
+
+    /**
+     * @描述 导出流水
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.OutExcelEntity>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/21
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "outTransactionListExcel")
+    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity){
+        return financialService.outTransactionListExcel(entity);
+    }
+
+    /**
+     * @描述 导出完整流水及明细
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.OutExcelEntity>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/21
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "outTransactionInfoExcel")
+    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity){
+        return financialService.outTransactionInfoExcel(entity);
     }
 
     /**
      * 按天导出流水统计报表
      *
      * @param entity
-     * @param request
-     * @return
+\     * @return
      * @throws Exception
      */
     @GetMapping(value = "outTransactionForDayExcel")
-    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity, HttpServletRequest request) throws Exception {
-        return financialService.outTransactionForDayExcel(entity, request);
+    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity) throws Exception {
+        return financialService.outTransactionForDayExcel(entity);
     }
 
     /**
      * 按月导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @GetMapping(value = "outTransactionForMonthExcel")
-    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity, HttpServletRequest request) throws Exception {
-        return financialService.outTransactionForMonthExcel(entity, request);
+    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity) throws Exception {
+        return financialService.outTransactionForMonthExcel(entity);
     }
 
     /**
      * 按年导出流水统计报表
      *
      * @param entity
-     * @param request
      * @return
      * @throws Exception
      */
     @GetMapping(value = "outTransactionForYearExcel")
-    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity, HttpServletRequest request) throws Exception {
-        return financialService.outTransactionForYearExcel(entity, request);
+    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity) throws Exception {
+        return financialService.outTransactionForYearExcel(entity);
     }
 
     /**

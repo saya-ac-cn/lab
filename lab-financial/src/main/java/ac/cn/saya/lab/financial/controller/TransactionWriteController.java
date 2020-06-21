@@ -31,9 +31,9 @@ public class TransactionWriteController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @PostMapping(value = "transactionInfo")
-    public Result<Object> insertTransactionInfo(@RequestBody TransactionInfoEntity entity, HttpServletRequest request){
-        return financialService.insertTransactionInfo(entity,request);
+    @PostMapping(value = "transactionInfo/{user}")
+    public Result<Object> insertTransactionInfo(@RequestBody TransactionInfoEntity entity, @PathVariable(value = "user") String user){
+        return financialService.insertTransactionInfo(entity,user);
     }
 
     /**
@@ -45,8 +45,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PostMapping(value = "transactionList")
-    public Result<Object> insertTransactionList(@RequestBody TransactionListEntity entity, HttpServletRequest request){
-        return financialService.insertTransaction(entity,request);
+    public Result<Object> insertTransactionList(@RequestBody TransactionListEntity entity){
+        return financialService.insertTransaction(entity);
     }
 
     /**
@@ -57,9 +57,9 @@ public class TransactionWriteController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @PutMapping(value = "transactionInfo")
-    public Result<Object> updateTransactionInfo(@RequestBody TransactionInfoEntity entity, HttpServletRequest request){
-        return financialService.updateTransactionInfo(entity,request);
+    @PutMapping(value = "transactionInfo/{user}")
+    public Result<Object> updateTransactionInfo(@RequestBody TransactionInfoEntity entity, @PathVariable(value = "user") String user){
+        return financialService.updateTransactionInfo(entity,user);
     }
 
     /**
@@ -71,8 +71,8 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @PutMapping(value = "transactionList")
-    public Result<Object> updateTransactionList(@RequestBody TransactionListEntity entity, HttpServletRequest request){
-        return financialService.updateTransaction(entity,request);
+    public Result<Object> updateTransactionList(@RequestBody TransactionListEntity entity){
+        return financialService.updateTransaction(entity);
     }
 
     /**
@@ -83,9 +83,9 @@ public class TransactionWriteController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "transactionInfo")
-    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, HttpServletRequest request){
-        return financialService.deleteTransactionInfo(entity,request);
+    @DeleteMapping(value = "transactionInfo/{user}")
+    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, @PathVariable(value = "user") String user){
+        return financialService.deleteTransactionInfo(entity,user);
     }
 
     /**
@@ -97,7 +97,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionList")
-    public Result<Object> deleteTransactionList(TransactionListEntity entity, HttpServletRequest request){
-        return financialService.deleteTransaction(entity,request);
+    public Result<Object> deleteTransactionList(TransactionListEntity entity){
+        return financialService.deleteTransaction(entity);
     }
 }
