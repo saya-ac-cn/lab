@@ -11,6 +11,7 @@ import ac.cn.saya.lab.http.service.IFrontendService;
 import ac.cn.saya.lab.http.tools.UploadUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.client.utils.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ import java.util.Map;
  * @Date: 2020/6/21 10:35
  * @Description: 对外提供访问的接口
  */
-
+@Service
 public class FrontendServiceImpl implements IFrontendService {
 
     @Resource

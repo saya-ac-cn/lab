@@ -8,6 +8,7 @@ import ac.cn.saya.lab.http.feignclient.TransactionReadFeignClient;
 import ac.cn.saya.lab.http.feignclient.TransactionWriteFeignClient;
 import ac.cn.saya.lab.http.service.IFinancialService;
 import ac.cn.saya.lab.http.tools.OutExcelUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -23,7 +24,7 @@ import java.net.URLEncoder;
  * @Date: 2020/6/21 09:20
  * @Description: 财政数据提供的相关服务
  */
-
+@Service
 public class FinancialServiceImpl implements IFinancialService {
 
     @Resource
