@@ -27,7 +27,7 @@ public interface IObjectStorageService {
      * @param request
      * @return
      */
-    public Result<Object> updateNewsPicture(PictureEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> updateNewsPicture(PictureEntity entity, HttpServletRequest request);
 
     /**
      * @描述 上传壁纸
@@ -37,7 +37,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/13
      * @修改人和其它信息
      */
-    public Result<Object> updateWallpaperPicture(MultipartFile file, HttpServletRequest request) throws Exception;
+    public Result<Object> updateWallpaperPicture(MultipartFile file, HttpServletRequest request);
 
 
     /**
@@ -48,7 +48,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/12
      * @修改人和其它信息
      */
-    public Result<Object> deletePictuBase64(PictureEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> deletePictuBase64(PictureEntity entity, HttpServletRequest request);
 
     /**
      * @描述 获取分页后的图片
@@ -58,7 +58,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/13
      * @修改人和其它信息
      */
-    public Result<Object> getPictuBase64List(PictureEntity entity, HttpServletRequest request) throws Exception;
+    public Result<Object> getPictuBase64List(PictureEntity entity, HttpServletRequest request);
 
     /**
      * @描述 获取单张图片信息
@@ -68,7 +68,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/13
      * @修改人和其它信息
      */
-    public Result<Object> getOnePictuBase64(PictureEntity entity, HttpServletRequest request) throws Exception;
+    public Result<PictureEntity> getOnePictuBase64(PictureEntity entity, HttpServletRequest request);
 
     /**
      * @描述 上传文件
@@ -78,7 +78,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/15
      * @修改人和其它信息
      */
-    public Result<Object> uploadFile(MultipartFile file, String uid, HttpServletRequest request) throws  Exception;
+    public Result<Object> uploadFile(MultipartFile file, String uid, HttpServletRequest request);
 
     /**
      * @描述 修改文件信息
@@ -88,7 +88,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/15
      * @修改人和其它信息
      */
-    public Result<Object> editFileInfo(FilesEntity entity, HttpServletRequest request) throws  Exception;
+    public Result<Object> editFileInfo(FilesEntity entity, HttpServletRequest request);
 
     /**
      * @描述 删除文件
@@ -98,7 +98,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/15
      * @修改人和其它信息
      */
-    public Result<Object> deleteFile(FilesEntity entity, HttpServletRequest request) throws  Exception;
+    public Result<Object> deleteFile(FilesEntity entity, HttpServletRequest request);
 
     /**
      * @描述 获取分页文件列表
@@ -108,7 +108,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/15
      * @修改人和其它信息
      */
-    public Result<Object> getFileList(FilesEntity entity, HttpServletRequest request) throws  Exception;
+    public Result<Object> getFileList(FilesEntity entity, HttpServletRequest request);
 
     /**
      * @描述 下载文件
@@ -118,7 +118,7 @@ public interface IObjectStorageService {
      * @创建时间  2019/1/15
      * @修改人和其它信息
      */
-    public Result<Object> downloadFileForAdmin(Integer id, HttpServletRequest request, HttpServletResponse response) throws  Exception;
+    public Result<Object> downloadFileForAdmin(Integer id, HttpServletRequest request, HttpServletResponse response);
 
 
     /**
@@ -129,7 +129,7 @@ public interface IObjectStorageService {
      * @创建时间  2019-03-02
      * @修改人和其它信息
      */
-    public Result<Object> downloadBackUpDB(String archiveDate, HttpServletResponse response) throws  Exception;
+    public Result<Object> downloadBackUpDB(String archiveDate, HttpServletResponse response);
 
     /**
      * @描述 获取分页的备份数据库列表
@@ -139,6 +139,6 @@ public interface IObjectStorageService {
      * @创建时间  2019-03-02
      * @修改人和其它信息
      */
-    public Result<Object> getBackUpDBList(BackupLogEntity entity) throws  Exception;
+    public Result<Object> getBackUpDBList(BackupLogEntity entity);
 
 }
