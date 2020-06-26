@@ -23,7 +23,7 @@ import java.util.Map;
  * 描述：If we want to create multiple feign clients with the same name or url so that they would point to the same server but each with a different custom configuration then we have to use contextId attribute of the @FeignClient in order to avoid name collision of these configuration beans.
  * 如果我们要创建多个具有相同名称或URL的feign客户端，以便它们指向同一台服务器，但每个客户端具有不同的自定义配置，则必须使用的contextId属性，@FeignClient以避免这些配置Bean发生名称冲突。
  */
-@FeignClient(value = "lab-core-server",contextId = "user")
+@FeignClient(value = "lab-core-server",contextId = "user",path = "core/user")
 public interface UserFeignClient {
 
 
@@ -36,7 +36,7 @@ public interface UserFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/user/info")
+    @GetMapping(value = "info")
     public Result<UserEntity> getUser(@RequestParam(value = "user") String user);
 
     /**
@@ -47,7 +47,7 @@ public interface UserFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @PutMapping(value = "/core/user/info")
+    @PutMapping(value = "info")
     public Result<Integer> setUser(@RequestBody UserEntity user);
 
     /**
@@ -58,7 +58,7 @@ public interface UserFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/user/activity")
+    @GetMapping(value = "activity")
     public Result<Map<String, Object>> countPre6Logs(@RequestParam(value = "user") String user);
 
 }

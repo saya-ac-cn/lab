@@ -7,6 +7,7 @@ import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Date: 2020-03-13 20:57
  * @Description:财政&金融
  */
-@FeignClient(value = "lab-financial-server", contextId = "transactionRead")
+@FeignClient(value = "lab-financial-server", contextId = "transactionRead",path = "financial/read")
 public interface TransactionReadFeignClient {
 
 
@@ -32,8 +33,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/transactionType")
-    public Result<TransactionTypeEntity> getTransactionType();
+    @GetMapping(value = "transactionType")
+    public Result<List<TransactionTypeEntity>> getTransactionType();
 
     /**
      * @描述 查看流水(根据用户、类型、日期)
@@ -43,8 +44,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/transactionPage")
-    public Result<Object> getTransactionPage(TransactionListEntity entity);
+    @GetMapping(value = "transactionPage")
+    public Result<Object> getTransactionPage(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 查看流水明细
@@ -54,8 +55,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/transactionInfoPage")
-    public Result<Object> getTransactionInfoPage(TransactionInfoEntity entity);
+    @GetMapping(value = "transactionInfoPage")
+    public Result<Object> getTransactionInfoPage(@RequestBody TransactionInfoEntity entity);
 
     /**
      * @描述 查询详细的流水明细
@@ -65,8 +66,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/getTransactionFinalPage")
-    public Result<Object> getTransactionFinalPage(TransactionListEntity entity);
+    @GetMapping(value = "getTransactionFinalPage")
+    public Result<Object> getTransactionFinalPage(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 按天分页统计财务报表
@@ -76,8 +77,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/getTransactionForDayPage")
-    public Result<Object> getTransactionForDayPage(TransactionListEntity entity);
+    @GetMapping(value = "getTransactionForDayPage")
+    public Result<Object> getTransactionForDayPage(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 按月分页统计（只统计到上月的最后一天）
@@ -87,8 +88,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/readgetTransactionForMonthPage")
-    public Result<Object> getTransactionForMonthPage(TransactionListEntity entity);
+    @GetMapping(value = "getTransactionForMonthPage")
+    public Result<Object> getTransactionForMonthPage(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 按年分页统计（只统计到上一年的最后一天）
@@ -98,8 +99,8 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/getTransactionForYearPage")
-    public Result<Object> getTransactionForYearPage(TransactionListEntity entity);
+    @GetMapping(value = "getTransactionForYearPage")
+    public Result<Object> getTransactionForYearPage(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 查询近半年财政收支情况
@@ -109,7 +110,7 @@ public interface TransactionReadFeignClient {
      * @创建时间  2020-03-21
      * @修改人和其它信息
      */
-    @GetMapping(value = "/financial/read/pre6Financial")
+    @GetMapping(value = "pre6Financial")
     public Result<List<TransactionListEntity>> countPre6Financial(@RequestParam(value = "user") String user);
 
     /**
@@ -121,7 +122,7 @@ public interface TransactionReadFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "outTransactionListExcel")
-    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity);
+    public Result<OutExcelEntity> outTransactionListExcel(@RequestBody TransactionListEntity entity);
 
     /**
      * @描述 导出完整流水及明细
@@ -132,7 +133,7 @@ public interface TransactionReadFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "outTransactionInfoExcel")
-    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity);
+    public Result<OutExcelEntity> outTransactionInfoExcel(@RequestBody TransactionListEntity entity);
 
     /**
      * 按天导出流水统计报表
@@ -141,8 +142,8 @@ public interface TransactionReadFeignClient {
      * @return
      * @throws Exception
      */
-    @GetMapping(value = "/financial/read/outTransactionForDayExcel")
-    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity);
+    @GetMapping(value = "outTransactionForDayExcel")
+    public Result<OutExcelEntity> outTransactionForDayExcel(@RequestBody TransactionListEntity entity);
 
     /**
      * 按月导出流水统计报表
@@ -151,8 +152,8 @@ public interface TransactionReadFeignClient {
      * @return
      * @throws Exception
      */
-    @GetMapping(value = "/financial/read/outTransactionForMonthExcel")
-    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity);
+    @GetMapping(value = "outTransactionForMonthExcel")
+    public Result<OutExcelEntity> outTransactionForMonthExcel(@RequestBody TransactionListEntity entity);
 
     /**
      * 按年导出流水统计报表
@@ -161,7 +162,7 @@ public interface TransactionReadFeignClient {
      * @return
      * @throws Exception
      */
-    @GetMapping(value = "/financial/read/outTransactionForYearExcel")
-    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity);
+    @GetMapping(value = "outTransactionForYearExcel")
+    public Result<OutExcelEntity> outTransactionForYearExcel(@RequestBody TransactionListEntity entity);
 
 }

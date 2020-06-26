@@ -76,7 +76,7 @@ public class LogServiceImpl implements LogService {
      * @修改人和其它信息
      */
     @Override
-    public Result<LogTypeEntity> selectLogType() {
+    public Result<List<LogTypeEntity>> selectLogType() {
         List<LogTypeEntity> list;
         try {
             list = logDAO.selectType();

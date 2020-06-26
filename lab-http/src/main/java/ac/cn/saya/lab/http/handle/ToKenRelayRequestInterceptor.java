@@ -3,8 +3,11 @@ package ac.cn.saya.lab.http.handle;
 import ac.cn.saya.lab.api.entity.UserMemory;
 import ac.cn.saya.lab.http.auth.RepeatLogin;
 import ac.cn.saya.lab.http.tools.HttpRequestUtil;
+import feign.Request;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -22,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ToKenRelayRequestInterceptor implements RequestInterceptor {
 
+    private static Logger logger = LoggerFactory.getLogger(ToKenRelayRequestInterceptor.class);
+
     /**
      * Called for every request. Add data using methods on the supplied {@link RequestTemplate}.
      *
@@ -29,6 +34,7 @@ public class ToKenRelayRequestInterceptor implements RequestInterceptor {
      */
     @Override
     public void apply(RequestTemplate template) {
+        logger.info("请求url={},method={},headers={},body={}", template.url(), template.method(), template.headers(), (null!=template.body())?new String(template.body()):"null");
         // 1.获取到token
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();

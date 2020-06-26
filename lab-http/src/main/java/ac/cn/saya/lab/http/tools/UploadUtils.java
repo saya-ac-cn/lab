@@ -3,6 +3,7 @@ package ac.cn.saya.lab.http.tools;
 
 import ac.cn.saya.lab.api.entity.UserMemory;
 import ac.cn.saya.lab.api.tools.*;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -35,6 +36,7 @@ public class UploadUtils {
      * @throws Exception
      */
     public static Result<String> uploadLogo(String image, HttpServletRequest request) throws Exception {
+        FileOutputStream out = null;
         try{
             String header ="data:image";
             String[] imageArr=image.split(",");
@@ -66,7 +68,7 @@ public class UploadUtils {
                 //存放到服务器上的真实路径(不是url路径)
                 String truePath = path + File.separator + imgName;
                 //新建一个文件输出器，并为它指定输出位置imgFilePath
-                FileOutputStream out = new FileOutputStream(truePath);
+                out = new FileOutputStream(truePath);
                 //利用文件输出器将二进制格式decodedBytes输出
                 out.write(decodedBytes);
                 //关闭文件输出器
@@ -80,6 +82,10 @@ public class UploadUtils {
         {
             logger.error("上传图片异常"+ Log4jUtils.getTrace(e));
             return ResultUtil.error(-1,"上传失败");
+        }finally {
+            if (null != out){
+                out.close();
+            }
         }
 
     }
@@ -93,6 +99,7 @@ public class UploadUtils {
      * @throws Exception
      */
     public static Result<String> uploadPicture(String image,String imgeUrl, HttpServletRequest request) throws Exception {
+        FileOutputStream out = null;
         try{
             String header ="data:image";
             String[] imageArr=image.split(",");
@@ -124,7 +131,7 @@ public class UploadUtils {
                 //存放到服务器上的真实路径(不是url路径)
                 String truePath = path + File.separator + imgName;
                 //新建一个文件输出器，并为它指定输出位置imgFilePath
-                FileOutputStream out = new FileOutputStream(truePath);
+                out = new FileOutputStream(truePath);
                 //利用文件输出器将二进制格式decodedBytes输出
                 out.write(decodedBytes);
                 //关闭文件输出器
@@ -138,6 +145,10 @@ public class UploadUtils {
         {
             logger.error("上传图片异常"+ Log4jUtils.getTrace(e));
             return ResultUtil.error(-1,"上传失败");
+        }finally {
+            if (null != out){
+                out.close();
+            }
         }
     }
 
@@ -182,8 +193,13 @@ public class UploadUtils {
                     }
                     //保存的文件名
                     String newFileName = RandomUtil.getRandomFileName()+ '.' + fileName;
+
                     // 转存文件到指定路径,转存而不是写出
-                    file.transferTo(new File(path + File.separator + newFileName));
+                    File dest = new File(new File(path).getAbsolutePath()+ File.separator + newFileName);
+                    // 将上传文件复制到临时文件
+                    FileUtils.copyInputStreamToFile(file.getInputStream(),dest);
+                    // 下面这个删除方法有毒
+                    //file.transferTo(dest);
                     //上传成功
                     return ResultUtil.success(urlPath+ File.separator + newFileName);
                 }else{
@@ -242,7 +258,11 @@ public class UploadUtils {
                     //保存的文件名
                     String imgName = RandomUtil.getRandomFileName()+ '.' + imgType;
                     // 转存文件到指定路径,转存而不是写出
-                    file.transferTo(new File(path + File.separator +imgName));
+                    File dest = new File(new File(path).getAbsolutePath()+ File.separator + imgName);
+                    // 将上传文件复制到临时文件
+                    FileUtils.copyInputStreamToFile(file.getInputStream(),dest);
+                    // 下面这个删除方法有毒
+                    //file.transferTo(dest);
                     //上传成功
                     return ResultUtil.success(urlPath+ File.separator +imgName);
                 }else{

@@ -41,7 +41,7 @@ public interface LogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<LogTypeEntity> selectLogType();
+    public Result<List<LogTypeEntity>> selectLogType();
 
     /**
      * @描述 分页查询日志 按用户、类别、日期

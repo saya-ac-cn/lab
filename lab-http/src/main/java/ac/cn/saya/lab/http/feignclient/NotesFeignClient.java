@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date: 2020-03-14 13:37
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "notes")
+@FeignClient(value = "lab-medium-server", contextId = "notes",path = "medium/notes")
 public interface NotesFeignClient {
 
 
@@ -27,7 +27,7 @@ public interface NotesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/notes")
+    @PostMapping(value = "/")
     public Result<Integer> insertNotes(@RequestBody NotesEntity entity);
 
     /**
@@ -38,7 +38,7 @@ public interface NotesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/notes")
+    @PutMapping(value = "/")
     public Result<Integer> editNotes(@RequestBody NotesEntity entity);
 
     /**
@@ -49,8 +49,8 @@ public interface NotesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/notes")
-    public Result<Integer> deleteNotes(NotesEntity entity);
+    @DeleteMapping(value = "/")
+    public Result<Integer> deleteNotes(@RequestBody NotesEntity entity);
 
     /**
      * @描述 查询一条笔记
@@ -60,8 +60,8 @@ public interface NotesFeignClient {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/notes/one")
-    public Result<NotesEntity> getOneNotes(NotesEntity entity);
+    @GetMapping(value = "one")
+    public Result<NotesEntity> getOneNotes(@RequestBody NotesEntity entity);
 
     /**
      * @描述 获取分页后的笔记
@@ -71,8 +71,8 @@ public interface NotesFeignClient {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/notes/pagin")
-    public Result<Object> getNotesPage(NotesEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getNotesPage(@RequestBody NotesEntity entity);
 
     /**
      * @描述  查询指定id附近的笔记
@@ -82,7 +82,7 @@ public interface NotesFeignClient {
      * @创建时间  2020-03-20
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/notes/nearby")
+    @GetMapping(value = "nearby")
     public Result<Map<String,String>> getNotesPreAndNext(@RequestParam(value = "notesId") Integer notesId);
 
     /**
@@ -93,7 +93,7 @@ public interface NotesFeignClient {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/medium/notes/totalNotesCount")
-    public Result<Long> totalNotesCount(NotesEntity entity);
+    @GetMapping(value = "totalNotesCount")
+    public Result<Long> totalNotesCount(@RequestBody NotesEntity entity);
 
 }

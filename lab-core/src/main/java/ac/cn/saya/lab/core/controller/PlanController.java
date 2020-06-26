@@ -1,7 +1,7 @@
-package ac.cn.saya.lab.medium.controller;
+package ac.cn.saya.lab.core.controller;
 
 import ac.cn.saya.lab.api.entity.PlanEntity;
-import ac.cn.saya.lab.api.service.medium.PlanService;
+import ac.cn.saya.lab.api.service.core.PlanService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import java.util.List;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/plan")
+@RequestMapping(value = "core/plan")
 public class PlanController {
 
     @Autowired
@@ -58,7 +58,7 @@ public class PlanController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deletePlan(PlanEntity entity){
+    public Result<Integer> deletePlan(@RequestBody PlanEntity entity){
         return planService.deletePlan(entity);
     }
 
@@ -70,8 +70,8 @@ public class PlanController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<PlanEntity> getOnePlan(PlanEntity entity){
+    @GetMapping(value = "one")
+    public Result<PlanEntity> getOnePlan(@RequestBody PlanEntity entity){
         return planService.getOnePlan(entity);
     }
 
@@ -83,21 +83,21 @@ public class PlanController {
      * @Date  2020-03-28
      * @Description
      */
-    @GetMapping(value = "/list")
-    public Result<List<PlanEntity>> getPlanList(PlanEntity entity){
+    @GetMapping(value = "list")
+    public Result<List<PlanEntity>> getPlanList(@RequestBody PlanEntity entity){
         return planService.getPlanList(entity);
     }
 
     /**
      * @描述 获取当天的计划内容
      * @参数  []
-     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.PlanEntity>
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>>
      * @创建人  saya.ac.cn-刘能凯
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/today")
-    public Result<PlanEntity> getTodayPlanList(){
+    @GetMapping(value = "today")
+    public Result<List<PlanEntity>> getTodayPlanList(){
         return planService.getTodayPlanList();
     }
 
@@ -109,7 +109,7 @@ public class PlanController {
      * @创建时间  2020-03-15
      * @修改人和其它信息
      */
-    @GetMapping(value = "/user/today")
+    @GetMapping(value = "user/today")
     public Result<PlanEntity> getTodayPlanListByUser(@RequestParam(value = "source") String source){
         return planService.getTodayPlanListByUser(source);
     }
@@ -122,8 +122,8 @@ public class PlanController {
      * @Date  2020-04-04
      * @Description
      */
-    @GetMapping(value = "/totalPlanCount")
-    public Result<Long> totalPlanCount(PlanEntity entity){
+    @GetMapping(value = "totalPlanCount")
+    public Result<Long> totalPlanCount(@RequestBody PlanEntity entity){
         return planService.totalPlanCount(entity);
     }
 

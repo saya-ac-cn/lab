@@ -58,7 +58,7 @@ public class NoteBookController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deleteNoteBook(NoteBookEntity entity){
+    public Result<Integer> deleteNoteBook(@RequestBody NoteBookEntity entity){
         return noteBookService.deleteNoteBook(entity);
     }
 
@@ -70,8 +70,8 @@ public class NoteBookController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity){
+    @GetMapping(value = "one")
+    public Result<NoteBookEntity> getOneNoteBook(@RequestBody NoteBookEntity entity){
         return noteBookService.getOneNoteBook(entity);
     }
 
@@ -83,8 +83,8 @@ public class NoteBookController {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getNoteBookPage(NoteBookEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getNoteBookPage(@RequestBody NoteBookEntity entity){
         return noteBookService.getNoteBookPage(entity);
     }
 
@@ -96,8 +96,8 @@ public class NoteBookController {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/list")
-    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity){
+    @GetMapping(value = "list")
+    public Result<List<NoteBookEntity>> getNoteBook(@RequestBody NoteBookEntity entity){
         return noteBookService.getNoteBook(entity);
     }
 
@@ -109,8 +109,8 @@ public class NoteBookController {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/totalNoteBookCount")
-    public Result<Long> totalNoteBookCount(NoteBookEntity entity){
+    @GetMapping(value = "totalNoteBookCount")
+    public Result<Long> totalNoteBookCount(@RequestBody NoteBookEntity entity){
         return noteBookService.totalNoteBookCount(entity);
     }
 

@@ -2,6 +2,7 @@ package ac.cn.saya.lab.http.auth;
 
 import ac.cn.saya.lab.api.entity.UserMemory;
 import ac.cn.saya.lab.http.entity.SecurityEntity;
+import org.eclipse.jetty.server.session.Session;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -74,12 +75,16 @@ public class RepeatLogin {
             SecurityEntity security = (SecurityEntity) RepeatLogin.securityMap.get(username);
             RepeatLogin.securityMap.remove(username);
             HttpSession session = security.getSession();
-            Enumeration e = session.getAttributeNames();
-            while (e.hasMoreElements()) {
-                String sessionName = (String) e.nextElement();
-                session.removeAttribute(sessionName);
+            try {
+                Enumeration e = session.getAttributeNames();
+                while (e.hasMoreElements()) {
+                    String sessionName = (String) e.nextElement();
+                    session.removeAttribute(sessionName);
+                }
+                session.invalidate();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-            session.invalidate();
         }
     }
 }

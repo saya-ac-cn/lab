@@ -17,7 +17,7 @@ import java.util.Map;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/files")
+@RequestMapping(value = "medium/files")
 public class FilesController {
 
     @Autowired
@@ -58,7 +58,7 @@ public class FilesController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deleteFile(FilesEntity entity){
+    public Result<Integer> deleteFile(@RequestBody FilesEntity entity){
         return filesService.deleteFile(entity);
     }
 
@@ -70,8 +70,8 @@ public class FilesController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getFilePage(FilesEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getFilePage(@RequestBody FilesEntity entity){
         return filesService.getFilePage(entity);
     }
 
@@ -83,8 +83,8 @@ public class FilesController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<FilesEntity> getOneFile(FilesEntity entity){
+    @GetMapping(value = "one")
+    public Result<FilesEntity> getOneFile(@RequestBody FilesEntity entity){
         return filesService.getOneFile(entity);
     }
 
@@ -96,8 +96,8 @@ public class FilesController {
      * @创建时间  2020-03-21
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pre6Files")
-    public Result<Map<String,String>> countPre6Files(String user){
+    @GetMapping(value = "pre6Files")
+    public Result<Map<String,String>> countPre6Files(@RequestParam(value = "user") String user){
         return filesService.countPre6Files(user);
     }
 
@@ -109,8 +109,8 @@ public class FilesController {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/totalFileCount")
-    public Result<Long> totalFileCount(FilesEntity entity){
+    @GetMapping(value = "totalFileCount")
+    public Result<Long> totalFileCount(@RequestBody FilesEntity entity){
         return filesService.totalFileCount(entity);
     }
 }

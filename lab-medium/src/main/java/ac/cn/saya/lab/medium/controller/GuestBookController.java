@@ -17,7 +17,7 @@ import java.util.Map;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/guestbook")
+@RequestMapping(value = "medium/guestbook")
 public class GuestBookController {
 
     @Autowired
@@ -57,8 +57,8 @@ public class GuestBookController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity){
+    @GetMapping(value = "one")
+    public Result<GuestBookEntity> queryOneGuestBook(@RequestBody GuestBookEntity entity){
         return guestBookService.queryOneGuestBook(entity);
     }
 
@@ -70,8 +70,8 @@ public class GuestBookController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getGuestBookPage(GuestBookEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getGuestBookPage(@RequestBody GuestBookEntity entity){
         return guestBookService.getGuestBookPage(entity);
     }
 

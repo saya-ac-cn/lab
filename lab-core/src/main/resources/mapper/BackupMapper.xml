@@ -69,6 +69,23 @@
         </where>
     </select>
 
+
+    <!-- 查看备份记录列表-->
+    <select id="getBackupList" parameterType="backup" resultType="backup">
+        select
+        a.`url`,a.`archiveDate`,a.`createtime`
+        from
+        backuplog a
+        <where>
+            <if test="beginTime != null and beginTime != ''and endTime != null and endTime != ''">
+                and date_format(a.archiveDate,'%Y-%m-%d') between date_format(#{beginTime},'%Y-%m-%d')  and date_format(#{endTime},'%Y-%m-%d')
+            </if>
+            <if test = "saveMonth != null and saveMonth != 0">
+                and a.archiveDate <![CDATA[ < ]]>  DATE_SUB(CURDATE(), INTERVAL #{saveMonth} MONTH)
+            </if>
+        </where>
+        order by archiveDate desc
+    </select>
 </mapper>
 
 

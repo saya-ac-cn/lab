@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date: 2020-03-14 10:01
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "memo",path = "/medium/memo")
+@FeignClient(value = "lab-medium-server", contextId = "memo",path = "medium/memo")
 public interface MemoFeignClient {
 
     /**
@@ -37,8 +37,8 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<MemoEntity> getOne(MemoEntity entity);
+    @GetMapping(value = "one")
+    public Result<MemoEntity> getOne(@RequestBody MemoEntity entity);
 
     /**
      * @描述 修改便笺
@@ -60,7 +60,7 @@ public interface MemoFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> delete(MemoEntity entity);
+    public Result<Integer> delete(@RequestBody MemoEntity entity);
 
     /**
      * @描述 获取分页后的便笺
@@ -70,8 +70,8 @@ public interface MemoFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getPage(MemoEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getPage(@RequestBody MemoEntity entity);
 
     /**
      * @Title 统计便笺总数
@@ -81,8 +81,8 @@ public interface MemoFeignClient {
      * @Date  2020-04-07
      * @Description
      */
-    @GetMapping(value = "/totalCount")
-    public Result<Long> totalCount(MemoEntity entity);
+    @GetMapping(value = "totalCount")
+    public Result<Long> totalCount(@RequestBody MemoEntity entity);
 
     /**
      * @Title 查询近半年便笺情况
@@ -92,7 +92,7 @@ public interface MemoFeignClient {
      * @Date  2020-04-08
      * @Description
      */
-    @GetMapping(value = "/pre6Memo")
+    @GetMapping(value = "pre6Memo")
     public Result<Map<String,String>> countPre6Memo(@RequestParam(value = "user") String user);
 
 }

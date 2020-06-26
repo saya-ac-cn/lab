@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Date: 2020-03-14 13:42
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "picturestorage")
+@FeignClient(value = "lab-medium-server", contextId = "picturestorage",path = "medium/picturestorage")
 public interface PictureStorageFeignClient {
 
 
@@ -28,7 +28,7 @@ public interface PictureStorageFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/picturestorage")
+    @PostMapping(value = "/")
     public Result<Integer> uploadPictureBase64(@RequestBody PictureEntity entity);
 
     /**
@@ -39,8 +39,8 @@ public interface PictureStorageFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/picturestorage")
-    public Result<Integer> deletePictuBase64(PictureEntity entity);
+    @DeleteMapping(value = "/")
+    public Result<Integer> deletePictuBase64(@RequestBody PictureEntity entity);
 
     /**
      * @描述 查询分页后的图片
@@ -50,8 +50,8 @@ public interface PictureStorageFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/picturestorage/pagin")
-    public Result<Object> getPictuBase64Page(PictureEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getPictuBase64Page(@RequestBody PictureEntity entity);
 
     /**
      * @描述 查询一张图片
@@ -61,8 +61,8 @@ public interface PictureStorageFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/picturestorage/one")
-    public Result<PictureEntity> getOnePictuBase64(PictureEntity entity);
+    @GetMapping(value = "one")
+    public Result<PictureEntity> getOnePictuBase64(@RequestBody PictureEntity entity);
 
     /**
      * @Title 查询图片的总数
@@ -72,7 +72,7 @@ public interface PictureStorageFeignClient {
      * @Date  2020-03-28
      * @Description
      */
-    @GetMapping(value = "/medium/picturestorage/count")
-    public Result<Long> getPictuBase64Count(PictureEntity entity);
+    @GetMapping(value = "count")
+    public Result<Long> getPictuBase64Count(@RequestBody PictureEntity entity);
 
 }

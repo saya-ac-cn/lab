@@ -162,8 +162,10 @@ public class FrontendServiceImpl implements IFrontendService {
                     os.write(buf, 0, i);
                     i = bis.read(buf);
                 }
+                return null;
             } catch (IOException e) {
                 e.printStackTrace();
+                return ResultUtil.error(ResultEnum.ERROP);
             } finally {
                 try {
                     os.close();
@@ -181,7 +183,6 @@ public class FrontendServiceImpl implements IFrontendService {
                     e.printStackTrace();
                 }
             }
-            return ResultUtil.success();
         }
     }
 

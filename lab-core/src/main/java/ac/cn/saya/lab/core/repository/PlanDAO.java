@@ -1,4 +1,4 @@
-package ac.cn.saya.lab.medium.repository;
+package ac.cn.saya.lab.core.repository;
 
 
 import ac.cn.saya.lab.api.entity.PlanEntity;

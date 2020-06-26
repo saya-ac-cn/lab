@@ -15,7 +15,7 @@ import java.util.List;
  * @Date: 2020-03-14 13:31
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "notebook",path = "/medium/notebook")
+@FeignClient(value = "lab-medium-server", contextId = "notebook",path = "medium/notebook")
 public interface NoteBookFeignClient {
 
 
@@ -50,7 +50,7 @@ public interface NoteBookFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deleteNoteBook(NoteBookEntity entity);
+    public Result<Integer> deleteNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
      * @描述 查询一条笔记簿
@@ -60,8 +60,8 @@ public interface NoteBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity);
+    @GetMapping(value = "one")
+    public Result<NoteBookEntity> getOneNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
      * @描述 获取分页后的笔记簿
@@ -71,8 +71,8 @@ public interface NoteBookFeignClient {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getNoteBookPage(NoteBookEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getNoteBookPage(@RequestBody NoteBookEntity entity);
 
     /**
      * @描述 获取笔记簿
@@ -82,8 +82,8 @@ public interface NoteBookFeignClient {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/list")
-    public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity);
+    @GetMapping(value = "list")
+    public Result<List<NoteBookEntity>> getNoteBook(@RequestBody NoteBookEntity entity);
 
     /**
      * @Title 统计笔记簿总数
@@ -93,7 +93,7 @@ public interface NoteBookFeignClient {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/totalNoteBookCount")
-    public Result<Long> totalNoteBookCount(NoteBookEntity entity);
+    @GetMapping(value = "totalNoteBookCount")
+    public Result<Long> totalNoteBookCount(@RequestBody NoteBookEntity entity);
 
 }

@@ -15,6 +15,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * @Title: FinancialServiceImpl
@@ -43,7 +44,7 @@ public class FinancialServiceImpl implements IFinancialService {
      * @throws Exception
      */
     @Override
-    public Result<TransactionTypeEntity> getTransactionType() {
+    public Result<List<TransactionTypeEntity>> getTransactionType() {
         return transactionReadFeignClient.getTransactionType();
     }
 

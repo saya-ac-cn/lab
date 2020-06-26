@@ -6,6 +6,7 @@ import ac.cn.saya.lab.api.tools.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 /**
@@ -71,7 +72,7 @@ public interface ICoreService {
      *
      * @return
      */
-    public Result<LogTypeEntity> getLogType();
+    public Result<List<LogTypeEntity>> getLogType();
 
     /**
      * 查询日志

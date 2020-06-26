@@ -41,7 +41,7 @@ public class PageTools {
             return ResultUtil.success(paging);
         } else {
             //未找到有效记录
-            throw new MyException(ResultEnum.NOT_EXIST);
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
         }
     }
 

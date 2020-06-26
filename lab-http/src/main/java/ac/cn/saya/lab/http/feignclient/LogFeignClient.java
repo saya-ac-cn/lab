@@ -17,7 +17,7 @@ import java.util.List;
  * @Date: 2020-02-29 14:50
  * @Description:
  */
-@FeignClient(value = "lab-core-server", contextId = "log",path = "/core/log")
+@FeignClient(value = "lab-core-server", contextId = "log",path = "core/log")
 public interface LogFeignClient {
 
 
@@ -29,7 +29,7 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @PostMapping(value = "/record")
+    @PostMapping(value = "record")
     public Result<Integer> insert(@RequestBody LogEntity entity);
 
     /**
@@ -40,8 +40,8 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/type")
-    public Result<LogTypeEntity> selectLogType();
+    @GetMapping(value = "type")
+    public Result<List<LogTypeEntity>> selectLogType();
 
     /**
      * @描述 分页查询日志 按用户、类别、日期
@@ -51,8 +51,8 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/display")
-    public Result<Object> display(LogEntity entity);
+    @GetMapping(value = "display")
+    public Result<Object> display(@RequestBody LogEntity entity);
 
     /**
      * @描述 查询用户最近的操作
@@ -62,7 +62,7 @@ public interface LogFeignClient {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/recently/{user}")
+    @GetMapping(value = "recently/{user}")
     public Result<LogEntity> queryRecentlyLog(@PathVariable(value = "user") String user);
 
     /**
@@ -74,6 +74,6 @@ public interface LogFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "log/excel")
-    public Result<OutExcelEntity> logExcel(LogEntity entity);
+    public Result<OutExcelEntity> logExcel(@RequestBody LogEntity entity);
 
 }

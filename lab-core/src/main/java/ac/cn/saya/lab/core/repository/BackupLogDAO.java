@@ -69,4 +69,14 @@ public interface BackupLogDAO {
      */
     public BackupLogEntity getBackupOne(BackupLogEntity entity);
 
+    /**
+     * @描述 查看备份记录列表
+     * @参数
+     * @返回值
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2019-02-28
+     * @修改人和其它信息
+     */
+    public List<BackupLogEntity> getBackupList(BackupLogEntity entity);
+
 }

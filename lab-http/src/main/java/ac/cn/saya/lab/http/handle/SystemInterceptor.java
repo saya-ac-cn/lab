@@ -32,6 +32,7 @@ public class SystemInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("Url="+request.getRequestURI() +",Session="+request.getSession());
         // 返回-1，不允许继续访问，返回0，经过授信后的访问，返回1，公开资源，无需授信
         int indentify = this.indentify(request);
         if (1 == indentify || 0 == indentify) {

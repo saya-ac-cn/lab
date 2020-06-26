@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Description: TODO
  * @Author liunengkai
  * @Date: 2020-02-29 19:14
- * @Description:身份鉴定AOP
+ * @Description:使用JWT&AOP进行身份鉴定AOP 本应用用的是过滤器
  */
 //@Aspect
 //@Component

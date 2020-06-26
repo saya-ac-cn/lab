@@ -3,10 +3,9 @@ package ac.cn.saya.lab.http.feignclient;
 import ac.cn.saya.lab.api.entity.BackupLogEntity;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Title: BackFeignClient
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Date: 2020-03-11 22:08
  * @Description:数据库备份记录
  */
-@FeignClient(value = "lab-core-server", contextId = "back")
+@FeignClient(value = "lab-core-server", contextId = "back",path = "core/back")
 public interface BackFeignClient {
 
     /**
@@ -27,7 +26,7 @@ public interface BackFeignClient {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @PostMapping(value = "/core/back")
+    @PostMapping(value = "/")
     public Result<Integer> insert(@RequestParam(value = "backupUrl") String backupUrl);
 
     /**
@@ -38,8 +37,8 @@ public interface BackFeignClient {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/core/back")
-    public Result<Integer> deleteBackup(BackupLogEntity entity);
+    @DeleteMapping(value = "/")
+    public Result<Integer> deleteBackup(@RequestBody BackupLogEntity entity);
 
     /**
      * @描述 查看备份详情
@@ -49,8 +48,8 @@ public interface BackFeignClient {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/back/info")
-    public Result<BackupLogEntity> getOneBackup(BackupLogEntity entity);
+    @GetMapping(value = "info")
+    public Result<BackupLogEntity> getOneBackup(@RequestBody BackupLogEntity entity);
 
     /**
      * @描述 分页查看备份
@@ -60,7 +59,29 @@ public interface BackFeignClient {
      * @创建时间  2020-03-11
      * @修改人和其它信息
      */
-    @GetMapping(value = "/core/back")
-    public Result<Object> getBackupPagin(BackupLogEntity entity);
+    @GetMapping(value = "/")
+    public Result<Object> getBackupPagin(@RequestBody BackupLogEntity entity);
+
+    /**
+     * @描述  查看备份数据列表
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.BackupLogEntity>>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/25
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "list")
+    public Result<List<BackupLogEntity>> getBackupList(@RequestBody BackupLogEntity entity);
+
+    /**
+     * @描述 查看备份数据总数
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/25
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "count")
+    public Result<Long> getBackupCount(@RequestBody BackupLogEntity entity);
 
 }

@@ -17,7 +17,7 @@ import java.util.Map;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/memo")
+@RequestMapping(value = "medium/memo")
 public class MemoController {
     @Autowired
     private MemoService memoService;
@@ -43,8 +43,8 @@ public class MemoController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<MemoEntity> getOne(MemoEntity entity){
+    @GetMapping(value = "one")
+    public Result<MemoEntity> getOne(@RequestBody MemoEntity entity){
         return memoService.getOne(entity);
     }
 
@@ -70,7 +70,7 @@ public class MemoController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> delete(MemoEntity entity){
+    public Result<Integer> delete(@RequestBody MemoEntity entity){
         return memoService.delete(entity);
     }
 
@@ -82,8 +82,8 @@ public class MemoController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getPage(MemoEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getPage(@RequestBody MemoEntity entity){
         return memoService.getPage(entity);
     }
 
@@ -95,8 +95,8 @@ public class MemoController {
      * @Date  2020-04-07
      * @Description
      */
-    @GetMapping(value = "/totalCount")
-    public Result<Long> totalCount(MemoEntity entity){
+    @GetMapping(value = "totalCount")
+    public Result<Long> totalCount(@RequestBody MemoEntity entity){
         return memoService.totalCount(entity);
     }
 
@@ -108,7 +108,7 @@ public class MemoController {
      * @Date  2020-04-08
      * @Description
      */
-    @GetMapping(value = "/pre6Memo")
+    @GetMapping(value = "pre6Memo")
     public Result<Map<String,String>> countPre6Memo(@RequestParam(value = "user") String user){
         return memoService.countPre6Memo(user);
     }

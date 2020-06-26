@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/api")
+@RequestMapping(value = "medium/api")
 public class ApiCotroller {
 
     @Autowired
@@ -56,7 +56,7 @@ public class ApiCotroller {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deleteApi(ApiEntity entity){
+    public Result<Integer> deleteApi(@RequestBody ApiEntity entity){
         return apiService.deleteApi(entity);
     }
 
@@ -68,8 +68,8 @@ public class ApiCotroller {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/query")
-    public Result<ApiEntity> getOneApi(ApiEntity entity){
+    @GetMapping(value = "query")
+    public Result<ApiEntity> getOneApi(@RequestBody ApiEntity entity){
         return apiService.getOneApi(entity);
     }
 
@@ -81,8 +81,8 @@ public class ApiCotroller {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getApiPage(ApiEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getApiPage(@RequestBody ApiEntity entity){
         return apiService.getApiPage(entity);
     }
 }

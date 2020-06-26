@@ -7,10 +7,7 @@ import ac.cn.saya.lab.api.entity.TransactionTypeEntity;
 import ac.cn.saya.lab.api.service.financial.IFinancialService;
 import ac.cn.saya.lab.api.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ import java.util.List;
  * @Description:财政&金融内部只读接口
  */
 @RestController
-@RequestMapping(value = "/financial/read")
+@RequestMapping(value = "financial/read")
 public class TransactionReadController {
 
     @Autowired
@@ -37,7 +34,7 @@ public class TransactionReadController {
      * @Date  2020-06-13
      * @Description
      */
-    @GetMapping(value = "/transactionType")
+    @GetMapping(value = "transactionType")
     public Result<List<TransactionTypeEntity>> getTransactionType(){
         return financialService.getTransactionType();
     }
@@ -50,8 +47,8 @@ public class TransactionReadController {
      * @Date  2020-06-13
      * @Description
      */
-    @GetMapping(value = "/transactionPage")
-    public Result<Object> getTransactionPage(TransactionListEntity entity){
+    @GetMapping(value = "transactionPage")
+    public Result<Object> getTransactionPage(@RequestBody TransactionListEntity entity){
         return financialService.getTransaction(entity);
     }
 
@@ -63,8 +60,8 @@ public class TransactionReadController {
      * @Date  2020-06-13
      * @Description
      */
-    @GetMapping(value = "/transactionInfoPage")
-    public Result<Object> getTransactionInfoPage(TransactionInfoEntity entity){
+    @GetMapping(value = "transactionInfoPage")
+    public Result<Object> getTransactionInfoPage(@RequestBody TransactionInfoEntity entity){
         return financialService.getTransactionInfo(entity);
     }
 
@@ -76,8 +73,8 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/getTransactionFinalPage")
-    public Result<Object> getTransactionFinalPage(TransactionListEntity entity){
+    @GetMapping(value = "getTransactionFinalPage")
+    public Result<Object> getTransactionFinalPage(@RequestBody TransactionListEntity entity){
         return financialService.getTransactionFinal(entity);
     }
 
@@ -89,8 +86,8 @@ public class TransactionReadController {
      * @Date  2020-06-13
      * @Description
      */
-    @GetMapping(value = "/getTransactionForDayPage")
-    public Result<Object> getTransactionForDayPage(TransactionListEntity entity){
+    @GetMapping(value = "getTransactionForDayPage")
+    public Result<Object> getTransactionForDayPage(@RequestBody TransactionListEntity entity){
         return financialService.totalTransactionForDay(entity);
     }
 
@@ -102,8 +99,8 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/getTransactionForMonthPage")
-    public Result<Object> getTransactionForMonthPage(TransactionListEntity entity){
+    @GetMapping(value = "getTransactionForMonthPage")
+    public Result<Object> getTransactionForMonthPage(@RequestBody TransactionListEntity entity){
         return financialService.totalTransactionForMonth(entity);
     }
 
@@ -115,8 +112,8 @@ public class TransactionReadController {
      * @创建时间  2020-03-13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/getTransactionForYearPage")
-    public Result<Object> getTransactionForYearPage(TransactionListEntity entity){
+    @GetMapping(value = "getTransactionForYearPage")
+    public Result<Object> getTransactionForYearPage(@RequestBody TransactionListEntity entity){
         return financialService.totalTransactionForYear(entity);
     }
 
@@ -129,7 +126,7 @@ public class TransactionReadController {
      * @修改人和其它信息
      */
     @GetMapping(value = "outTransactionListExcel")
-    public Result<OutExcelEntity> outTransactionListExcel(TransactionListEntity entity){
+    public Result<OutExcelEntity> outTransactionListExcel(@RequestBody TransactionListEntity entity){
         return financialService.outTransactionListExcel(entity);
     }
 
@@ -142,7 +139,7 @@ public class TransactionReadController {
      * @修改人和其它信息
      */
     @GetMapping(value = "outTransactionInfoExcel")
-    public Result<OutExcelEntity> outTransactionInfoExcel(TransactionListEntity entity){
+    public Result<OutExcelEntity> outTransactionInfoExcel(@RequestBody TransactionListEntity entity){
         return financialService.outTransactionInfoExcel(entity);
     }
 
@@ -154,7 +151,7 @@ public class TransactionReadController {
      * @throws Exception
      */
     @GetMapping(value = "outTransactionForDayExcel")
-    public Result<OutExcelEntity> outTransactionForDayExcel(TransactionListEntity entity) throws Exception {
+    public Result<OutExcelEntity> outTransactionForDayExcel(@RequestBody TransactionListEntity entity) throws Exception {
         return financialService.outTransactionForDayExcel(entity);
     }
 
@@ -166,7 +163,7 @@ public class TransactionReadController {
      * @throws Exception
      */
     @GetMapping(value = "outTransactionForMonthExcel")
-    public Result<OutExcelEntity> outTransactionForMonthExcel(TransactionListEntity entity) throws Exception {
+    public Result<OutExcelEntity> outTransactionForMonthExcel(@RequestBody TransactionListEntity entity) throws Exception {
         return financialService.outTransactionForMonthExcel(entity);
     }
 
@@ -178,7 +175,7 @@ public class TransactionReadController {
      * @throws Exception
      */
     @GetMapping(value = "outTransactionForYearExcel")
-    public Result<OutExcelEntity> outTransactionForYearExcel(TransactionListEntity entity) throws Exception {
+    public Result<OutExcelEntity> outTransactionForYearExcel(@RequestBody TransactionListEntity entity) throws Exception {
         return financialService.outTransactionForYearExcel(entity);
     }
 
@@ -190,7 +187,7 @@ public class TransactionReadController {
      * @创建时间  2020-03-21
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pre6Financial")
+    @GetMapping(value = "pre6Financial")
     public Result<List<TransactionListEntity>> countPre6Financial(@RequestParam(value = "user") String user){
         return financialService.countPre6Financial(user);
     }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/picturestorage")
+@RequestMapping(value = "medium/picturestorage")
 public class PictureStorageController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class PictureStorageController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deletePictuBase64(PictureEntity entity){
+    public Result<Integer> deletePictuBase64(@RequestBody PictureEntity entity){
         return pictureStorageService.deletePictuBase64(entity);
     }
 
@@ -55,8 +55,8 @@ public class PictureStorageController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getPictuBase64Page(PictureEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getPictuBase64Page(@RequestBody PictureEntity entity){
         return pictureStorageService.getPictuBase64Page(entity);
     }
 
@@ -68,8 +68,8 @@ public class PictureStorageController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<PictureEntity> getOnePictuBase64(PictureEntity entity){
+    @GetMapping(value = "one")
+    public Result<PictureEntity> getOnePictuBase64(@RequestBody PictureEntity entity){
         return pictureStorageService.getOnePictuBase64(entity);
     }
 
@@ -81,8 +81,8 @@ public class PictureStorageController {
      * @Date  2020-03-28
      * @Description
      */
-    @GetMapping(value = "/count")
-    public Result<Long> getPictuBase64Count(PictureEntity entity){
+    @GetMapping(value = "count")
+    public Result<Long> getPictuBase64Count(@RequestBody PictureEntity entity){
         return pictureStorageService.getPictuBase64Count(entity);
     }
 

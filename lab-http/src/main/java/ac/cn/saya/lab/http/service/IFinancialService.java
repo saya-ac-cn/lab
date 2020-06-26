@@ -7,6 +7,7 @@ import ac.cn.saya.lab.api.tools.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @Title: IFinancialService
@@ -25,7 +26,7 @@ public interface IFinancialService {
      * @return
      * @throws Exception
      */
-    public Result<TransactionTypeEntity> getTransactionType();
+    public Result<List<TransactionTypeEntity>> getTransactionType();
 
     /**
      * 查看流水（这里不是明细）

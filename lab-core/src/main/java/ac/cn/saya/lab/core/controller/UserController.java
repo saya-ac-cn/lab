@@ -17,7 +17,7 @@ import java.util.Map;
  * @Description: 用户相关接口(内部)
  */
 @RestController
-@RequestMapping("/core/user")
+@RequestMapping(value = "core/user")
 public class UserController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class UserController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/info")
+    @GetMapping(value = "info")
     public Result<UserEntity> getUser(@RequestParam(value = "user") String user) {
         return userService.getUser(user);
     }
@@ -45,7 +45,7 @@ public class UserController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @PutMapping(value = "/info")
+    @PutMapping(value = "info")
     public Result<Integer> setUser(@RequestBody UserEntity user) {
         return userService.setUser(user);
     }
@@ -58,7 +58,7 @@ public class UserController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/activity")
+    @GetMapping(value = "activity")
     public Result<Map<String, Object>> countPre6Logs(@RequestParam(value = "user") String user) {
         return userService.countPre6Logs(user);
     }

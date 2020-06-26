@@ -1,4 +1,4 @@
-package ac.cn.saya.lab.api.service.medium;
+package ac.cn.saya.lab.api.service.core;
 
 import ac.cn.saya.lab.api.entity.PlanEntity;
 import ac.cn.saya.lab.api.tools.Result;
@@ -74,7 +74,7 @@ public interface PlanService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    public Result<PlanEntity> getTodayPlanList();
+    public Result<List<PlanEntity>> getTodayPlanList();
 
     /**
      * @描述 获取指定用户当天的计划内容

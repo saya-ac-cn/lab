@@ -83,7 +83,7 @@ public class BaseEntity implements Serializable {
         this.endLine = endLine;
     }
 
-    public String getStartTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 

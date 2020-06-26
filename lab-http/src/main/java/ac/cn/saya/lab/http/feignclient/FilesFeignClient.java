@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date: 2020-03-14 09:43
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "files")
+@FeignClient(value = "lab-medium-server", contextId = "files",path = "medium/files")
 public interface FilesFeignClient {
 
     /**
@@ -26,7 +26,7 @@ public interface FilesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/files")
+    @PostMapping(value = "/")
     public Result<Integer> insertFile(@RequestBody FilesEntity entity);
 
     /**
@@ -37,7 +37,7 @@ public interface FilesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/files")
+    @PutMapping(value = "/")
     public Result<Integer> updateFile(@RequestBody FilesEntity entity);
 
     /**
@@ -48,8 +48,8 @@ public interface FilesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/files")
-    public Result<Integer> deleteFile(FilesEntity entity);
+    @DeleteMapping(value = "/")
+    public Result<Integer> deleteFile(@RequestBody FilesEntity entity);
 
     /**
      * @描述 查询分页后的文件列表
@@ -59,8 +59,8 @@ public interface FilesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/files/pagin")
-    public Result<Object> getFilePage(FilesEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getFilePage(@RequestBody FilesEntity entity);
 
     /**
      * @描述 获取一条文件信息
@@ -70,8 +70,8 @@ public interface FilesFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/files/one")
-    public Result<FilesEntity> getOneFile(FilesEntity entity);
+    @GetMapping(value = "one")
+    public Result<FilesEntity> getOneFile(@RequestBody FilesEntity entity);
 
     /**
      * @描述 查询近半年文件上传情况
@@ -81,8 +81,8 @@ public interface FilesFeignClient {
      * @创建时间  2020-03-21
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/files/pre6Files")
-    public Result<Map<String,String>> countPre6Files(String user);
+    @GetMapping(value = "pre6Files")
+    public Result<Map<String,String>> countPre6Files(@RequestParam(value = "user") String user);
 
     /**
      * @Title 统计文件总数
@@ -92,7 +92,7 @@ public interface FilesFeignClient {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/medium/files/totalFileCount")
-    public Result<Long> totalFileCount(FilesEntity entity);
+    @GetMapping(value = "totalFileCount")
+    public Result<Long> totalFileCount(@RequestBody FilesEntity entity);
 
 }

@@ -1,10 +1,10 @@
-package ac.cn.saya.lab.medium.service.impl;
+package ac.cn.saya.lab.core.service.impl;
 
 import ac.cn.saya.lab.api.entity.PlanEntity;
 import ac.cn.saya.lab.api.exception.MyException;
-import ac.cn.saya.lab.api.service.medium.PlanService;
+import ac.cn.saya.lab.api.service.core.PlanService;
 import ac.cn.saya.lab.api.tools.*;
-import ac.cn.saya.lab.medium.repository.PlanDAO;
+import ac.cn.saya.lab.core.repository.PlanDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -181,14 +181,14 @@ public class PlanServiceImpl implements PlanService {
 
     /**
      * @描述 获取当天的计划内容
-     * @参数 []
-     * @返回值 java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>
-     * @创建人 saya.ac.cn-刘能凯
-     * @创建时间 2020/3/13
+     * @参数  []
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.PlanEntity>>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/25
      * @修改人和其它信息
      */
     @Override
-    public Result<PlanEntity> getTodayPlanList() {
+    public Result<List<PlanEntity>> getTodayPlanList() {
         try {
             List<PlanEntity> list = planDAO.getTodayPlanList();
             if (list.size() <= 0) {

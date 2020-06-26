@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date: 2020-02-29 13:46
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "api")
+@FeignClient(value = "lab-medium-server", contextId = "api",path = "medium/api")
 public interface ApiFeignClient {
 
 
@@ -25,7 +25,7 @@ public interface ApiFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/api")
+    @PostMapping(value = "/")
     public Result<Integer> insertApi(@RequestBody ApiEntity entity);
 
     /**
@@ -36,7 +36,7 @@ public interface ApiFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/api")
+    @PutMapping(value = "/")
     public Result<Integer> editApi(@RequestBody ApiEntity entity);
 
     /**
@@ -47,8 +47,8 @@ public interface ApiFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "/medium/api")
-    public Result<Integer> deleteApi(ApiEntity entity);
+    @DeleteMapping(value = "/")
+    public Result<Integer> deleteApi(@RequestBody ApiEntity entity);
 
     /**
      * @描述 查询一条接口信息
@@ -58,8 +58,8 @@ public interface ApiFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/api/query")
-    public Result<ApiEntity> getOneApi(ApiEntity entity);
+    @GetMapping(value = "query")
+    public Result<ApiEntity> getOneApi(@RequestBody ApiEntity entity);
 
     /**
      * @描述 获取分页后的接口
@@ -69,6 +69,6 @@ public interface ApiFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/api/pagin")
-    public Result<Object> getApiPage(ApiEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getApiPage(@RequestBody ApiEntity entity);
 }

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/financial/write")
+@RequestMapping(value = "financial/write")
 public class TransactionWriteController {
 
     @Autowired
@@ -84,7 +84,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionInfo/{user}")
-    public Result<Object> deleteTransactionInfo(TransactionInfoEntity entity, @PathVariable(value = "user") String user){
+    public Result<Object> deleteTransactionInfo(@RequestBody TransactionInfoEntity entity, @PathVariable(value = "user") String user){
         return financialService.deleteTransactionInfo(entity,user);
     }
 
@@ -97,7 +97,7 @@ public class TransactionWriteController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "transactionList")
-    public Result<Object> deleteTransactionList(TransactionListEntity entity){
+    public Result<Object> deleteTransactionList(@RequestBody TransactionListEntity entity){
         return financialService.deleteTransaction(entity);
     }
 }

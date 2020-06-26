@@ -17,7 +17,7 @@ import java.util.Map;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/notes")
+@RequestMapping(value = "medium/notes")
 public class NotesController {
 
     @Autowired
@@ -58,7 +58,7 @@ public class NotesController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deleteNotes(NotesEntity entity){
+    public Result<Integer> deleteNotes(@RequestBody NotesEntity entity){
         return notesService.deleteNotes(entity);
     }
 
@@ -70,8 +70,8 @@ public class NotesController {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<NotesEntity> getOneNotes(NotesEntity entity){
+    @GetMapping(value = "one")
+    public Result<NotesEntity> getOneNotes(@RequestBody NotesEntity entity){
         return notesService.getOneNotes(entity);
     }
 
@@ -83,8 +83,8 @@ public class NotesController {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getNotesPage(NotesEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getNotesPage(@RequestBody NotesEntity entity){
         return notesService.getNotesPage(entity);
     }
 
@@ -96,7 +96,7 @@ public class NotesController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/nearby")
+    @GetMapping(value = "nearby")
     public Result<Map<String,String>> getNotesPreAndNext(@RequestParam(value = "notesId") Integer notesId){
         return notesService.getNotesPreAndNext(notesId);
     }
@@ -109,8 +109,8 @@ public class NotesController {
      * @Date  2020-04-03
      * @Description
      */
-    @GetMapping(value = "/totalNotesCount")
-    public Result<Long> totalNotesCount(NotesEntity entity){
+    @GetMapping(value = "totalNotesCount")
+    public Result<Long> totalNotesCount(@RequestBody NotesEntity entity){
         return notesService.totalNotesCount(entity);
     }
 

@@ -17,7 +17,7 @@ import java.util.Map;
  * @Description:
  */
 @RestController
-@RequestMapping(value = "/medium/news")
+@RequestMapping(value = "medium/news")
 public class NewsController {
 
     @Autowired
@@ -58,7 +58,7 @@ public class NewsController {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "/")
-    public Result<Integer> deleteNews(NewsEntity entity){
+    public Result<Integer> deleteNews(@RequestBody NewsEntity entity){
         return newsService.deleteNews(entity);
     }
 
@@ -70,8 +70,8 @@ public class NewsController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/one")
-    public Result<NewsEntity> getOneNews(NewsEntity entity){
+    @GetMapping(value = "one")
+    public Result<NewsEntity> getOneNews(@RequestBody NewsEntity entity){
         return newsService.getOneNews(entity);
     }
 
@@ -83,8 +83,8 @@ public class NewsController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pagin")
-    public Result<Object> getNewsPage(NewsEntity entity){
+    @GetMapping(value = "pagin")
+    public Result<Object> getNewsPage(@RequestBody NewsEntity entity){
         return newsService.getNewsPage(entity);
     }
 
@@ -96,7 +96,7 @@ public class NewsController {
      * @创建时间  2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/nearby")
+    @GetMapping(value = "nearby")
     public Result<Map<String,String>> getNewsPreAndNext(@RequestParam(value = "newsId") Integer newsId){
         return newsService.getNewsPreAndNext(newsId);
     }
@@ -109,7 +109,7 @@ public class NewsController {
      * @创建时间  2020-03-21
      * @修改人和其它信息
      */
-    @GetMapping(value = "/pre6MonthNews")
+    @GetMapping(value = "pre6MonthNews")
     public Result<Map<String,String>> countPre6MonthNews(@RequestParam(value = "user") String user){
         return newsService.countPre6MonthNews(user);
     }
@@ -122,8 +122,8 @@ public class NewsController {
      * @Date  2020-04-07
      * @Description
      */
-    @GetMapping(value = "/totalNewsCount")
-    public Result<Long> totalNewsCount(NewsEntity entity){
+    @GetMapping(value = "totalNewsCount")
+    public Result<Long> totalNewsCount(@RequestBody NewsEntity entity){
         return newsService.totalNewsCount(entity);
     }
 

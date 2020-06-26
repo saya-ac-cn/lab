@@ -8,6 +8,7 @@ import ac.cn.saya.lab.http.entity.SecurityEntity;
 import ac.cn.saya.lab.http.feignclient.*;
 import ac.cn.saya.lab.http.service.ICoreService;
 import ac.cn.saya.lab.api.bean.JwtOperator;
+import ac.cn.saya.lab.http.service.SystemService;
 import ac.cn.saya.lab.http.tools.AmapLocateUtils;
 import ac.cn.saya.lab.http.tools.HttpRequestUtil;
 import ac.cn.saya.lab.http.tools.OutExcelUtils;
@@ -15,6 +16,7 @@ import ac.cn.saya.lab.http.tools.UploadUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -82,6 +84,10 @@ public class CoreServiceImpl implements ICoreService {
 
     @Resource
     private TransactionReadFeignClient transactionReadFeignClient;
+
+    @Resource
+    @Qualifier("systemServiceImpl")
+    private SystemServiceImpl systemServiceImpl;
 
     @Resource
     private JwtOperator jwtOperator;
@@ -169,6 +175,7 @@ public class CoreServiceImpl implements ICoreService {
                 String token = jwtOperator.generateToken(userMap);
                 //为之注入用户信息
                 session.setAttribute("user", memory);
+                System.out.println(HttpRequestUtil.getUserMemory(request));
                 //放入用户的session 到数据库中（或本服务器的内存中），防止重复登录
                 ///redisUtils.hmSet("DataCenter:SessionMap",user.getUser(),session.getId());
                 RepeatLogin.securityMap.put(user.getUser(), new SecurityEntity(session,token));
@@ -192,6 +199,8 @@ public class CoreServiceImpl implements ICoreService {
                 result.put("user",entity);
                 // 记录本次登录
                 recordService.record("OX001", request);
+                // 发送登录邮件
+                //systemServiceImpl.sendLoginNotice(entity.getEmail(),entity.getUser(),entity.getUser(),memory.getIp(),memory.getCity(),platform,DateUtils.getCurrentDateTime(DateUtils.dateTimeFormat));
                 //返回登录成功
                 return ResultUtil.success(result);
             } else {
@@ -319,8 +328,8 @@ public class CoreServiceImpl implements ICoreService {
      * @return
      */
     @Override
-    public Result<LogTypeEntity> getLogType(){
-        Result<LogTypeEntity> result = logFeignClient.selectLogType();
+    public Result<List<LogTypeEntity>> getLogType(){
+        Result<List<LogTypeEntity>> result = logFeignClient.selectLogType();
         if (!ResultUtil.checkSuccess(result)) {
             // 没有该用户的信息 直接中断返回
             //未找到登录类别
@@ -819,14 +828,15 @@ public class CoreServiceImpl implements ICoreService {
         CompletableFuture<List<TransactionListEntity>> financial6Future = CompletableFuture.supplyAsync(()->ResultUtil.extractList(transactionReadFeignClient.countPre6Financial(userSession.getUser())));
 
         try {
-            Long pictureCount = pictureCountFuture.exceptionally(f -> 0L).get();
+            Long pictureCount = pictureCountFuture.exceptionally(f -> {f.printStackTrace();return 0L;}).get();
             result.put("pictureCount", pictureCount);
         } catch (Exception e) {
+            e.printStackTrace();
             result.put("pictureCount", 0);
         }
 
         try {
-            Long fileCount = fileCountFuture.exceptionally(f -> 0L).get();
+            Long fileCount = fileCountFuture.exceptionally(f -> {f.printStackTrace();return 0L;}).get();
             result.put("fileCount", fileCount);
         } catch (Exception e) {
             result.put("fileCount", 0);
@@ -834,7 +844,7 @@ public class CoreServiceImpl implements ICoreService {
 
         Long bookCount = null;
         try {
-            bookCount = bookCountFuture.exceptionally(f -> 0L).get();
+            bookCount = bookCountFuture.exceptionally(f -> {f.printStackTrace();return 0L;}).get();
             result.put("bookCount", bookCount);
         } catch (Exception e) {
             result.put("bookCount", 0);
@@ -862,35 +872,35 @@ public class CoreServiceImpl implements ICoreService {
         }
 
         try {
-            Map<String, String> news6 = news6Future.exceptionally(f -> null).get();
+            Map<String, String> news6 = news6Future.exceptionally(f -> new HashMap<>()).get();
             result.put("news6", news6);
         } catch (Exception e) {
             result.put("news6", 0);
         }
 
         try {
-            Map<String, Object> log6 = log6Future.exceptionally(f -> null).get();
+            Map<String, Object> log6 = log6Future.exceptionally(f -> new HashMap<>()).get();
             result.put("log6", log6);
         } catch (Exception e) {
             result.put("log6", 0);
         }
 
         try {
-            Map<String, String> files6 = files6Future.exceptionally(f -> null).get();
+            Map<String, String> files6 = files6Future.exceptionally(f -> new HashMap<>()).get();
             result.put("files6", files6);
         } catch (Exception e) {
             result.put("files6", 0);
         }
 
         try {
-            Map<String, String> memo6 = memo6Future.exceptionally(f -> null).get();
+            Map<String, String> memo6 = memo6Future.exceptionally(f -> new HashMap<>()).get();
             result.put("memo6", memo6);
         } catch (Exception e) {
             result.put("memo6", 0);
         }
 
         try {
-            List<TransactionListEntity> financial6 = financial6Future.exceptionally(f -> null).get();
+            List<TransactionListEntity> financial6 = financial6Future.exceptionally(f -> new ArrayList<>()).get();
             result.put("financial6", financial6);
         } catch (Exception e) {
             result.put("financial6", 0);
@@ -901,10 +911,10 @@ public class CoreServiceImpl implements ICoreService {
         bookEntity.setEndLine(bookCount.intValue());
         CompletableFuture<List<NoteBookEntity>> bookListFuture = CompletableFuture.supplyAsync(()->ResultUtil.extractList(noteBookFeignClient.getNoteBook(bookEntity)));
         try {
-            List<NoteBookEntity> bookList = bookListFuture.exceptionally(f -> null).get();
+            List<NoteBookEntity> bookList = bookListFuture.exceptionally(f -> new ArrayList<>()).get();
             result.put("bookList", bookList);
         } catch (Exception e) {
-            result.put("bookList", null);
+            result.put("bookList", new ArrayList<>());
         }
 
         return ResultUtil.success(result);

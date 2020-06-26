@@ -1,10 +1,13 @@
 package ac.cn.saya.lab.http.handle;
 
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import javax.servlet.MultipartConfigElement;
 import java.io.File;
 
 /**
@@ -41,6 +44,5 @@ public class WebConfigurerAdapter extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/warehouse/**").addResourceLocations("file:" + System.getProperty("user.home","/home/saya") + File.separator + "warehouse" + File.separator);
         super.addResourceHandlers(registry);
     }
-
 
 }

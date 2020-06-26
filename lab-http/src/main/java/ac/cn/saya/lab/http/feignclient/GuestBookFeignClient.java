@@ -18,7 +18,7 @@ import java.util.Map;
  * @Date: 2020-03-14 09:53
  * @Description:
  */
-@FeignClient(value = "lab-medium-server", contextId = "guestbook")
+@FeignClient(value = "lab-medium-server", contextId = "guestbook",path = "medium/guestbook")
 public interface GuestBookFeignClient {
 
     /**
@@ -29,7 +29,7 @@ public interface GuestBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PostMapping(value = "/medium/guestbook")
+    @PostMapping(value = "/")
     public Result<Integer> insertGuestBook(@RequestBody GuestBookEntity entity);
 
     /**
@@ -40,7 +40,7 @@ public interface GuestBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @PutMapping(value = "/medium/guestbook")
+    @PutMapping(value = "/")
     public Result<Integer> updateGuestBook(@RequestBody GuestBookEntity entity);
 
     /**
@@ -51,8 +51,8 @@ public interface GuestBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/guestbook/one")
-    public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity);
+    @GetMapping(value = "one")
+    public Result<GuestBookEntity> queryOneGuestBook(@RequestBody GuestBookEntity entity);
 
     /**
      * @描述 获取分页后的留言
@@ -62,7 +62,7 @@ public interface GuestBookFeignClient {
      * @创建时间 2020-03-14
      * @修改人和其它信息
      */
-    @GetMapping(value = "/medium/guestbook/pagin")
-    public Result<Object> getGuestBookPage(GuestBookEntity entity);
+    @GetMapping(value = "pagin")
+    public Result<Object> getGuestBookPage(@RequestBody GuestBookEntity entity);
 
 }

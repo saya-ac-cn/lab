@@ -22,7 +22,7 @@ import java.util.List;
  * 用户日志相关接口(内部)
  */
 @RestController
-@RequestMapping("/core/log")
+@RequestMapping("core/log")
 public class LogController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class LogController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @PostMapping(value = "/record")
+    @PostMapping(value = "record")
     public Result<Integer> insert(@RequestBody LogEntity entity){
         return logService.insert(entity);
     }
@@ -49,8 +49,8 @@ public class LogController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/type")
-    public Result<LogTypeEntity> selectLogType(){
+    @GetMapping(value = "type")
+    public Result<List<LogTypeEntity>> selectLogType(){
         return logService.selectLogType();
     }
 
@@ -62,8 +62,8 @@ public class LogController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/display")
-    public Result<Object> display(LogEntity entity){
+    @GetMapping(value = "display")
+    public Result<Object> display(@RequestBody LogEntity entity){
         return logService.show(entity);
     }
 
@@ -75,7 +75,7 @@ public class LogController {
      * @创建时间  2020-03-19
      * @修改人和其它信息
      */
-    @GetMapping(value = "/recently/{user}")
+    @GetMapping(value = "recently/{user}")
     public Result<LogEntity> queryRecentlyLog(@PathVariable(value = "user") String user){
         return logService.queryRecentlyLog(user);
     }
@@ -88,7 +88,7 @@ public class LogController {
      * @throws Exception
      */
     @GetMapping(value = "log/excel")
-    public Result<OutExcelEntity> logExcel(LogEntity entity){
+    public Result<OutExcelEntity> logExcel(@RequestBody LogEntity entity){
         return logService.outLogExcel(entity);
     }
 

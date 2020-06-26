@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Title: NotesService
@@ -118,6 +120,52 @@ public class BackupLogServiceImpl implements BackupLogService {
             return ResultUtil.error(ResultEnum.NOT_EXIST);
         } catch (Exception e) {
             logger.error("分页查看备份记录发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述  查看备份数据列表
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.BackupLogEntity>>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/25
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<List<BackupLogEntity>> getBackupList(BackupLogEntity entity) {
+        try {
+            List<BackupLogEntity> list = backupLogDAO.getBackupList(entity);
+            if (list.size() > 0) {
+                return ResultUtil.success(list);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查看备份记录列表发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 查看备份数据总数
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Long>
+     * @创建人  saya.ac.cn-刘能凯
+     * @创建时间  2020/6/25
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Long> getBackupCount(BackupLogEntity entity) {
+        try {
+            Long count = backupLogDAO.getBackupCount(entity);
+            if (count > 0){
+                return ResultUtil.success(count);
+            }
+            return ResultUtil.error(ResultEnum.NOT_EXIST);
+        } catch (Exception e) {
+            logger.error("查看备份记录总数时发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }
