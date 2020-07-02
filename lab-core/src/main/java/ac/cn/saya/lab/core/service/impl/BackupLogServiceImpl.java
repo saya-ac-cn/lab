@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.List;
  * @Date: 2020/3/13 18:52
  * @Description: 平台数据库备份日志记录
  */
+@Transactional(readOnly = true,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 @Service
 public class BackupLogServiceImpl implements BackupLogService {
 
@@ -39,6 +43,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = false)
     @Override
     public Result<Integer> insertBackup(String backupUrl) {
         try {
@@ -63,6 +68,7 @@ public class BackupLogServiceImpl implements BackupLogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = false)
     @Override
     public Result<Integer> deleteBackup(BackupLogEntity entity) {
         try {

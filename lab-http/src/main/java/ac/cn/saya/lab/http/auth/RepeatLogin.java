@@ -76,14 +76,14 @@ public class RepeatLogin {
             RepeatLogin.securityMap.remove(username);
             HttpSession session = security.getSession();
             try {
-                Enumeration e = session.getAttributeNames();
-                while (e.hasMoreElements()) {
-                    String sessionName = (String) e.nextElement();
-                    session.removeAttribute(sessionName);
-                }
+//                Enumeration e = session.getAttributeNames();
+//                while (e.hasMoreElements()) {
+//                    String sessionName = (String) e.nextElement();
+//                    session.removeAttribute(sessionName);
+//                }
                 session.invalidate();
             } catch (Exception exception) {
-                exception.printStackTrace();
+                //exception.printStackTrace();
             }
         }
     }

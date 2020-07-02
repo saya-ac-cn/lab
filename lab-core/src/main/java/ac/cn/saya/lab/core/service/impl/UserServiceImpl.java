@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -24,6 +27,7 @@ import java.util.Map;
  * @修改人和其它信息
  */
 @Service("userService")
+@Transactional(readOnly = true,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class UserServiceImpl implements UserService {
 
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -68,6 +72,7 @@ public class UserServiceImpl implements UserService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = false)
     @Override
     public Result<Integer> setUser(UserEntity user) {
         if (user == null || StringUtils.isEmpty(user.getUser())) {

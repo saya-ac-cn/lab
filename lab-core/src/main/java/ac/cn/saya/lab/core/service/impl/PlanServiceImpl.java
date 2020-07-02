@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
  */
 
 @Service("planService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class PlanServiceImpl implements PlanService {
 
     private static Logger logger = LoggerFactory.getLogger(PlanServiceImpl.class);
@@ -143,6 +147,7 @@ public class PlanServiceImpl implements PlanService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<PlanEntity> getOnePlan(PlanEntity entity) {
         try {
@@ -166,6 +171,7 @@ public class PlanServiceImpl implements PlanService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<List<PlanEntity>> getPlanList(PlanEntity entity) {
         try {
@@ -187,6 +193,7 @@ public class PlanServiceImpl implements PlanService {
      * @创建时间  2020/6/25
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<List<PlanEntity>> getTodayPlanList() {
         try {
@@ -210,6 +217,7 @@ public class PlanServiceImpl implements PlanService {
      * @创建时间 2020-03-15
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<PlanEntity> getTodayPlanListByUser(String source) {
         try {
@@ -234,6 +242,7 @@ public class PlanServiceImpl implements PlanService {
      * @Date  2020-04-04
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> totalPlanCount(PlanEntity entity){
         try {

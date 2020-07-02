@@ -45,10 +45,10 @@ public class RecordService {
     public void record(String type, HttpServletRequest httpRequest) {
         try {
             //在session中取出管理员的名字
-//            UserMemory user = HttpRequestUtil.getUserMemory(httpRequest);
-//            String datetime = DateUtils.getCurrentDateTime(DateUtils.dateTimeFormat);
-//            LogEntity entity = new LogEntity(user.getUser(), type, user.getIp(), user.getCity(), datetime);
-//            logFeignClient.insert(entity);
+            UserMemory user = HttpRequestUtil.getUserMemory(httpRequest);
+            String datetime = DateUtils.getCurrentDateTime(DateUtils.dateTimeFormat);
+            LogEntity entity = new LogEntity(user.getUser(), type, user.getIp(), user.getCity(), datetime);
+            logFeignClient.insert(entity);
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn("记录日志异常" + Log4jUtils.getTrace(e));

@@ -34,10 +34,15 @@ public class ToKenRelayRequestInterceptor implements RequestInterceptor {
      */
     @Override
     public void apply(RequestTemplate template) {
-        logger.info("请求url={},method={},headers={},body={}", template.url(), template.method(), template.headers(), (null!=template.body())?new String(template.body()):"null");
+        //logger.info("请求url={},method={},headers={},body={}", template.url(), template.method(), template.headers(), (null!=template.body())?new String(template.body()):"null");
         // 1.获取到token
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
+        HttpServletRequest request = null;
+        try {
+            request = attributes.getRequest();
+        } catch (Exception e) {
+            logger.error("请求url={},method={},headers={},body={}", template.url(), template.method(), template.headers(), (null!=template.body())?new String(template.body()):"null");
+        }
         UserMemory userMemory = HttpRequestUtil.getUserMemory(request);
         String token;
         if (null != userMemory) {
@@ -45,7 +50,7 @@ public class ToKenRelayRequestInterceptor implements RequestInterceptor {
         } else {
             token = RepeatLogin.securityMap.get("private_lab").getToken();
         }
-        System.out.println("Feign:"+token);
+        // System.out.println("Feign:"+token);
         // 2.将token传递
         if (!StringUtils.isEmpty(token)){
             template.header("X-Token",token);

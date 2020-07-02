@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ import java.util.List;
  * isolation = Isolation.READ_COMMITTED 隔离级别：读写提交
  * rollbackFor=Exception.class 发送异常时回滚：回滚全部
  */
-
+@Transactional(readOnly = true,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 @Service
 public class LogServiceImpl implements LogService {
 
@@ -47,6 +50,7 @@ public class LogServiceImpl implements LogService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = false)
     @Override
     public Result<Integer> insert(LogEntity entity) {
         Integer flog = null;
