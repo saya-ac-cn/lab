@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -24,6 +27,7 @@ import java.util.Map;
  * @Description: 便笺对外接口
  */
 @Service("memoService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class MemoServiceImpl implements MemoService {
 
     private static Logger logger = LoggerFactory.getLogger(MemoServiceImpl.class);
@@ -73,6 +77,7 @@ public class MemoServiceImpl implements MemoService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<MemoEntity> getOne(MemoEntity entity) {
         try {
@@ -148,6 +153,7 @@ public class MemoServiceImpl implements MemoService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getPage(MemoEntity entity) {
         try {
@@ -169,6 +175,7 @@ public class MemoServiceImpl implements MemoService {
      * @Date  2020-04-07
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> totalCount(MemoEntity entity){
         try {
@@ -192,6 +199,7 @@ public class MemoServiceImpl implements MemoService {
      * @Date  2020-04-08
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Map<String,String>> countPre6Memo(String user) {
         try {

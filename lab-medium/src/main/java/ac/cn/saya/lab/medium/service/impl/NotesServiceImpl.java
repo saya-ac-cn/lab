@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -23,6 +26,7 @@ import java.util.Map;
  * @Description: 笔记接口实现类
  */
 @Service("notesService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class NotesServiceImpl implements NotesService {
 
     private static Logger logger = LoggerFactory.getLogger(NotesServiceImpl.class);
@@ -112,6 +116,7 @@ public class NotesServiceImpl implements NotesService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<NotesEntity> getOneNotes(NotesEntity entity) {
         try {
@@ -135,6 +140,7 @@ public class NotesServiceImpl implements NotesService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getNotesPage(NotesEntity entity) {
         try {
@@ -157,6 +163,7 @@ public class NotesServiceImpl implements NotesService {
      * @创建时间  2020-03-20
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Map<String,String>> getNotesPreAndNext(Integer notesId) {
         try {
@@ -180,6 +187,7 @@ public class NotesServiceImpl implements NotesService {
      * @Date  2020-04-03
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> totalNotesCount(NotesEntity entity){
         try {

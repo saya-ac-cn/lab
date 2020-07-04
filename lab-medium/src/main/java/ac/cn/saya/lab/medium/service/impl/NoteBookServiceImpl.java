@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.List;
  * @Description: 笔记簿接口实现类
  */
 @Service("noteBookService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class NoteBookServiceImpl implements NoteBookService {
 
     private static Logger logger = LoggerFactory.getLogger(NoteBookServiceImpl.class);
@@ -107,6 +111,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<NoteBookEntity> getOneNoteBook(NoteBookEntity entity) {
         try {
@@ -130,6 +135,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getNoteBookPage(NoteBookEntity entity) {
         try {
@@ -151,6 +157,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<List<NoteBookEntity>> getNoteBook(NoteBookEntity entity) {
         try {
@@ -174,6 +181,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      * @Date  2020-04-03
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> totalNoteBookCount(NoteBookEntity entity){
         try {

@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -22,6 +25,7 @@ import javax.annotation.Resource;
  */
 
 @Service("pictureStorageService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class PictureStorageServiceImpl implements PictureStorageService {
 
 
@@ -85,6 +89,7 @@ public class PictureStorageServiceImpl implements PictureStorageService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getPictuBase64Page(PictureEntity entity) {
         try {
@@ -106,6 +111,7 @@ public class PictureStorageServiceImpl implements PictureStorageService {
      * @创建时间 2020/3/13
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<PictureEntity> getOnePictuBase64(PictureEntity entity) {
         try {
@@ -129,6 +135,7 @@ public class PictureStorageServiceImpl implements PictureStorageService {
      * @创建时间  2019/1/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> getPictuBase64Count(PictureEntity entity){
         try {

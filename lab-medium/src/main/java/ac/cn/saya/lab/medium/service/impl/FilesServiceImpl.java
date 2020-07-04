@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -24,6 +27,7 @@ import java.util.Map;
  */
 
 @Service("filesService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class FilesServiceImpl implements FilesService {
 
 
@@ -118,6 +122,7 @@ public class FilesServiceImpl implements FilesService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getFilePage(FilesEntity entity) {
         try {
@@ -141,6 +146,7 @@ public class FilesServiceImpl implements FilesService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<FilesEntity> getOneFile(FilesEntity entity) {
         try {
@@ -164,6 +170,7 @@ public class FilesServiceImpl implements FilesService {
      * @创建时间 2020-03-12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Map<String,String>> countPre6Files(String user) {
         try {
@@ -187,6 +194,7 @@ public class FilesServiceImpl implements FilesService {
      * @Date 2020-04-03
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> totalFileCount(FilesEntity entity) {
         try {

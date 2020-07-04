@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -24,6 +27,7 @@ import java.util.Map;
  */
 
 @Service("guestBookService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class GuestBookServiceImpl implements GuestBookService {
 
 
@@ -87,6 +91,7 @@ public class GuestBookServiceImpl implements GuestBookService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<GuestBookEntity> queryOneGuestBook(GuestBookEntity entity) {
         try {
@@ -110,6 +115,7 @@ public class GuestBookServiceImpl implements GuestBookService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getGuestBookPage(GuestBookEntity entity) {
         try {

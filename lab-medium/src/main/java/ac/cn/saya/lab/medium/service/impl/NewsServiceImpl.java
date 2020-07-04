@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -25,6 +28,7 @@ import java.util.Map;
  */
 
 @Service("newsService")
+@Transactional(readOnly = false,propagation= Propagation.REQUIRED, isolation= Isolation.SERIALIZABLE, rollbackFor=MyException.class)
 public class NewsServiceImpl implements NewsService {
 
 
@@ -115,6 +119,7 @@ public class NewsServiceImpl implements NewsService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<NewsEntity> getOneNews(NewsEntity entity) {
         try {
@@ -138,6 +143,7 @@ public class NewsServiceImpl implements NewsService {
      * @创建时间 2020/3/12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Object> getNewsPage(NewsEntity entity) {
         try {
@@ -160,6 +166,7 @@ public class NewsServiceImpl implements NewsService {
      * @创建时间 2020-03-12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Map<String,String>> getNewsPreAndNext(Integer newsId) {
         try {
@@ -183,6 +190,7 @@ public class NewsServiceImpl implements NewsService {
      * @创建时间 2020-03-12
      * @修改人和其它信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Map<String,String>> countPre6MonthNews(String user) {
         try {
@@ -206,6 +214,7 @@ public class NewsServiceImpl implements NewsService {
      * @Date  2020-04-07
      * @Description
      */
+    @Transactional(readOnly = true)
     @Override
     public Result<Long> totalNewsCount(NewsEntity entity){
         try {
