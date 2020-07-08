@@ -11,6 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @描述 项目主启动入口
@@ -29,6 +30,8 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"ac.cn.saya.lab.http","ac.cn.saya.lab.api.bean"})
 @EnableDiscoveryClient
 @EnableFeignClients
+// 开启定时任务
+@EnableScheduling
 public class LabHttpApplication {
 
     private static Logger logger = LoggerFactory.getLogger(LabHttpApplication.class);
