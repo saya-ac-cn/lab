@@ -81,9 +81,9 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     // 每天3点执行
-    //@Scheduled(cron = "${backup.scheduled}")
+    @Scheduled(cron = "${backup.scheduled}")
     // 每隔5分钟执行一次
-    @Scheduled(cron = "0 */1 * * * ?")
+    //@Scheduled(cron = "0 */1 * * * ?")
     public Boolean backupDatabase() {
         try {
             String executeTime =  DateUtils.getCurrentDateTime(DateUtils.dateTimeFormat);
