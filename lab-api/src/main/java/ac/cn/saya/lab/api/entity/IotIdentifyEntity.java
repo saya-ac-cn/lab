@@ -22,12 +22,12 @@ public class IotIdentifyEntity extends BaseEntity{
     /**
      * 凭证编号
      */
-    private Integer  id;
+    private Integer id;
 
     /**
      * 客户端连接时指定的用户名
      */
-    private String   username;
+    private String username;
 
     /**
      * 为使用 salt 加密后的密文

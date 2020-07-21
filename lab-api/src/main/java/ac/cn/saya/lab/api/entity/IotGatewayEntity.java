@@ -34,6 +34,11 @@ public class IotGatewayEntity extends BaseEntity{
     private Integer authenId;
 
     /**
+     * 认证信息（非数据库字段）
+     */
+    private IotIdentifyEntity authenInfo;
+
+    /**
      * 网关名
      */
     private String name;
@@ -47,6 +52,11 @@ public class IotGatewayEntity extends BaseEntity{
      * 设备类型
      */
     private Integer deviceType;
+
+    /**
+     * 设备类型描述(非数据库字段)
+     */
+    private Integer deviceTypeInfo;
 
     /**
      * 创建者

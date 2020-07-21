@@ -27,5 +27,9 @@
         <typeAlias alias="api" type="ac.cn.saya.lab.api.entity.ApiEntity"/>
         <typeAlias alias="backup" type="ac.cn.saya.lab.api.entity.BackupLogEntity"/>
         <typeAlias alias="memo" type="ac.cn.saya.lab.api.entity.MemoEntity"/>
+        <typeAlias alias="iotIdentify" type="ac.cn.saya.lab.api.entity.IotIdentifyEntity"/>
+        <typeAlias alias="iotGateway" type="ac.cn.saya.lab.api.entity.IotGatewayEntity"/>
+        <typeAlias alias="iotClientType" type="ac.cn.saya.lab.api.entity.IotClientTypeEntity"/>
+        <typeAlias alias="iotClient" type="ac.cn.saya.lab.api.entity.IotClientEntity"/>
     </typeAliases>
 </configuration>

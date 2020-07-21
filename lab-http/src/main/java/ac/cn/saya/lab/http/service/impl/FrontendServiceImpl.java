@@ -10,8 +10,8 @@ import ac.cn.saya.lab.http.feignclient.*;
 import ac.cn.saya.lab.http.service.IFrontendService;
 import ac.cn.saya.lab.http.tools.UploadUtils;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.nacos.client.utils.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
