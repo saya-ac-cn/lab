@@ -5,17 +5,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @Title: Iot_client_type
+ * @Title: Iot_gateway_type
  * @ProjectName lab
  * @Description: TODO
  * @Author saya
  * @Date: 2020/7/18 21:17
- * @Description:iot 终端设备类型
+ * @Description:iot 网关设备类型
  */
 @NoArgsConstructor
 @Getter
 @Setter
-public class IotClientTypeEntity extends BaseEntity{
+public class IotGatewayTypeEntity extends BaseEntity{
 
 
     private static final long serialVersionUID = -9012309667725826022L;

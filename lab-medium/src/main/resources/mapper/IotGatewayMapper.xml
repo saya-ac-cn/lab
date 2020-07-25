@@ -38,7 +38,7 @@
     <select id="query" parameterType="iotGateway" resultType="iotGateway">
         select
             a.`id`,a.`code`,a.`authen_id` as authenId,a.`name`,a.`address`,a.`device_type` as deviceType,a.`source`,a.`last_heartbeat` as lastHeartbeat,a.`create_time` as createTime,a.`update_time` as updateTime,b.`name` as deviceTypeInfo
-        from iot_gateway a left join iot_client_type b on a.`device_type` = b.`id`
+        from iot_gateway a left join iot_gateway_type b on a.`device_type` = b.`id`
         <where>
             <if test = "id != null and id != 0">
                 `id` = #{id}
@@ -68,7 +68,7 @@
     <select id="queryPage" parameterType="iotGateway" resultType="iotGateway">
         select
         a.`id`,a.`code`,a.`authen_id` as authenId,a.`name`,a.`address`,a.`device_type` as deviceType,a.`source`,a.`last_heartbeat` as lastHeartbeat,a.`create_time` as createTime,a.`update_time` as updateTime,b.`name` as deviceTypeInfo
-        from iot_gateway a left join iot_client_type b on a.`device_type` = b.`id`
+        from iot_gateway a left join iot_gateway_type b on a.`device_type` = b.`id`
         <where>
             <if test = "id != null and id != 0">
                 a.`id` = #{id}
