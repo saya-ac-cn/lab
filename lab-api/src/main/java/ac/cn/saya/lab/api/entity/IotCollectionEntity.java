@@ -49,4 +49,9 @@ public class IotCollectionEntity extends BaseEntity{
      */
     private String collectTime;
 
+    /**
+     * 所属设备信息，非数据库字段
+     */
+    private IotClientEntity iotClient;
+
 }

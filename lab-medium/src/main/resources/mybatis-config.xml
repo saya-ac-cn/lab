@@ -31,5 +31,6 @@
         <typeAlias alias="iotGateway" type="ac.cn.saya.lab.api.entity.IotGatewayEntity"/>
         <typeAlias alias="iotGatewayType" type="ac.cn.saya.lab.api.entity.IotGatewayTypeEntity"/>
         <typeAlias alias="iotClient" type="ac.cn.saya.lab.api.entity.IotClientEntity"/>
+        <typeAlias alias="iotCollection" type="ac.cn.saya.lab.api.entity.IotCollectionEntity"/>
     </typeAliases>
 </configuration>

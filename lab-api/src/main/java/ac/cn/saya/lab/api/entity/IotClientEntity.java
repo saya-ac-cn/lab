@@ -66,6 +66,6 @@ public class IotClientEntity extends BaseEntity{
     /**
      * 非数据库字段，网关信息
      */
-    private IotGatewayEntity gatewayEntity;
+    private IotGatewayEntity gateway;
 
 }
