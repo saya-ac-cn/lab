@@ -42,4 +42,9 @@ public class IotWarningResultEntity extends BaseEntity{
      * 生成时间
      */
     private String createTime;
+
+    /**
+     * 所属设备信息，非数据库字段
+     */
+    private IotClientEntity iotClient;
 }

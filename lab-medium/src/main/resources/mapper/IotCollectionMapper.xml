@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ac.cn.saya.lab.medium.repository.IotCollectionDao">
+<mapper namespace="ac.cn.saya.lab.medium.repository.IotCollectionDAO">
 
     <resultMap type="iotCollection" id="IotCollectionMap">
         <result property="id" column="id"/>
@@ -86,7 +86,7 @@
     <select id="queryCount" resultType="java.lang.Long">
         select
             count(*)
-        from iot_collection a left join iot_client b on a.`client_id` = b.`id` left join iot_gateway c on b.`gateway_id` = c.`id`
+        from iot_collection a
         <where>
             <if test="id != null and id != 0">
                 and a.`id` = #{id}

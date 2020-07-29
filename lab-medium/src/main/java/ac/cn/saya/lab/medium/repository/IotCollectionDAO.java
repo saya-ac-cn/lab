@@ -12,7 +12,7 @@ import java.util.List;
  * @since 2020-07-23 13:24:33
  */
 @Repository
-public interface IotCollectionDao {
+public interface IotCollectionDAO {
 
     /**
      * 查询Iot采集信息

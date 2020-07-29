@@ -43,6 +43,11 @@ public class IotWarningRulesEntity extends BaseEntity{
     private String value;
 
     /**
+     * 是否启用
+     */
+    private Integer enable;
+
+    /**
      *
      */
     private String createTime;
@@ -51,4 +56,9 @@ public class IotWarningRulesEntity extends BaseEntity{
      * 修改时间
      */
     private String updateTime;
+
+    /**
+     * 所属设备信息，非数据库字段
+     */
+    private IotClientEntity iotClient;
 }
