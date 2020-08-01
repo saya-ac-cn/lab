@@ -54,6 +54,11 @@ public class IotClientEntity extends BaseEntity{
     private Integer enable;
 
     /**
+     * 是否移除,1=正常;2=已移除
+     */
+    private Integer remove;
+
+    /**
      * 创建时间
      */
     private String createTime;

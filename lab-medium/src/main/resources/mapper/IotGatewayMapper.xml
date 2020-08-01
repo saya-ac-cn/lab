@@ -29,6 +29,9 @@
             <if test = "lastHeartbeat != null and lastHeartbeat != ''">
                 `last_heartbeat` = #{lastHeartbeat},
             </if>
+            <if test="remove != null and remove != 0">
+                `remove` = #{remove},
+            </if>
             `update_time` = now()
         </set>
         where id = #{id}
@@ -41,19 +44,22 @@
         from iot_gateway a left join iot_gateway_type b on a.`device_type` = b.`id`
         <where>
             <if test = "id != null and id != 0">
-                `id` = #{id}
+                a.`id` = #{id}
             </if>
             <if test = "name != null and name != ''">
-                and `name` = #{name}
+                and a.`name` = #{name}
             </if>
             <if test = "deviceType != null and deviceType != 0">
-                and `device_type` = #{deviceType}
+                and a.`device_type` = #{deviceType}
             </if>
             <if test = "source != null and source != ''">
-                and `source` = #{source}
+                and a.`source` = #{source}
             </if>
             <if test = "lastHeartbeat != null and lastHeartbeat != ''">
-                and `last_heartbeat` = #{lastHeartbeat}
+                and a.`last_heartbeat` = #{lastHeartbeat}
+            </if>
+            <if test="remove != null and remove != 0">
+                and a.`remove` = #{remove}
             </if>
         </where>
         limit 1
@@ -85,6 +91,9 @@
             <if test = "lastHeartbeat != null and lastHeartbeat != ''">
                 and a.`last_heartbeat` = #{lastHeartbeat}
             </if>
+            <if test="remove != null and remove != 0">
+                and a.`remove` = #{remove}
+            </if>
         </where>
         order by a.id desc
         limit #{startLine},#{endLine}
@@ -109,6 +118,9 @@
             </if>
             <if test = "lastHeartbeat != null and lastHeartbeat != ''">
                 and `last_heartbeat` = #{lastHeartbeat}
+            </if>
+            <if test="remove != null and remove != 0">
+                and `remove` = #{remove}
             </if>
         </where>
     </select>

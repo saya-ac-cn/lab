@@ -42,6 +42,9 @@
             <if test="enable != null and enable != 0">
                 and a.`enable` = #{enable}
             </if>
+            <if test="remove != null and remove != 0">
+                and a.`remove` = #{remove}
+            </if>
         </where>
         limit 1
     </select>
@@ -68,6 +71,9 @@
             <if test="enable != null and enable != 0">
                 and a.`enable` = #{enable}
             </if>
+            <if test="remove != null and remove != 0">
+                and a.`remove` = #{remove}
+            </if>
         </where>
         order by a.`id` desc
         limit #{startLine},#{endLine}
@@ -91,6 +97,9 @@
             </if>
             <if test="enable != null and enable != 0">
                 and a.`enable` = #{enable}
+            </if>
+            <if test="remove != null and remove != 0">
+                and a.`remove` = #{remove}
             </if>
         </where>
     </select>
@@ -119,6 +128,9 @@
             </if>
             <if test="enable != null  and enable != 0">
                 `enable` = #{enable},
+            </if>
+            <if test="remove != null and remove != 0">
+                `remove` = #{remove},
             </if>
                 `update_time` = now()
         </set>

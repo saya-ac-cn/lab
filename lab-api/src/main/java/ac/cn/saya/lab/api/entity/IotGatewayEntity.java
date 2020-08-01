@@ -8,7 +8,7 @@ import lombok.Setter;
  * @Title: IotGateway
  * @ProjectName lab
  * @Description: TODO
- * @Author saya
+ * @Author shmily
  * @Date: 2020/7/18 21:06
  * @Description: iot 网关表
  */
@@ -56,7 +56,7 @@ public class IotGatewayEntity extends BaseEntity{
     /**
      * 设备类型描述(非数据库字段)
      */
-    private Integer deviceTypeInfo;
+    private String deviceTypeInfo;
 
     /**
      * 创建者
@@ -67,6 +67,11 @@ public class IotGatewayEntity extends BaseEntity{
      * 最后一次心跳时间
      */
     private String lastHeartbeat;
+
+    /**
+     * 是否移除,1=正常;2=已移除
+     */
+    private Integer remove;
 
     /**
      * 创建时间
