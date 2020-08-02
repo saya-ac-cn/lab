@@ -10,7 +10,7 @@ import lombok.Setter;
  * @Description: TODO
  * @Author saya
  * @Date: 2020/7/18 21:20
- * @Description:iot 终端预约表
+ * @Description:iot 终端规则预约表
  */
 @NoArgsConstructor
 @Getter
@@ -58,4 +58,9 @@ public class IotAppointmentEntity extends BaseEntity{
      *
      */
     private String updateTime;
+
+    /**
+     * 所属设备信息，非数据库字段
+     */
+    private IotClientEntity iotClient;
 }
