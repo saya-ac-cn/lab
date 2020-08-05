@@ -1,12 +1,11 @@
 package ac.cn.saya.lab.medium.service.impl;
 
-import ac.cn.saya.lab.api.entity.IotGatewayEntity;
-import ac.cn.saya.lab.api.entity.IotGatewayTypeEntity;
-import ac.cn.saya.lab.api.entity.IotIdentifyEntity;
-import ac.cn.saya.lab.api.entity.NewsEntity;
+import ac.cn.saya.lab.api.entity.*;
 import ac.cn.saya.lab.api.exception.MyException;
 import ac.cn.saya.lab.api.service.medium.DeviceService;
 import ac.cn.saya.lab.api.tools.*;
+import ac.cn.saya.lab.medium.meta.Metadata;
+import ac.cn.saya.lab.medium.repository.IotClientDAO;
 import ac.cn.saya.lab.medium.repository.IotGatewayDAO;
 import ac.cn.saya.lab.medium.repository.IotGatewayTypeDAO;
 import ac.cn.saya.lab.medium.repository.IotIdentifyDAO;
@@ -43,6 +42,12 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Resource
     private IotGatewayDAO iotGatewayDAO;
+
+    @Resource
+    private IotClientDAO iotClientDAO;
+
+    @Resource
+    private Metadata metadata;
 
     /**
      * @描述 获取Iot设备类型
@@ -133,6 +138,168 @@ public class DeviceServiceImpl implements DeviceService {
             return ResultUtil.success();
         } catch (Exception e) {
             logger.error("修改网关设备异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 删除网关信息
+     * @参数 [id]
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人 shmily
+     * @创建时间 2020/8/1
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Integer> deleteIotGateway(Integer id) {
+        IotGatewayEntity gatewayEntity = new IotGatewayEntity();
+        gatewayEntity.setId(id);
+        try {
+            IotGatewayEntity query = iotGatewayDAO.query(gatewayEntity);
+            if (null == query){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
+            // 置位删除
+            query.setRemove(2);
+            IotClientEntity clientEntity = new IotClientEntity();
+            clientEntity.setGatewayId(id);
+            clientEntity.setRemove(2);
+            // 先通过网关id删除设备信息
+            if (iotClientDAO.updateByGatewayId(clientEntity) < 0){
+                return ResultUtil.error(ResultEnum.DB_ERROR.getCode(),"删除设备信息异常");
+            }
+            // 查询出设备信息，并从元数据中删除
+            List<IotClientEntity> clientEntities = iotClientDAO.queryByGatewayId(id);
+            metadata.removeClients(clientEntities);
+            // 删除认证信息
+            if (iotIdentifyDAO.delete(query.getAuthenId()) < 0){
+                return ResultUtil.error(ResultEnum.DB_ERROR.getCode(),"删除认证信息异常");
+            }
+            // 删除网关信息
+            if (iotGatewayDAO.update(query) < 0){
+                return ResultUtil.error(ResultEnum.DB_ERROR.getCode(),"删除网关信息异常");
+            }
+            return ResultUtil.success();
+        } catch (Exception e) {
+            logger.error("删除网关信息异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 网关分页
+     * @参数 [entity]
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人 shmily
+     * @创建时间 2020/8/1
+     * @修改人和其它信息
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Result<Object> getIotGatewayPage(IotGatewayEntity entity) {
+        try {
+            Long count = iotGatewayDAO.queryCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> iotGatewayDAO.queryPage((IotGatewayEntity) condition));
+            return result;
+        } catch (Exception e) {
+            logger.error("查询分页后的网关列表发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 添加设备
+     * @参数 [entity]
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人 shmily
+     * @创建时间 2020/8/1
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Integer> addIotClient(IotClientEntity entity) {
+        try {
+            if (iotClientDAO.insert(entity) >= 0){
+                metadata.doRefreshClient(entity);
+                return ResultUtil.success();
+            }
+            return ResultUtil.error(ResultEnum.DB_ERROR.getCode(),"添加设备异常");
+        } catch (Exception e) {
+            logger.error("添加设备发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 修改设备
+     * @参数 [entity]
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人 shmily
+     * @创建时间 2020/8/1
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Integer> editIotClient(IotClientEntity entity) {
+        try {
+            if (iotClientDAO.update(entity) >= 0){
+                metadata.doRefreshClient(entity);
+                return ResultUtil.success();
+            }
+            return ResultUtil.error(ResultEnum.DB_ERROR.getCode(),"修改设备异常");
+        } catch (Exception e) {
+            logger.error("修改设备发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 删除设备
+     * @参数 [id]
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人 shmily
+     * @创建时间 2020/8/1
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<Integer> deleteIotClient(Integer id) {
+        try {
+            IotClientEntity clientEntity = iotClientDAO.query(new IotClientEntity(id));
+            if (null == clientEntity){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
+            if (iotClientDAO.deleteById(id) >= 0){
+                metadata.removeClient(clientEntity);
+                return ResultUtil.success();
+            }
+            return ResultUtil.error(ResultEnum.DB_ERROR.getCode(),"删除设备异常");
+        } catch (Exception e) {
+            logger.error("删除设备发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 设备分页
+     * @参数 [entity]
+     * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人 shmily
+     * @创建时间 2020/8/1
+     * @修改人和其它信息
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Result<Object> getIotClientPage(IotClientEntity entity) {
+        try {
+            Long count = iotClientDAO.queryCount(entity);
+            Result<Object> result = PageTools.page(count, entity, (condition) -> iotClientDAO.queryPage((IotClientEntity) condition));
+            return result;
+        } catch (Exception e) {
+            logger.error("查询分页后的设备分页发生异常：" + Log4jUtils.getTrace(e));
             logger.error(CurrentLineInfo.printCurrentLineInfo());
             throw new MyException(ResultEnum.DB_ERROR);
         }

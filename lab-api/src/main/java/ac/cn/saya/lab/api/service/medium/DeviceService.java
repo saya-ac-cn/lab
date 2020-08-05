@@ -1,5 +1,6 @@
 package ac.cn.saya.lab.api.service.medium;
 
+import ac.cn.saya.lab.api.entity.IotClientEntity;
 import ac.cn.saya.lab.api.entity.IotGatewayEntity;
 import ac.cn.saya.lab.api.entity.IotGatewayTypeEntity;
 import ac.cn.saya.lab.api.tools.Result;
@@ -47,14 +48,64 @@ public interface DeviceService {
      */
     public Result<Integer> editIotGateway(IotGatewayEntity entity);
 
-    // 网关分页
+    /**
+     * @描述 删除网关信息
+     * @参数  [id]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public Result<Integer> deleteIotGateway(Integer id);
 
-    // 网关数据全量  分页
+    /**
+     * @描述 网关分页
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public Result<Object> getIotGatewayPage(IotGatewayEntity entity);
 
-    // 添加设备
+    /**
+     * @描述 添加设备
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public Result<Integer> addIotClient(IotClientEntity entity);
 
-    // 修改设备
+    /**
+     * @描述 修改设备
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public Result<Integer> editIotClient(IotClientEntity entity);
 
-    // 设备分页
+    /**
+     * @描述 删除设备
+     * @参数  [id]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public Result<Integer> deleteIotClient(Integer id);
+
+    /**
+     * @描述 设备分页
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Object>
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public Result<Object> getIotClientPage(IotClientEntity entity);
 
 }

@@ -93,35 +93,43 @@
     </select>
 
     <!--新增Iot告警规则-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="java.util.List">
         insert into iot_warning_rules(`name`, `client_id`, `symbol`, `value`, create_time)
-        values (#{name}, #{clientId}, #{symbol}, #{value}, mow() )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name}, #{item.clientId}, #{item.symbol}, #{item.value}, mow())
+        </foreach>
     </insert>
 
     <!--修改告警规则-->
-    <update id="update">
-        update iot_warning_rules
-        <set>
-            <if test="name != null and name != ''">
-                `name` = #{name},
-            </if>
-            <if test="clientId != null and clientId != 0">
-                `client_id` = #{clientId},
-            </if>
-            <if test="symbol != null and symbol != ''">
-                `symbol` = #{symbol},
-            </if>
-            <if test="value != null and value != ''">
-                `value` = #{value},
-            </if>
-            `update_time` = now()
-        </set>
-        where `id` = #{id}
+    <update id="update" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update iot_warning_rules
+            <set>
+                <if test="name != null and name != ''">
+                    `name` = #{item.name},
+                </if>
+                <if test="clientId != null and clientId != 0">
+                    `client_id` = #{item.clientId},
+                </if>
+                <if test="symbol != null and symbol != ''">
+                    `symbol` = #{item.symbol},
+                </if>
+                <if test="value != null and value != ''">
+                    `value` = #{item.value},
+                </if>
+                `update_time` = now()
+            </set>
+            where `id` = #{item.id}
+        </foreach>
     </update>
 
     <!--删除告警规则-->
-    <delete id="deleteById">
-        delete from iot_warning_rules where `id` = #{id}
+    <delete id="deleteById" parameterType = "java.util.List">
+        delete from iot_warning_rules where `id` in
+        <foreach collection="list"  item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
 
 </mapper>

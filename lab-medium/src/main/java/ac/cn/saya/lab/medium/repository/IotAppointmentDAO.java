@@ -64,4 +64,13 @@ public interface IotAppointmentDAO {
      */
     public int deleteById(@Param(value = "id") Integer id);
 
+    /**
+     * 查询即将要下发的指令
+     *
+     * @param beginTime 开始时间
+     * @param endTime 开始时间
+     * @return 对象列表
+     */
+    public List<IotAppointmentEntity> queryEnable(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+
 }

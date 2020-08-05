@@ -23,6 +23,14 @@ public interface IotClientDAO {
     public IotClientEntity query(IotClientEntity entity);
 
     /**
+     * 通过网关查询Iot终端
+     *
+     * @param gatewayId
+     * @return 实例对象
+     */
+    public List<IotClientEntity> queryByGatewayId(@Param("gatewayId") Integer gatewayId);
+
+    /**
      * 分页查询Iot终端
      *
      * @param entity
@@ -54,6 +62,16 @@ public interface IotClientDAO {
      * @return 影响行数
      */
     public int update(IotClientEntity iotClient);
+
+    /**
+     * @描述 通过GatewayId修改设备信息
+     * @参数  [iotClient]
+     * @返回值  int
+     * @创建人  shmily
+     * @创建时间  2020/8/1
+     * @修改人和其它信息
+     */
+    public int updateByGatewayId(IotClientEntity iotClient);
 
     /**
      * 删除Iot终端

@@ -49,11 +49,20 @@
         limit 1
     </select>
 
+    <!--通过网关查询Iot终端-->
+    <select id="queryByGatewayId" resultMap="IotClientMap">
+        select
+            a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`, a.`create_time`, a.`update_time`,
+            b.`code`,b.`name` as gatewayName,b.`address`,b.`source`,
+        from iot_client a left join iot_gateway b on b.id = a.gateway_id
+        where a.`gateway_id` = #{gatewayId}
+    </select>
+
     <!--分页查询Iot终端 -->
     <select id="queryPage" resultMap="IotClientMap">
         select
-        a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`, a.`create_time`, a.`update_time`,
-        b.`code`,b.`name` as gatewayName,b.`address`,b.`source`,
+            a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`, a.`create_time`, a.`update_time`,
+            b.`code`,b.`name` as gatewayName,b.`address`,b.`source`,
         from iot_client a left join iot_gateway b on b.id = a.gateway_id
         <where>
             <if test="id != null and id != 0">
@@ -135,6 +144,30 @@
                 `update_time` = now()
         </set>
         where id = #{id}
+    </update>
+
+    <!--通过GatewayId修改设备信息-->
+    <update id="updateByGatewayId">
+        update iot_client
+        <set>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="level != null and level != 0">
+                `level` = #{level},
+            </if>
+            <if test="lastLinkTime != null  and lastLinkTime != 0">
+                `last_link_time` = #{lastLinkTime},
+            </if>
+            <if test="enable != null  and enable != 0">
+                `enable` = #{enable},
+            </if>
+            <if test="remove != null and remove != 0">
+                `remove` = #{remove},
+            </if>
+            `update_time` = now()
+        </set>
+        where `gateway_id` = #{gatewayId}
     </update>
 
     <!--删除Iot终端-->

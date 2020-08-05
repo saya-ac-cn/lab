@@ -73,4 +73,7 @@ public class IotClientEntity extends BaseEntity{
      */
     private IotGatewayEntity gateway;
 
+    public IotClientEntity(Integer id) {
+        this.id = id;
+    }
 }

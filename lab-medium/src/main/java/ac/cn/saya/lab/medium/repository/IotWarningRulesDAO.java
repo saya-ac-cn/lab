@@ -43,25 +43,25 @@ public interface IotWarningRulesDAO {
     /**
      * 新增Iot告警规则
      *
-     * @param iotClient 实例对象
+     * @param list 实例对象
      * @return 影响行数
      */
-    public int insert(IotWarningRulesEntity iotClient);
+    public int insert(List<IotWarningRulesEntity> list);
 
     /**
      * 修改告警规则
      *
-     * @param iotWarningRules 实例对象
+     * @param list 实例对象
      * @return 影响行数
      */
-    public int update(IotWarningRulesEntity iotWarningRules);
+    public int update(List<IotWarningRulesEntity> list);
 
     /**
      * 删除告警规则
      *
-     * @param id 主键
+     * @param list 主键
      * @return 影响行数
      */
-    public int deleteById(@Param(value = "id") Integer id);
+    public int deleteById(List<Integer> list);
 
 }
