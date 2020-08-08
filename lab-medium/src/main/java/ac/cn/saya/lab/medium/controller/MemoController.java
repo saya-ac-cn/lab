@@ -19,6 +19,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "medium/memo")
 public class MemoController {
+
+
     @Autowired
     private MemoService memoService;
 

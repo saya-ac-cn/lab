@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @描述 服务启动入口
@@ -25,6 +26,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"ac.cn.saya.lab.medium","ac.cn.saya.lab.api.bean"})
 @EnableDiscoveryClient
+// 开启定时任务
+@EnableScheduling
 public class MediumApplication {
 
     private static Logger logger = LoggerFactory.getLogger(MediumApplication.class);

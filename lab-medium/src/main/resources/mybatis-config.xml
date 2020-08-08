@@ -32,5 +32,9 @@
         <typeAlias alias="iotGatewayType" type="ac.cn.saya.lab.api.entity.IotGatewayTypeEntity"/>
         <typeAlias alias="iotClient" type="ac.cn.saya.lab.api.entity.IotClientEntity"/>
         <typeAlias alias="iotCollection" type="ac.cn.saya.lab.api.entity.IotCollectionEntity"/>
+        <typeAlias alias="iotHistoryExecute" type="ac.cn.saya.lab.api.entity.IotHistoryExecuteEntity"/>
+        <typeAlias alias="iotWarningRules" type="ac.cn.saya.lab.api.entity.IotWarningRulesEntity"/>
+        <typeAlias alias="iotWarningResult" type="ac.cn.saya.lab.api.entity.IotWarningResultEntity"/>
+        <typeAlias alias="iotAppointment" type="ac.cn.saya.lab.api.entity.IotAppointmentEntity"/>
     </typeAliases>
 </configuration>
