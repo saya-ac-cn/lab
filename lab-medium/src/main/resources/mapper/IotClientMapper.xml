@@ -9,6 +9,7 @@
         <result property="level" column="level"/>
         <result property="lastLinkTime" column="last_link_time"/>
         <result property="enable" column="enable"/>
+        <result property="remove" column="remove"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <association property="gateway" javaType="IotGateway">
@@ -23,7 +24,7 @@
     <!--查询Iot终端-->
     <select id="query" resultMap="IotClientMap">
         select
-          a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`, a.`create_time`, a.`update_time`,
+          a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`,a.`remove`, a.`create_time`, a.`update_time`,
           b.`code`,b.`name` as gatewayName,b.`address`,b.`source`,
         from iot_client a left join iot_gateway b on b.id = a.gateway_id
         <where>
@@ -52,7 +53,7 @@
     <!--通过网关查询Iot终端-->
     <select id="queryByGatewayId" resultMap="IotClientMap">
         select
-            a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`, a.`create_time`, a.`update_time`,
+            a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`,a.`remove`, a.`create_time`, a.`update_time`,
             b.`code`,b.`name` as gatewayName,b.`address`,b.`source`,
         from iot_client a left join iot_gateway b on b.id = a.gateway_id
         where a.`gateway_id` = #{gatewayId}
@@ -61,7 +62,7 @@
     <!--分页查询Iot终端 -->
     <select id="queryPage" resultMap="IotClientMap">
         select
-            a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`, a.`create_time`, a.`update_time`,
+            a.`id`, a.`gateway_id`, a.`name`, a.`level`, a.`last_link_time`, a.`enable`,a.`remove`, a.`create_time`, a.`update_time`,
             b.`code`,b.`name` as gatewayName,b.`address`,b.`source`,
         from iot_client a left join iot_gateway b on b.id = a.gateway_id
         <where>
@@ -115,8 +116,8 @@
 
     <!--新增Iot终端-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="iotClient">
-        insert into iot_client(`gateway_id`, `name`, `type`, `level`, `last_link_time`, `enable`, `create_time`)
-        values (#{gatewayId}, #{name}, #{type}, #{level}, #{lastLinkTime}, #{enable}, now())
+        insert into iot_client(`gateway_id`, `name`, `level`, `create_time`)
+        values (#{gatewayId}, #{name}, #{level}, now())
     </insert>
 
     <!--修改Iot终端-->

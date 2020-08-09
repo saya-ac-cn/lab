@@ -1,9 +1,8 @@
 package ac.cn.saya.lab.medium.repository;
 
 import ac.cn.saya.lab.api.entity.IotAppointmentEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
@@ -12,7 +11,7 @@ import java.util.List;
  * @author shmily
  * @since 2020-08-02 09:53:02
  */
-@Repository
+@Mapper
 public interface IotAppointmentDAO {
 
     /**

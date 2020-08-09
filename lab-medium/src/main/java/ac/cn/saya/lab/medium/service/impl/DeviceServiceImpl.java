@@ -129,12 +129,11 @@ public class DeviceServiceImpl implements DeviceService {
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
         IotIdentifyEntity authenInfo = entity.getAuthenInfo();
-        if (null != authenInfo || null != entity.getAuthenId()){
-            return ResultUtil.error(ResultEnum.NOT_PARAMETER);
-        }
         try {
+            if (null != authenInfo || null != entity.getAuthenId()){
+                iotIdentifyDAO.update(authenInfo);
+            }
             iotGatewayDAO.update(entity);
-            iotIdentifyDAO.update(authenInfo);
             return ResultUtil.success();
         } catch (Exception e) {
             logger.error("修改网关设备异常：" + Log4jUtils.getTrace(e));

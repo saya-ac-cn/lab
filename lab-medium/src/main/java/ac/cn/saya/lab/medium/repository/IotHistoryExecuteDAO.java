@@ -1,8 +1,7 @@
 package ac.cn.saya.lab.medium.repository;
 
 import ac.cn.saya.lab.api.entity.IotHistoryExecuteEntity;
-import org.springframework.stereotype.Repository;
-
+import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ import java.util.List;
  * @author saya
  * @since 2020-07-26 09:10:10
  */
-@Repository
+@Mapper
 public interface IotHistoryExecuteDAO {
 
     /**

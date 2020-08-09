@@ -86,10 +86,6 @@ public class CoreServiceImpl implements ICoreService {
     private TransactionReadFeignClient transactionReadFeignClient;
 
     @Resource
-    @Qualifier("systemServiceImpl")
-    private SystemServiceImpl systemServiceImpl;
-
-    @Resource
     private JwtOperator jwtOperator;
 
     /**

@@ -34,11 +34,6 @@ public class IotClientEntity extends BaseEntity{
     private String name;
 
     /**
-     * 设备类型，关联设备类型表
-     */
-    private Integer type;
-
-    /**
      * 为开关类型时，代表电平高低(1:低电平;2:高电平)
      */
     private Integer level;

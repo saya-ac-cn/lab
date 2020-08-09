@@ -1,9 +1,7 @@
 package ac.cn.saya.lab.medium.repository;
 
 import ac.cn.saya.lab.api.entity.IotWarningRulesEntity;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
+import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
@@ -12,7 +10,7 @@ import java.util.List;
  * @author saya
  * @since 2020-07-26 09:26:34
  */
-@Repository
+@Mapper
 public interface IotWarningRulesDAO {
 
     /**
