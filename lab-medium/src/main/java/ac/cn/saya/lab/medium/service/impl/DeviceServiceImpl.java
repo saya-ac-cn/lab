@@ -62,7 +62,7 @@ public class DeviceServiceImpl implements DeviceService {
     public Result<List<IotGatewayTypeEntity>> getIotGatewayType() {
         try {
             List<IotGatewayTypeEntity> result = iotGatewayTypeDAO.queryAll();
-            if (result.isEmpty()){
+            if (!result.isEmpty()){
                 return ResultUtil.success(result);
             }
             return ResultUtil.error(ResultEnum.NOT_EXIST);

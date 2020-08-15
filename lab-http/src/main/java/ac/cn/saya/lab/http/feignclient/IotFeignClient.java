@@ -59,8 +59,8 @@ public interface IotFeignClient {
      * @创建时间  2020/8/8
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "gateway/{id}")
-    public Result<Integer> deleteIotGateway(@PathVariable(value = "id") Integer id);
+    @DeleteMapping(value = "gateway")
+    public Result<Integer> deleteIotGateway(@RequestParam(value = "id") Integer id);
 
     /**
      * @描述 网关分页
@@ -71,7 +71,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "gateway")
-    public Result<Object> getIotGatewayPage(IotGatewayEntity entity);
+    public Result<Object> getIotGatewayPage(@RequestBody IotGatewayEntity entity);
 
     /**
      * @描述 添加设备
@@ -104,7 +104,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "client/{id}")
-    public Result<Integer> deleteIotClient(@PathVariable(value = "id") Integer id);
+    public Result<Integer> deleteIotClient(@RequestParam(value = "id") Integer id);
 
     /**
      * @描述 设备分页
@@ -115,7 +115,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "client")
-    public Result<Object> getIotClientPage(IotClientEntity entity);
+    public Result<Object> getIotClientPage(@RequestBody IotClientEntity entity);
 
     /**
      * @描述 分页查看采集信息
@@ -126,7 +126,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "collection")
-    public Result<Object> getIotCollectionPage(IotCollectionEntity entity);
+    public Result<Object> getIotCollectionPage(@RequestBody IotCollectionEntity entity);
 
     /**
      * @描述 分页查看告警报告信息
@@ -137,7 +137,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "warning/result")
-    public Result<Object> getIotWarningResultPage(IotWarningResultEntity entity);
+    public Result<Object> getIotWarningResultPage(@RequestBody IotWarningResultEntity entity);
 
     /**
      * @描述 添加告警规则
@@ -170,7 +170,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @DeleteMapping(value = "warning/rules")
-    public Result<Integer> deleteIotWarningRules(List<Integer> list);
+    public Result<Integer> deleteIotWarningRules(@RequestBody List<Integer> list);
 
     /**
      * @描述 分页查看终端告警规则
@@ -181,7 +181,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "warning/rules")
-    public Result<Object> getIotWarningRulesPage(IotWarningRulesEntity entity);
+    public Result<Object> getIotWarningRulesPage(@RequestBody IotWarningRulesEntity entity);
 
     /**
      * @描述 分页查看指令下发历史
@@ -192,7 +192,7 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "command/history")
-    public Result<Object> getIotHistoryExecutePage(IotHistoryExecuteEntity entity);
+    public Result<Object> getIotHistoryExecutePage(@RequestBody IotHistoryExecuteEntity entity);
 
     /**
      * @描述 添加终端规则预约信息
@@ -224,8 +224,8 @@ public interface IotFeignClient {
      * @创建时间  2020/8/8
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "appointment/{id}")
-    public Result<Integer> deleteIotAppointment(@PathVariable(value = "id") Integer id);
+    @DeleteMapping(value = "appointment")
+    public Result<Integer> deleteIotAppointment(@RequestParam(value = "id") Integer id);
 
     /**
      * @描述 终端规则预约信息分页
@@ -236,6 +236,6 @@ public interface IotFeignClient {
      * @修改人和其它信息
      */
     @GetMapping(value = "appointment")
-    public Result<Object> getIotAppointmentPage(IotAppointmentEntity entity);
+    public Result<Object> getIotAppointmentPage(@RequestBody IotAppointmentEntity entity);
 
 }

@@ -89,7 +89,10 @@ public class IotController {
      * @修改人和其它信息
      */
     @GetMapping(value = "gateway")
-    public Result<Object> getIotGatewayPage(IotGatewayEntity entity){
+    public Result<Object> getIotGatewayPage(IotGatewayEntity entity,IotIdentifyEntity authenInfo){
+        if (null != authenInfo && authenInfo.getEnable() != null && null != entity){
+            entity.setAuthenInfo(authenInfo);
+        }
         return iotService.getIotGatewayPage(entity);
     }
 
