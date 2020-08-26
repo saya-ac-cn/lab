@@ -55,6 +55,30 @@ public class Metadata {
         clients.put(new ClientParam(code, clientId), param);
     }
 
+    public void doRefreshClient(IotClientEntity oldParam,IotClientEntity newParam) {
+        if (null == oldParam) {
+            return;
+        }
+        IotGatewayEntity oldGateway = oldParam.getGateway();
+        if (null == oldGateway) {
+            return;
+        }
+        Integer oldClientId = newParam.getId();
+        String oldCode = oldGateway.getCode();
+        // 先移除之前的，然后进行添加操作
+        clients.remove(new ClientParam(oldCode, oldClientId));
+        if (null == newParam) {
+            return;
+        }
+        IotGatewayEntity gateway = newParam.getGateway();
+        if (null == gateway) {
+            return;
+        }
+        Integer clientId = newParam.getId();
+        String code = gateway.getCode();
+        clients.put(new ClientParam(code, clientId), newParam);
+    }
+
     public void doRefreshRule(IotWarningRulesEntity param) {
         if (null == param) {
             return;

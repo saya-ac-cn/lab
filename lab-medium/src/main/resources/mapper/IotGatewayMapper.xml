@@ -134,7 +134,7 @@
                 and date_format(a.`last_heartbeat`,'%Y-%m-%d') between date_format(#{beginTime},'%Y-%m-%d')  and date_format(#{endTime},'%Y-%m-%d')
             </if>
             <if test="authenInfo != null and authenInfo.enable != null and authenInfo.enable != 0">
-                and c.`enable` = #{remove}
+                and c.`enable` = #{authenInfo.enable}
             </if>
         </where>
         order by a.id desc
@@ -171,8 +171,42 @@
                 and date_format(a.`last_heartbeat`,'%Y-%m-%d') between date_format(#{beginTime},'%Y-%m-%d')  and date_format(#{endTime},'%Y-%m-%d')
             </if>
             <if test="authenInfo != null and authenInfo.enable != null and authenInfo.enable != 0">
-                and c.`enable` = #{remove}
+                and c.`enable` = #{authenInfo.enable}
             </if>
+        </where>
+    </select>
+
+    <!--获取网关列表信息-->
+    <select id="queryList" parameterType="iotGateway" resultMap="IotGatewayMap">
+        select
+        a.`id`,a.`name`
+        from iot_gateway a
+        <where>
+            <if test = "id != null and id != 0">
+                a.`id` = #{id}
+            </if>
+            <if test = "code != null and code != ''">
+                and a.`code` like concat(#{code},'%')
+            </if>
+            <if test = "name != null and name != ''">
+                and a.`name` like concat(#{name},'%')
+            </if>
+            <if test = "deviceType != null and deviceType != 0">
+                and a.`device_type` = #{deviceType}
+            </if>
+            <if test = "source != null and source != ''">
+                and a.`source` = #{source}
+            </if>
+            <if test = "lastHeartbeat != null and lastHeartbeat != ''">
+                and a.`last_heartbeat` = #{lastHeartbeat}
+            </if>
+            <if test="remove != null and remove != 0">
+                and a.`remove` = #{remove}
+            </if>
+            <if test="beginTime != null and beginTime != ''and endTime != null and endTime != ''">
+                and date_format(a.`last_heartbeat`,'%Y-%m-%d') between date_format(#{beginTime},'%Y-%m-%d')  and date_format(#{endTime},'%Y-%m-%d')
+            </if>
+
         </where>
     </select>
 

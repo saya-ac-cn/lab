@@ -103,6 +103,32 @@ public class IotController {
     }
 
     /**
+     * @描述 查询网关详情
+     * @参数  [id]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.IotGatewayEntity>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "gateway/{id}")
+    public Result<IotGatewayEntity> getIotGatewayEntity(@PathVariable("id") Integer id){
+        return deviceService.getIotGatewayEntity(id);
+    }
+
+    /**
+     * @描述 获取网关下拉列表
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.IotGatewayEntity>>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    @GetMapping(value = "gatewayList")
+    public Result<List<IotGatewayEntity>> getIotGatewayList(@RequestBody IotGatewayEntity entity){
+        return deviceService.getIotGatewayList(entity);
+    }
+
+    /**
      * @描述 添加设备
      * @参数  [entity]
      * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
@@ -136,9 +162,9 @@ public class IotController {
      * @创建时间  2020/8/8
      * @修改人和其它信息
      */
-    @DeleteMapping(value = "client")
-    public Result<Integer> deleteIotClient(@RequestParam(value = "id") Integer id){
-        return deviceService.deleteIotGateway(id);
+    @DeleteMapping(value = "client/{id}")
+    public Result<Integer> deleteIotClient(@PathVariable(value = "id") Integer id){
+        return deviceService.deleteIotClient(id);
     }
 
     /**

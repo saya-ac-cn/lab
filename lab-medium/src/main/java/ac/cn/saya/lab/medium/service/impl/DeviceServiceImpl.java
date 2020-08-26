@@ -90,13 +90,15 @@ public class DeviceServiceImpl implements DeviceService {
         if (null == authenInfo){
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
-        if (StringUtils.isEmpty(authenInfo.getUsername()) || StringUtils.isEmpty(authenInfo.getPassword())){
+        if (StringUtils.isEmpty(authenInfo.getPassword())){
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
         // 本例采用固定写法
         authenInfo.setSalt("sha256");
         // 加密密码
         authenInfo.setPassword(Sha256Utils.getSHA256(authenInfo.getPassword()));
+        // 生成随机的iot认证name
+        authenInfo.setUsername("IOT"+entity.getSource()+RandomUtil.getRandomIotName());
         if (StringUtils.isEmpty(entity.getCode()) || StringUtils.isEmpty(entity.getName()) || StringUtils.isEmpty(entity.getSource()) || null == entity.getDeviceType()){
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
@@ -159,7 +161,7 @@ public class DeviceServiceImpl implements DeviceService {
             if (null == query){
                 return ResultUtil.error(ResultEnum.NOT_EXIST);
             }
-            // 置位删除
+            // 置为删除
             query.setRemove(2);
             IotClientEntity clientEntity = new IotClientEntity();
             clientEntity.setGatewayId(id);
@@ -210,6 +212,56 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     /**
+     * @描述 获取单个网关详情
+     * @参数  [id]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.IotGatewayEntity>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Result<IotGatewayEntity> getIotGatewayEntity(Integer id){
+        IotGatewayEntity gatewayEntity = new IotGatewayEntity();
+        gatewayEntity.setId(id);
+        try {
+            IotGatewayEntity result = iotGatewayDAO.query(gatewayEntity);
+            if (null == result){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
+            return ResultUtil.success(result);
+        } catch (Exception e) {
+            logger.error("获取单个网关详情发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
+     * @描述 获取网关列表-用于添加设备时的下拉选框
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.IotGatewayEntity>>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Result<List<IotGatewayEntity>> getIotGatewayList(IotGatewayEntity entity){
+        try {
+            List<IotGatewayEntity> result = iotGatewayDAO.queryList(entity);
+            if (result.isEmpty()){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
+            return ResultUtil.success(result);
+        } catch (Exception e) {
+            logger.error("获取网关下拉列表发生异常：" + Log4jUtils.getTrace(e));
+            logger.error(CurrentLineInfo.printCurrentLineInfo());
+            throw new MyException(ResultEnum.DB_ERROR);
+        }
+    }
+
+    /**
      * @描述 添加设备
      * @参数 [entity]
      * @返回值 ac.cn.saya.lab.api.tools.Result<java.lang.Integer>
@@ -243,7 +295,15 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public Result<Integer> editIotClient(IotClientEntity entity) {
         try {
+            IotClientEntity oldClient = iotClientDAO.query(new IotClientEntity(entity.getId()));
+            if (null == oldClient){
+                return ResultUtil.error(ResultEnum.NOT_EXIST);
+            }
             if (iotClientDAO.update(entity) >= 0){
+                if (null != entity.getGatewayId() && null != oldClient.getGatewayId() && !(entity.getGatewayId()).equals(oldClient.getGatewayId())){
+                    // 如果用户改了所属网关，这里需要做相应的处理
+                    metadata.doRefreshClient(oldClient,entity);
+                }
                 metadata.doRefreshClient(entity);
                 return ResultUtil.success();
             }
@@ -270,7 +330,9 @@ public class DeviceServiceImpl implements DeviceService {
             if (null == clientEntity){
                 return ResultUtil.error(ResultEnum.NOT_EXIST);
             }
-            if (iotClientDAO.deleteById(id) >= 0){
+            // 值为删除状态
+            clientEntity.setRemove(2);
+            if (iotClientDAO.update(clientEntity) >= 0){
                 metadata.removeClient(clientEntity);
                 return ResultUtil.success();
             }

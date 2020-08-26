@@ -69,6 +69,27 @@ public interface DeviceService {
     public Result<Object> getIotGatewayPage(IotGatewayEntity entity);
 
     /**
+     * @描述 获取单个网关详情
+     * @参数  [id]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.IotGatewayEntity>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    public Result<IotGatewayEntity> getIotGatewayEntity(Integer id);
+
+    /**
+     * @描述 获取网关列表-用于添加设备时的下拉选框
+     * @参数  [entity]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.IotGatewayEntity>>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    public Result<List<IotGatewayEntity>> getIotGatewayList(IotGatewayEntity entity);
+
+
+    /**
      * @描述 添加设备
      * @参数  [entity]
      * @返回值  ac.cn.saya.lab.api.tools.Result<java.lang.Integer>

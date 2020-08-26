@@ -58,4 +58,11 @@ public interface IotGatewayDAO {
      */
     public Long queryCount(IotGatewayEntity entity);
 
+    /**
+     * 获取网关下拉列表
+     * @param entity
+     * @return
+     */
+    public List<IotGatewayEntity> queryList(IotGatewayEntity entity);
+
 }

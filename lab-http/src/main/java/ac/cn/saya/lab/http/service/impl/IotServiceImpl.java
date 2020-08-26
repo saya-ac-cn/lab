@@ -67,7 +67,7 @@ public class IotServiceImpl implements IotService {
         if (null == authenInfo){
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
-        if (StringUtils.isEmpty(authenInfo.getUsername()) || StringUtils.isEmpty(authenInfo.getPassword())){
+        if (StringUtils.isEmpty(authenInfo.getPassword())){
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
         Result<Integer> result = iotFeignClient.addIotGateway(entity);
@@ -142,7 +142,44 @@ public class IotServiceImpl implements IotService {
      */
     @Override
     public Result<Object> getIotGatewayPage(IotGatewayEntity entity) {
+        // 只显示在用的网关
+        entity.setRemove(1);
         return iotFeignClient.getIotGatewayPage(entity);
+    }
+
+    /**
+     * @描述 获取单个网关详情
+     * @参数  [id]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<ac.cn.saya.lab.api.entity.IotGatewayEntity>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<IotGatewayEntity> getIotGatewayEntity(Integer id){
+        if (null == id || id <= 0){
+            return ResultUtil.error(ResultEnum.NOT_PARAMETER);
+        }
+        return iotFeignClient.getIotGatewayEntity(id);
+    }
+
+    /***
+     * @描述 获取网关列表-用于添加设备时的下拉选框
+     * @参数  [request]
+     * @返回值  ac.cn.saya.lab.api.tools.Result<java.util.List<ac.cn.saya.lab.api.entity.IotGatewayEntity>>
+     * @创建人  shmily
+     * @创建时间  2020/8/23
+     * @修改人和其它信息
+     */
+    @Override
+    public Result<List<IotGatewayEntity>> getIotGatewayList(HttpServletRequest request){
+        IotGatewayEntity entity = new IotGatewayEntity();
+        UserMemory userSession = (UserMemory) request.getSession().getAttribute("user");
+        // 放入用户名
+        entity.setSource(userSession.getUser());
+        // 正常在用设备
+        entity.setRemove(1);
+        return iotFeignClient.getIotGatewayList(entity);
     }
 
     /**
@@ -179,7 +216,7 @@ public class IotServiceImpl implements IotService {
      */
     @Override
     public Result<Integer> editIotClient(IotClientEntity entity) {
-        if (null == entity || entity.getGatewayId() == null){
+        if (null == entity || entity.getId()== null){
             return ResultUtil.error(ResultEnum.NOT_PARAMETER);
         }
         Result<Integer> result = iotFeignClient.editIotClient(entity);
@@ -226,6 +263,7 @@ public class IotServiceImpl implements IotService {
      */
     @Override
     public Result<Object> getIotClientPage(IotClientEntity entity) {
+        entity.setRemove(1);
         return iotFeignClient.getIotClientPage(entity);
     }
 

@@ -30,6 +30,19 @@ public class RandomUtil {
         return str + rannum;
     }
 
+    /**
+     * 生成随机的iot名字
+     * @return
+     */
+    public static String getRandomIotName() {
+        LocalDateTime now = LocalDateTime.now();
+        String str = now.format(DateUtils.fileFormat);
+        Random random = new Random();
+        // 获取6位随机数
+        int rannum = (int) (random.nextDouble() * (999999 - 100000 + 1)) + 100000;
+        return str + rannum;
+    }
+
 
     public static void main(String[] args) {
         String fileName = RandomUtil.getRandomFileName();
